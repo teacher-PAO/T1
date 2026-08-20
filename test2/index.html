@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>เกมคณิตศาสตร์มหาสนุก ป.2</title>
+    <title>Fun Math Game (Grade 2)</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap');
         
         body {
-            font-family: 'Mitr', sans-serif;
+            font-family: 'Comic Neue', cursive, sans-serif;
             background-color: #f0f8ff;
             color: #333;
             margin: 0;
@@ -22,6 +22,7 @@
             text-shadow: 2px 2px 0px #ffe6e6;
             margin-bottom: 30px;
             text-align: center;
+            font-size: 2.5em;
         }
         .zone {
             background: white;
@@ -39,6 +40,10 @@
             margin-top: 0;
             padding-bottom: 10px;
             border-bottom: 2px dashed #ccc;
+            font-size: 1.8em;
+        }
+        p {
+            font-size: 1.2em;
         }
         
         /* Zone 1 Colors */
@@ -59,6 +64,8 @@
             border-radius: 15px;
             margin-bottom: 20px;
             text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
         }
         input[type="range"] {
             width: 150px;
@@ -70,8 +77,9 @@
             color: white;
             border: none;
             padding: 10px 25px;
-            font-size: 18px;
-            font-family: 'Mitr', sans-serif;
+            font-size: 1.2em;
+            font-family: inherit;
+            font-weight: bold;
             border-radius: 30px;
             cursor: pointer;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
@@ -139,6 +147,7 @@
             flex-direction: column;
             align-items: center;
             width: 20px;
+            font-weight: bold;
         }
         .tick-mark {
             width: 2px;
@@ -190,7 +199,8 @@
             border-radius: 10px;
             cursor: pointer;
             font-family: inherit;
-            font-size: 16px;
+            font-size: 1.1em;
+            font-weight: bold;
             transition: all 0.2s;
         }
         .option-btn:hover {
@@ -201,8 +211,8 @@
         .option-btn.wrong { background: #ff6b6b; color: white; border-color: #ee5253; }
 
         .feedback {
-            font-size: 18px;
-            font-weight: 500;
+            font-size: 1.2em;
+            font-weight: bold;
             margin-top: 10px;
             min-height: 27px;
         }
@@ -212,40 +222,40 @@
 </head>
 <body>
 
-    <h1>🚀 เกมคณิตศาสตร์มหาสนุก (ป.2) 🚀</h1>
+    <h1>🚀 Fun Math Game (Grade 2) 🚀</h1>
 
-    <!-- Zone 1: Array (จากโจทย์สติกเกอร์ดาว 24 ดวง) -->
+    <!-- Zone 1: Array -->
     <div class="zone" id="zone1">
-        <h2>⭐ โซน 1: อาเรย์สติกเกอร์ดาว</h2>
-        <p>โจทย์: สร้าง Array ของสติกเกอร์ดาวให้ตรงกับประโยคสัญลักษณ์ <strong>4 × 6 = 24</strong></p>
+        <h2>⭐ Zone 1: Star Sticker Array</h2>
+        <p><strong>Task:</strong> Create an array of star stickers to match the equation <strong>4 × 6 = 24</strong></p>
         
         <div class="control-panel">
-            <label>จำนวนแถว: <span id="val-rows">1</span></label>
+            <label>Rows: <span id="val-rows">1</span></label>
             <input type="range" id="input-rows" min="1" max="8" value="1">
             <br><br>
-            <label>จำนวนคอลัมน์: <span id="val-cols">1</span></label>
+            <label>Columns: <span id="val-cols">1</span></label>
             <input type="range" id="input-cols" min="1" max="8" value="1">
         </div>
 
         <div class="grid-container" id="star-grid"></div>
 
         <div style="text-align: center;">
-            <p style="font-size: 20px;">ประโยคสัญลักษณ์ของคุณ: <strong id="eq-display">1 × 1 = 1</strong></p>
-            <button class="btn" onclick="checkZone1()">ตรวจสอบความถูกต้อง</button>
+            <p style="font-size: 1.3em;">Your Equation: <strong id="eq-display">1 × 1 = 1</strong></p>
+            <button class="btn" onclick="checkZone1()">Check Answer</button>
             <div id="feedback1" class="feedback"></div>
         </div>
     </div>
 
-    <!-- Zone 2: Number Line (จากโจทย์ Jack เดิน 2km 7 สัปดาห์) -->
+    <!-- Zone 2: Number Line -->
     <div class="zone" id="zone2">
-        <h2>🐰 โซน 2: เส้นจำนวนพาสนุก</h2>
-        <p>โจทย์: แจ็คเดินสัปดาห์ละ 2 กิโลเมตร เป็นเวลา 7 สัปดาห์ แจ็คเดินทั้งหมดกี่กิโลเมตร?</p>
+        <h2>🐰 Zone 2: Fun Number Line</h2>
+        <p><strong>Task:</strong> Jack walks 2 kilometers each week for 7 weeks. How many kilometers does he walk in total?</p>
         
         <div class="control-panel">
-            <label>ก้าวละ (จำนวนหน่วย): <span id="val-jump">1</span></label>
+            <label>Jump size (units): <span id="val-jump">1</span></label>
             <input type="range" id="input-jump" min="1" max="5" value="1">
             <br><br>
-            <label>จำนวนครั้งที่ก้าว: <span id="val-times">1</span></label>
+            <label>Number of jumps: <span id="val-times">1</span></label>
             <input type="range" id="input-times" min="1" max="10" value="1">
         </div>
 
@@ -256,18 +266,18 @@
         </div>
 
         <div style="text-align: center; margin-top: 20px;">
-            <p style="font-size: 20px;">สมการ: <strong id="nl-eq">1 × 1 = 1</strong></p>
-            <button class="btn" onclick="checkZone2()">ตรวจสอบคำตอบ</button>
+            <p style="font-size: 1.3em;">Equation: <strong id="nl-eq">1 × 1 = 1</strong></p>
+            <button class="btn" onclick="checkZone2()">Check Answer</button>
             <div id="feedback2" class="feedback"></div>
         </div>
     </div>
 
-    <!-- Zone 3: Quiz (จากโจทย์ Multiple Choice ในแบบฝึกหัด) -->
+    <!-- Zone 3: Quiz -->
     <div class="zone" id="zone3">
-        <h2>🧠 โซน 3: นักสืบการคูณ (แบบทดสอบ)</h2>
+        <h2>🧠 Zone 3: Multiplication Detective (Quiz)</h2>
         
         <div class="quiz-question">
-            <p><strong>1. เตโอจัดกลุ่มตัวนับ 2 กลุ่ม กลุ่มละ 4 ชิ้น ประโยคสัญลักษณ์ใดแสดงจำนวนรวมทั้งหมด?</strong></p>
+            <p><strong>1. Teo arranged 2 groups of 4 counters. Which expression represents the total number of counters?</strong></p>
             <div class="options">
                 <button class="option-btn q1" onclick="answerQ(1, this, false)">A) 2 + 4</button>
                 <button class="option-btn q1" onclick="answerQ(1, this, false)">B) 2 + 2 + 2</button>
@@ -278,7 +288,7 @@
         </div>
 
         <div class="quiz-question">
-            <p><strong>2. ประโยคสัญลักษณ์ในข้อใดมีค่าเท่ากับ 7 × 8 ?</strong></p>
+            <p><strong>2. Which of the following expressions is equivalent to 7 × 8 ?</strong></p>
             <div class="options">
                 <button class="option-btn q2" onclick="answerQ(2, this, true)">A) 8+8+8+8+8+8+8</button>
                 <button class="option-btn q2" onclick="answerQ(2, this, false)">B) 8+7+8+7+8+7+8+7</button>
@@ -289,12 +299,12 @@
         </div>
 
         <div class="quiz-question">
-            <p><strong>3. ฮานะต้องการทำสร้อยข้อมือ 4 เส้น เธอต้องใช้จี้ 4 อันต่อ 1 เส้น เธอต้องใช้จี้ทั้งหมดกี่อัน? (สมการ: 4 × 4)</strong></p>
+            <p><strong>3. Hana wants to make 4 bracelets. She will use 4 charms for each bracelet. How many charms will she need?</strong></p>
             <div class="options">
-                <button class="option-btn q3" onclick="answerQ(3, this, false)">A) 8 อัน</button>
-                <button class="option-btn q3" onclick="answerQ(3, this, false)">B) 12 อัน</button>
-                <button class="option-btn q3" onclick="answerQ(3, this, true)">C) 16 อัน</button>
-                <button class="option-btn q3" onclick="answerQ(3, this, false)">D) 20 อัน</button>
+                <button class="option-btn q3" onclick="answerQ(3, this, false)">A) 8 charms</button>
+                <button class="option-btn q3" onclick="answerQ(3, this, false)">B) 12 charms</button>
+                <button class="option-btn q3" onclick="answerQ(3, this, true)">C) 16 charms</button>
+                <button class="option-btn q3" onclick="answerQ(3, this, false)">D) 20 charms</button>
             </div>
             <div id="fq3" class="feedback"></div>
         </div>
@@ -340,13 +350,13 @@
             const r = parseInt(iRows.value);
             const c = parseInt(iCols.value);
             if(r === 4 && c === 6) {
-                fb1.innerHTML = '✨ ยอดเยี่ยม! 4 แถว แถวละ 6 ดวง เท่ากับ 24 ดวงพอดี!';
+                fb1.innerHTML = '✨ Awesome! 4 rows of 6 makes exactly 24 stars!';
                 fb1.className = 'feedback text-success';
             } else if (r === 6 && c === 4) {
-                fb1.innerHTML = '✨ เก่งมาก! 6 แถว แถวละ 4 ดวง ก็เท่ากับ 24 เหมือนกัน (คุณสมบัติสลับที่)';
+                fb1.innerHTML = '✨ Great job! 6 rows of 4 also equals 24! (Commutative Property)';
                 fb1.className = 'feedback text-success';
             } else {
-                fb1.innerHTML = '❌ ยังไม่ใช่นะ โจทย์บอกว่า 4 × 6 ลองปรับใหม่ดูสิ';
+                fb1.innerHTML = '❌ Not quite! The task asks for 4 × 6. Try adjusting the sliders.';
                 fb1.className = 'feedback text-danger';
             }
         }
@@ -382,20 +392,18 @@
             
             // Calculate width per unit
             const totalWidth = ticksContainer.offsetWidth;
-            // The ticks are distributed using flex space-between.
-            // Distance between 0 and 1 is totalWidth / maxNumber.
             const unitWidth = totalWidth / maxNumber;
             const yStart = 50; 
             
             let currentVal = 0;
             
             for(let i=0; i<times; i++) {
-                if(currentVal + jump > maxNumber) break; // Don't draw out of bounds
+                if(currentVal + jump > maxNumber) break; 
                 
-                let x1 = currentVal * unitWidth + (unitWidth/2); // approximate center of tick
+                let x1 = currentVal * unitWidth + (unitWidth/2);
                 let x2 = (currentVal + jump) * unitWidth + (unitWidth/2);
                 let cx = (x1 + x2) / 2;
-                let cy = yStart - (jump * 15); // height of arc depends on jump size
+                let cy = yStart - (jump * 15); 
                 
                 let path = document.createElementNS("http://www.w3.org/2000/svg", "path");
                 let d = `M ${x1} ${yStart} Q ${cx} ${cy} ${x2} ${yStart}`;
@@ -414,7 +422,6 @@
                 currentVal += jump;
             }
             
-            // Adjust SVG size
             svgArcs.style.width = '100%';
             svgArcs.style.height = '100px';
         }
@@ -422,7 +429,6 @@
         iJump.addEventListener('input', drawJumps);
         iTimes.addEventListener('input', drawJumps);
         
-        // Wait for render to get accurate widths
         setTimeout(drawJumps, 100);
         window.addEventListener('resize', drawJumps);
 
@@ -430,20 +436,19 @@
             const jump = parseInt(iJump.value);
             const times = parseInt(iTimes.value);
             if(jump === 2 && times === 7) {
-                fb2.innerHTML = '🐰 ถูกต้อง! แจ็คเดินสัปดาห์ละ 2 กม. จำนวน 7 สัปดาห์ ได้ระยะทาง 14 กม.';
+                fb2.innerHTML = '🐰 Correct! Jack walks 2 km per week for 7 weeks, which is 14 km.';
                 fb2.className = 'feedback text-success';
             } else if (jump === 7 && times === 2) {
-                fb2.innerHTML = '🐰 ถูกต้องในเชิงตัวเลข (7×2=14) แต่ตามโจทย์คือครั้งละ 2 จำนวน 7 ครั้งนะจ๊ะ';
+                fb2.innerHTML = '🐰 Correct mathematically (7×2=14), but the story says 2km for 7 weeks!';
                 fb2.className = 'feedback text-success';
             } else {
-                fb2.innerHTML = '❌ ยังไม่ถูก แจ็คเดินสัปดาห์ละ 2 กม. (ก้าวละ 2) เป็นเวลา 7 สัปดาห์ (7 ครั้ง)';
+                fb2.innerHTML = '❌ Not quite. Jack walks 2 km (jump size 2) for 7 weeks (7 jumps).';
                 fb2.className = 'feedback text-danger';
             }
         }
 
         // --- Zone 3 Logic ---
         function answerQ(qNum, btn, isCorrect) {
-            // Reset all buttons in this question
             const buttons = document.querySelectorAll(`.q${qNum}`);
             buttons.forEach(b => {
                 b.classList.remove('correct', 'wrong');
@@ -452,11 +457,11 @@
             const fb = document.getElementById(`fq${qNum}`);
             if(isCorrect) {
                 btn.classList.add('correct');
-                fb.innerText = '⭐ ถูกต้องเก่งมาก!';
+                fb.innerText = '⭐ Correct! Great job!';
                 fb.className = 'feedback text-success';
             } else {
                 btn.classList.add('wrong');
-                fb.innerText = '❌ ยังไม่ใช่นะ ลองคิดดูดีๆ';
+                fb.innerText = '❌ Not quite, try again!';
                 fb.className = 'feedback text-danger';
             }
         }
