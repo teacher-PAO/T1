@@ -3,463 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>เกมคณิตศาสตร์มหาสนุก ป.2</title>
+    <title>เกมคูณมหาสนุก (ประถม 2)</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&display=swap');
-        
         body {
-            font-family: 'Mitr', sans-serif;
-            background-color: #f0f8ff;
+            font-family: 'Tahoma', sans-serif;
+            background-color: #fdf2e9;
             color: #333;
-            margin: 0;
-            padding: 20px;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .game-container {
+            background-color: #fff;
+            border: 4px solid #eb984e;
+            border-radius: 20px;
+            padding: 30px;
+            width: 450px;
+            text-align: center;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
         }
         h1 {
-            color: #ff6b6b;
-            text-shadow: 2px 2px 0px #ffe6e6;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-        .zone {
-            background: white;
-            border-radius: 20px;
-            padding: 25px;
-            margin-bottom: 30px;
-            width: 100%;
-            max-width: 700px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            border: 4px solid;
-            position: relative;
-            overflow: hidden;
-        }
-        .zone h2 {
+            color: #d35400;
             margin-top: 0;
-            padding-bottom: 10px;
-            border-bottom: 2px dashed #ccc;
         }
-        
-        /* Zone 1 Colors */
-        #zone1 { border-color: #feca57; }
-        #zone1 h2 { color: #ff9f43; }
-        
-        /* Zone 2 Colors */
-        #zone2 { border-color: #48dbfb; }
-        #zone2 h2 { color: #0abde3; }
-        
-        /* Zone 3 Colors */
-        #zone3 { border-color: #ff9ff3; }
-        #zone3 h2 { color: #f368e0; }
-
-        .control-panel {
-            background-color: #f9f9f9;
+        .controls {
+            background-color: #fcf3cf;
             padding: 15px;
-            border-radius: 15px;
+            border-radius: 10px;
             margin-bottom: 20px;
-            text-align: center;
+        }
+        label {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0 10px;
         }
         input[type="range"] {
-            width: 150px;
             vertical-align: middle;
-            margin: 0 15px;
         }
-        .btn {
-            background-color: #1dd1a1;
-            color: white;
-            border: none;
-            padding: 10px 25px;
-            font-size: 18px;
-            font-family: 'Mitr', sans-serif;
-            border-radius: 30px;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.2s, background 0.2s;
-            margin-top: 15px;
-        }
-        .btn:hover {
-            transform: scale(1.05);
-            background-color: #10ac84;
-        }
-        
-        /* Grid */
         .grid-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 5px;
-            margin-bottom: 20px;
-            min-height: 200px;
+            display: grid;
             justify-content: center;
+            gap: 10px;
+            min-height: 150px;
+            margin-bottom: 20px;
         }
-        .grid-row {
-            display: flex;
-            gap: 5px;
-        }
-        .star {
-            width: 40px;
-            height: 40px;
-            background-color: #feca57;
-            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-            animation: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        .apple {
+            font-size: 40px;
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
             opacity: 0;
             transform: scale(0);
         }
-        @keyframes pop { to { opacity: 1; transform: scale(1); } }
-
-        /* Number Line */
-        .number-line-container {
-            position: relative;
-            margin: 40px 0;
-            padding-top: 50px;
+        @keyframes popIn {
+            to { opacity: 1; transform: scale(1); }
         }
-        .line {
-            height: 4px;
-            background-color: #333;
-            width: 100%;
-            position: relative;
-        }
-        .line::after {
-            content: '';
-            position: absolute;
-            right: -10px;
-            top: -8px;
-            border-top: 10px solid transparent;
-            border-bottom: 10px solid transparent;
-            border-left: 15px solid #333;
-        }
-        .ticks {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 5px;
-        }
-        .tick {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 20px;
-        }
-        .tick-mark {
-            width: 2px;
-            height: 10px;
-            background-color: #333;
-            margin-bottom: 5px;
-        }
-        #svg-arcs {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }
-        .arc {
-            fill: none;
-            stroke: #ff9f43;
-            stroke-width: 3;
-            stroke-dasharray: 1000;
-            stroke-dashoffset: 1000;
-            animation: drawArc 1s forwards;
-        }
-        .arc-arrow {
-            fill: #ff9f43;
-            opacity: 0;
-            animation: showArrow 0.2s 1s forwards;
-        }
-        @keyframes drawArc { to { stroke-dashoffset: 0; } }
-        @keyframes showArrow { to { opacity: 1; } }
-
-        /* Quiz */
-        .quiz-question {
-            background: #fdf2e9;
+        .equation-area {
+            font-size: 28px;
+            font-weight: bold;
+            background-color: #e8f8f5;
             padding: 15px;
+            border-radius: 15px;
+        }
+        .answer-input {
+            width: 70px;
+            font-size: 24px;
+            text-align: center;
+            border: 3px solid #ccc;
             border-radius: 10px;
-            margin-bottom: 15px;
+            padding: 5px;
         }
-        .options {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 10px;
-        }
-        .option-btn {
-            background: white;
-            border: 2px solid #ccc;
-            padding: 10px;
+        .btn-check {
+            background-color: #58d68d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 20px;
             border-radius: 10px;
             cursor: pointer;
-            font-family: inherit;
-            font-size: 16px;
-            transition: all 0.2s;
+            margin-top: 15px;
+            font-weight: bold;
+            transition: background 0.2s;
         }
-        .option-btn:hover {
-            border-color: #f368e0;
-            background: #fcf1f9;
+        .btn-check:hover {
+            background-color: #2ecc71;
         }
-        .option-btn.correct { background: #1dd1a1; color: white; border-color: #10ac84; }
-        .option-btn.wrong { background: #ff6b6b; color: white; border-color: #ee5253; }
-
-        .feedback {
-            font-size: 18px;
-            font-weight: 500;
-            margin-top: 10px;
-            min-height: 27px;
+        #feedback {
+            font-size: 22px;
+            font-weight: bold;
+            margin-top: 15px;
+            height: 30px;
         }
-        .text-success { color: #10ac84; }
-        .text-danger { color: #ee5253; }
+        .correct { color: #27ae60; }
+        .wrong { color: #e74c3c; }
     </style>
 </head>
 <body>
 
-    <h1>🚀 เกมคณิตศาสตร์มหาสนุก (ป.2) 🚀</h1>
-
-    <!-- Zone 1: Array (จากโจทย์สติกเกอร์ดาว 24 ดวง) -->
-    <div class="zone" id="zone1">
-        <h2>⭐ โซน 1: อาเรย์สติกเกอร์ดาว</h2>
-        <p>โจทย์: สร้าง Array ของสติกเกอร์ดาวให้ตรงกับประโยคสัญลักษณ์ <strong>4 × 6 = 24</strong></p>
-        
-        <div class="control-panel">
-            <label>จำนวนแถว: <span id="val-rows">1</span></label>
-            <input type="range" id="input-rows" min="1" max="8" value="1">
-            <br><br>
-            <label>จำนวนคอลัมน์: <span id="val-cols">1</span></label>
-            <input type="range" id="input-cols" min="1" max="8" value="1">
+<div class="game-container">
+    <h1>🍎 โซน 1: อาเรย์นักประดิษฐ์</h1>
+    
+    <div class="controls">
+        <div>
+            <label>จำนวนแถว (Rows): <span id="rowCount">3</span></label><br>
+            <input type="range" id="rows" min="1" max="5" value="3" oninput="updateGame()">
         </div>
-
-        <div class="grid-container" id="star-grid"></div>
-
-        <div style="text-align: center;">
-            <p style="font-size: 20px;">ประโยคสัญลักษณ์ของคุณ: <strong id="eq-display">1 × 1 = 1</strong></p>
-            <button class="btn" onclick="checkZone1()">ตรวจสอบความถูกต้อง</button>
-            <div id="feedback1" class="feedback"></div>
+        <div style="margin-top: 10px;">
+            <label>จำนวนคอลัมน์ (Cols): <span id="colCount">4</span></label><br>
+            <input type="range" id="cols" min="1" max="5" value="4" oninput="updateGame()">
         </div>
     </div>
 
-    <!-- Zone 2: Number Line (จากโจทย์ Jack เดิน 2km 7 สัปดาห์) -->
-    <div class="zone" id="zone2">
-        <h2>🐰 โซน 2: เส้นจำนวนพาสนุก</h2>
-        <p>โจทย์: แจ็คเดินสัปดาห์ละ 2 กิโลเมตร เป็นเวลา 7 สัปดาห์ แจ็คเดินทั้งหมดกี่กิโลเมตร?</p>
-        
-        <div class="control-panel">
-            <label>ก้าวละ (จำนวนหน่วย): <span id="val-jump">1</span></label>
-            <input type="range" id="input-jump" min="1" max="5" value="1">
-            <br><br>
-            <label>จำนวนครั้งที่ก้าว: <span id="val-times">1</span></label>
-            <input type="range" id="input-times" min="1" max="10" value="1">
+    <div class="grid-container" id="grid">
         </div>
 
-        <div class="number-line-container">
-            <svg id="svg-arcs"></svg>
-            <div class="line"></div>
-            <div class="ticks" id="number-ticks"></div>
-        </div>
-
-        <div style="text-align: center; margin-top: 20px;">
-            <p style="font-size: 20px;">สมการ: <strong id="nl-eq">1 × 1 = 1</strong></p>
-            <button class="btn" onclick="checkZone2()">ตรวจสอบคำตอบ</button>
-            <div id="feedback2" class="feedback"></div>
-        </div>
+    <div class="equation-area">
+        <span id="eq-rows">3</span> × <span id="eq-cols">4</span> = 
+        <input type="number" id="player-answer" class="answer-input" placeholder="?">
     </div>
 
-    <!-- Zone 3: Quiz (จากโจทย์ Multiple Choice ในแบบฝึกหัด) -->
-    <div class="zone" id="zone3">
-        <h2>🧠 โซน 3: นักสืบการคูณ (แบบทดสอบ)</h2>
+    <button class="btn-check" onclick="checkAnswer()">ตรวจสอบคำตอบ</button>
+    <div id="feedback"></div>
+</div>
+
+<script>
+    function updateGame() {
+        const rows = document.getElementById('rows').value;
+        const cols = document.getElementById('cols').value;
+        const grid = document.getElementById('grid');
         
-        <div class="quiz-question">
-            <p><strong>1. เตโอจัดกลุ่มตัวนับ 2 กลุ่ม กลุ่มละ 4 ชิ้น ประโยคสัญลักษณ์ใดแสดงจำนวนรวมทั้งหมด?</strong></p>
-            <div class="options">
-                <button class="option-btn q1" onclick="answerQ(1, this, false)">A) 2 + 4</button>
-                <button class="option-btn q1" onclick="answerQ(1, this, false)">B) 2 + 2 + 2</button>
-                <button class="option-btn q1" onclick="answerQ(1, this, true)">C) 2 × 4</button>
-                <button class="option-btn q1" onclick="answerQ(1, this, false)">D) 4 + 4 + 4 + 4</button>
-            </div>
-            <div id="fq1" class="feedback"></div>
-        </div>
-
-        <div class="quiz-question">
-            <p><strong>2. ประโยคสัญลักษณ์ในข้อใดมีค่าเท่ากับ 7 × 8 ?</strong></p>
-            <div class="options">
-                <button class="option-btn q2" onclick="answerQ(2, this, true)">A) 8+8+8+8+8+8+8</button>
-                <button class="option-btn q2" onclick="answerQ(2, this, false)">B) 8+7+8+7+8+7+8+7</button>
-                <button class="option-btn q2" onclick="answerQ(2, this, false)">C) 7+7+7+7+7+7+7</button>
-                <button class="option-btn q2" onclick="answerQ(2, this, false)">D) 8+7</button>
-            </div>
-            <div id="fq2" class="feedback"></div>
-        </div>
-
-        <div class="quiz-question">
-            <p><strong>3. ฮานะต้องการทำสร้อยข้อมือ 4 เส้น เธอต้องใช้จี้ 4 อันต่อ 1 เส้น เธอต้องใช้จี้ทั้งหมดกี่อัน? (สมการ: 4 × 4)</strong></p>
-            <div class="options">
-                <button class="option-btn q3" onclick="answerQ(3, this, false)">A) 8 อัน</button>
-                <button class="option-btn q3" onclick="answerQ(3, this, false)">B) 12 อัน</button>
-                <button class="option-btn q3" onclick="answerQ(3, this, true)">C) 16 อัน</button>
-                <button class="option-btn q3" onclick="answerQ(3, this, false)">D) 20 อัน</button>
-            </div>
-            <div id="fq3" class="feedback"></div>
-        </div>
-    </div>
-
-    <script>
-        // --- Zone 1 Logic ---
-        const iRows = document.getElementById('input-rows');
-        const iCols = document.getElementById('input-cols');
-        const vRows = document.getElementById('val-rows');
-        const vCols = document.getElementById('val-cols');
-        const grid = document.getElementById('star-grid');
-        const eqDisplay = document.getElementById('eq-display');
-        const fb1 = document.getElementById('feedback1');
-
-        function drawStars() {
-            const r = parseInt(iRows.value);
-            const c = parseInt(iCols.value);
-            vRows.innerText = r;
-            vCols.innerText = c;
-            eqDisplay.innerText = `${r} × ${c} = ${r * c}`;
-            fb1.innerText = '';
-            
-            grid.innerHTML = '';
-            for(let i=0; i<r; i++){
-                let rowDiv = document.createElement('div');
-                rowDiv.className = 'grid-row';
-                for(let j=0; j<c; j++){
-                    let star = document.createElement('div');
-                    star.className = 'star';
-                    star.style.animationDelay = `${(i*c + j) * 0.03}s`;
-                    rowDiv.appendChild(star);
-                }
-                grid.appendChild(rowDiv);
-            }
-        }
+        // อัปเดตตัวเลขบนหน้าจอ
+        document.getElementById('rowCount').innerText = rows;
+        document.getElementById('colCount').innerText = cols;
+        document.getElementById('eq-rows').innerText = rows;
+        document.getElementById('eq-cols').innerText = cols;
         
-        iRows.addEventListener('input', drawStars);
-        iCols.addEventListener('input', drawStars);
-        drawStars();
-
-        function checkZone1() {
-            const r = parseInt(iRows.value);
-            const c = parseInt(iCols.value);
-            if(r === 4 && c === 6) {
-                fb1.innerHTML = '✨ ยอดเยี่ยม! 4 แถว แถวละ 6 ดวง เท่ากับ 24 ดวงพอดี!';
-                fb1.className = 'feedback text-success';
-            } else if (r === 6 && c === 4) {
-                fb1.innerHTML = '✨ เก่งมาก! 6 แถว แถวละ 4 ดวง ก็เท่ากับ 24 เหมือนกัน (คุณสมบัติสลับที่)';
-                fb1.className = 'feedback text-success';
-            } else {
-                fb1.innerHTML = '❌ ยังไม่ใช่นะ โจทย์บอกว่า 4 × 6 ลองปรับใหม่ดูสิ';
-                fb1.className = 'feedback text-danger';
-            }
-        }
-
-        // --- Zone 2 Logic ---
-        const iJump = document.getElementById('input-jump');
-        const iTimes = document.getElementById('input-times');
-        const vJump = document.getElementById('val-jump');
-        const vTimes = document.getElementById('val-times');
-        const nlEq = document.getElementById('nl-eq');
-        const fb2 = document.getElementById('feedback2');
-        const svgArcs = document.getElementById('svg-arcs');
-        const maxNumber = 20;
-
-        // Draw Ticks
-        const ticksContainer = document.getElementById('number-ticks');
-        for(let i=0; i<=maxNumber; i++){
-            let t = document.createElement('div');
-            t.className = 'tick';
-            t.innerHTML = `<div class="tick-mark"></div><div>${i}</div>`;
-            ticksContainer.appendChild(t);
-        }
-
-        function drawJumps() {
-            const jump = parseInt(iJump.value);
-            const times = parseInt(iTimes.value);
-            vJump.innerText = jump;
-            vTimes.innerText = times;
-            nlEq.innerText = `${times} × ${jump} = ${jump * times}`;
-            fb2.innerText = '';
-            
-            svgArcs.innerHTML = '';
-            
-            // Calculate width per unit
-            const totalWidth = ticksContainer.offsetWidth;
-            // The ticks are distributed using flex space-between.
-            // Distance between 0 and 1 is totalWidth / maxNumber.
-            const unitWidth = totalWidth / maxNumber;
-            const yStart = 50; 
-            
-            let currentVal = 0;
-            
-            for(let i=0; i<times; i++) {
-                if(currentVal + jump > maxNumber) break; // Don't draw out of bounds
-                
-                let x1 = currentVal * unitWidth + (unitWidth/2); // approximate center of tick
-                let x2 = (currentVal + jump) * unitWidth + (unitWidth/2);
-                let cx = (x1 + x2) / 2;
-                let cy = yStart - (jump * 15); // height of arc depends on jump size
-                
-                let path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-                let d = `M ${x1} ${yStart} Q ${cx} ${cy} ${x2} ${yStart}`;
-                path.setAttribute("d", d);
-                path.setAttribute("class", "arc");
-                path.style.animationDelay = `${i * 0.5}s`;
-                svgArcs.appendChild(path);
-
-                // Add arrow head
-                let arrow = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
-                arrow.setAttribute("points", `${x2},${yStart} ${x2-8},${yStart-6} ${x2-4},${yStart-12}`);
-                arrow.setAttribute("class", "arc-arrow");
-                arrow.style.animationDelay = `${(i * 0.5) + 0.5}s`;
-                svgArcs.appendChild(arrow);
-                
-                currentVal += jump;
-            }
-            
-            // Adjust SVG size
-            svgArcs.style.width = '100%';
-            svgArcs.style.height = '100px';
-        }
+        // ล้างช่องคำตอบและข้อความแจ้งเตือน
+        document.getElementById('player-answer').value = '';
+        document.getElementById('feedback').innerText = '';
         
-        iJump.addEventListener('input', drawJumps);
-        iTimes.addEventListener('input', drawJumps);
+        // สร้างอาเรย์แอปเปิล
+        grid.innerHTML = '';
+        grid.style.gridTemplateColumns = `repeat(${cols}, 50px)`;
+        grid.style.gridTemplateRows = `repeat(${rows}, 50px)`;
         
-        // Wait for render to get accurate widths
-        setTimeout(drawJumps, 100);
-        window.addEventListener('resize', drawJumps);
+        const totalApples = rows * cols;
+        for (let i = 0; i < totalApples; i++) {
+            const apple = document.createElement('div');
+            apple.classList.add('apple');
+            apple.innerText = '🍎';
+            // เพิ่ม delay เล็กน้อยให้แอปเปิลเด้งทีละลูก
+            apple.style.animationDelay = `${i * 0.05}s`;
+            grid.appendChild(apple);
+        }
+    }
 
-        function checkZone2() {
-            const jump = parseInt(iJump.value);
-            const times = parseInt(iTimes.value);
-            if(jump === 2 && times === 7) {
-                fb2.innerHTML = '🐰 ถูกต้อง! แจ็คเดินสัปดาห์ละ 2 กม. จำนวน 7 สัปดาห์ ได้ระยะทาง 14 กม.';
-                fb2.className = 'feedback text-success';
-            } else if (jump === 7 && times === 2) {
-                fb2.innerHTML = '🐰 ถูกต้องในเชิงตัวเลข (7×2=14) แต่ตามโจทย์คือครั้งละ 2 จำนวน 7 ครั้งนะจ๊ะ';
-                fb2.className = 'feedback text-success';
-            } else {
-                fb2.innerHTML = '❌ ยังไม่ถูก แจ็คเดินสัปดาห์ละ 2 กม. (ก้าวละ 2) เป็นเวลา 7 สัปดาห์ (7 ครั้ง)';
-                fb2.className = 'feedback text-danger';
-            }
+    function checkAnswer() {
+        const rows = document.getElementById('rows').value;
+        const cols = document.getElementById('cols').value;
+        const correctAnswer = rows * cols;
+        const playerAnswer = parseInt(document.getElementById('player-answer').value);
+        const feedback = document.getElementById('feedback');
+
+        if (isNaN(playerAnswer)) {
+            feedback.innerText = "กรุณาพิมพ์ตัวเลขก่อนนะ!";
+            feedback.className = 'wrong';
+            return;
         }
 
-        // --- Zone 3 Logic ---
-        function answerQ(qNum, btn, isCorrect) {
-            // Reset all buttons in this question
-            const buttons = document.querySelectorAll(`.q${qNum}`);
-            buttons.forEach(b => {
-                b.classList.remove('correct', 'wrong');
-            });
-            
-            const fb = document.getElementById(`fq${qNum}`);
-            if(isCorrect) {
-                btn.classList.add('correct');
-                fb.innerText = '⭐ ถูกต้องเก่งมาก!';
-                fb.className = 'feedback text-success';
-            } else {
-                btn.classList.add('wrong');
-                fb.innerText = '❌ ยังไม่ใช่นะ ลองคิดดูดีๆ';
-                fb.className = 'feedback text-danger';
-            }
+        if (playerAnswer === correctAnswer) {
+            feedback.innerText = "⭐ ถูกต้อง! เก่งมาก ⭐";
+            feedback.className = 'correct';
+        } else {
+            feedback.innerText = "❌ ยังไม่ถูก ลองนับแอปเปิลดูใหม่นะ";
+            feedback.className = 'wrong';
         }
-    </script>
+    }
+
+    // เริ่มเกมครั้งแรกเมื่อโหลดหน้าเว็บ
+    updateGame();
+</script>
+
 </body>
 </html>
+
+---------

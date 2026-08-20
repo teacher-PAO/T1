@@ -1,188 +1,361 @@
+
 <!DOCTYPE html>
-<html lang="th">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>เกมคูณมหาสนุก (ประถม 2)</title>
-    <style>
-        body {
-            font-family: 'Tahoma', sans-serif;
-            background-color: #fdf2e9;
-            color: #333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .game-container {
-            background-color: #fff;
-            border: 4px solid #eb984e;
-            border-radius: 20px;
-            padding: 30px;
-            width: 450px;
-            text-align: center;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-        }
-        h1 {
-            color: #d35400;
-            margin-top: 0;
-        }
-        .controls {
-            background-color: #fcf3cf;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-        label {
-            font-size: 18px;
-            font-weight: bold;
-            margin: 0 10px;
-        }
-        input[type="range"] {
-            vertical-align: middle;
-        }
-        .grid-container {
-            display: grid;
-            justify-content: center;
-            gap: 10px;
-            min-height: 150px;
-            margin-bottom: 20px;
-        }
-        .apple {
-            font-size: 40px;
-            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            opacity: 0;
-            transform: scale(0);
-        }
-        @keyframes popIn {
-            to { opacity: 1; transform: scale(1); }
-        }
-        .equation-area {
-            font-size: 28px;
-            font-weight: bold;
-            background-color: #e8f8f5;
-            padding: 15px;
-            border-radius: 15px;
-        }
-        .answer-input {
-            width: 70px;
-            font-size: 24px;
-            text-align: center;
-            border: 3px solid #ccc;
-            border-radius: 10px;
-            padding: 5px;
-        }
-        .btn-check {
-            background-color: #58d68d;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 20px;
-            border-radius: 10px;
-            cursor: pointer;
-            margin-top: 15px;
-            font-weight: bold;
-            transition: background 0.2s;
-        }
-        .btn-check:hover {
-            background-color: #2ecc71;
-        }
-        #feedback {
-            font-size: 22px;
-            font-weight: bold;
-            margin-top: 15px;
-            height: 30px;
-        }
-        .correct { color: #27ae60; }
-        .wrong { color: #e74c3c; }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Aylada's Multiplication Adventure</title>
+<style>
+  :root{
+    --blue:#2587e8;
+    --green:#68bd17;
+    --orange:#ff9f16;
+    --pink:#ef4f79;
+    --purple:#7651c9;
+    --teal:#1c9ab0;
+    --navy:#12305d;
+    --cream:#fffaf0;
+    --line:#d9e2ef;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family: "Trebuchet MS", Arial, sans-serif;
+    color:#28304d;
+    background:linear-gradient(#ccefff 0 18%, #fdfcf7 18% 100%);
+  }
+  button,select{font:inherit}
+  .app{max-width:1450px;margin:auto;min-height:100vh;background:#fff;box-shadow:0 0 40px #6684a322}
+  header{
+    min-height:170px;
+    padding:20px 34px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    background:
+      radial-gradient(circle at 15% 28%,#fff 0 35px,transparent 37px),
+      radial-gradient(circle at 88% 20%,#fff 0 34px,transparent 36px),
+      linear-gradient(#45bdf3,#c5efff);
+    border-bottom:8px solid #8bcf3b;
+  }
+  .title{
+    text-align:center;flex:1;
+    font-weight:1000;
+    line-height:.95;
+    text-shadow:0 4px 0 #fff;
+  }
+  .title .name{font-size:clamp(42px,7vw,76px);color:#f04f74}
+  .title .sub{font-size:clamp(28px,4.8vw,54px);color:#16559a}
+  .castle{font-size:80px;filter:drop-shadow(0 6px 6px #36526f33)}
+  .student{
+    min-width:320px;
+    background:#fff;
+    border-radius:28px;
+    padding:16px 22px;
+    box-shadow:0 8px 20px #325d8128;
+  }
+  .student strong{font-size:24px;color:#7050b4}
+  .student-row{display:flex;align-items:center;gap:14px}
+  .avatar{font-size:48px;width:64px;height:64px;border-radius:50%;display:grid;place-items:center;background:#ffe2eb}
+  .student-stats{display:flex;gap:22px;margin-top:12px;font-size:18px;font-weight:900}
+  .layout{display:grid;grid-template-columns:210px 1fr 300px;min-height:720px}
+  aside.left{
+    background:linear-gradient(#9289df,#aaa5ed);
+    padding:18px 12px;
+  }
+  .menu{
+    display:flex;align-items:center;gap:12px;
+    padding:14px 14px;margin:7px 0;border-radius:18px;
+    color:white;font-weight:900;font-size:18px;
+  }
+  .menu.active{background:#ffe697;color:#674f92;box-shadow:0 4px 10px #4d4d7044}
+  .menu span{font-size:26px}
+  .hero-card{
+    margin-top:28px;background:#fff9dc;border-radius:22px;padding:16px;text-align:center;
+    font-weight:900;box-shadow:0 8px 16px #6664a333
+  }
+  .hero-card b{font-size:30px;color:#ef5484}
+  main{
+    background:#fffdf8;
+    padding:22px 24px 30px;
+  }
+  .picker-title{text-align:center;font-weight:900;color:#392a75;margin-bottom:9px}
+  .table-picker{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:20px}
+  .table-btn{
+    width:52px;height:52px;border:none;border-radius:13px;color:#fff;font-size:23px;font-weight:1000;
+    box-shadow:0 5px 0 #0002;cursor:pointer;transition:.15s
+  }
+  .table-btn:hover{transform:translateY(-2px)}
+  .table-btn.active{outline:5px solid #fff;box-shadow:0 0 0 4px #7ec727,0 5px 0 #0002}
+  .lesson{
+    border:2px solid #e0e6ef;border-radius:28px;overflow:hidden;background:linear-gradient(#dff5ff,#fff);
+    box-shadow:0 10px 20px #35506a18;
+  }
+  .lesson-top{text-align:center;padding:10px}
+  .ribbon{
+    display:inline-block;background:linear-gradient(#8e63da,#6a42bd);color:#fff;
+    padding:8px 30px;border-radius:16px;font-weight:1000;font-size:24px;
+    box-shadow:0 4px 0 #5c3c9d
+  }
+  .equation{
+    text-align:center;font-size:clamp(54px,8vw,95px);font-weight:1000;letter-spacing:3px;
+    color:var(--navy);padding:14px 10px 4px
+  }
+  .equation .a{color:var(--blue)}
+  .equation .b{color:var(--pink)}
+  .equation .ans{color:var(--purple)}
+  .visual{
+    padding:10px 22px 16px;
+  }
+  .group{
+    display:grid;
+    grid-template-columns:56px 1fr;
+    align-items:center;
+    gap:10px;
+    margin:10px auto;
+    max-width:780px;
+  }
+  .group-num{
+    width:46px;height:46px;border-radius:50%;display:grid;place-items:center;
+    color:#fff;font-weight:1000;font-size:24px;
+  }
+  .group:nth-child(odd) .group-num{background:var(--blue)}
+  .group:nth-child(even) .group-num{background:var(--pink)}
+  .stars{
+    border:3px dashed var(--blue);border-radius:18px;min-height:104px;padding:12px;
+    display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;background:#ffffffbb;
+  }
+  .group:nth-child(even) .stars{border-color:var(--pink)}
+  .star{
+    width:74px;height:74px;display:grid;place-items:center;
+    font-size:59px;line-height:1;filter:drop-shadow(0 4px 2px #805a002a);
+    animation:pop .35s ease both;
+  }
+  @keyframes pop{from{transform:scale(.55);opacity:0}to{transform:scale(1);opacity:1}}
+  .explain{
+    margin:14px auto 20px;max-width:620px;background:#fff1b6;border:2px solid #ffbe39;border-radius:20px;
+    text-align:center;padding:14px;font-size:25px;font-weight:1000;color:#23427b
+  }
+  .explain .blue{color:var(--blue)} .explain .pink{color:var(--pink)} .explain .purple{color:var(--purple)}
+  .encourage{
+    display:flex;align-items:center;gap:12px;
+    max-width:780px;margin:18px auto 0;padding:13px 18px;border-radius:18px;background:#fff8cc;border:1px solid #f2cb60;
+    font-weight:900;justify-content:center
+  }
+  .controls{
+    margin-top:18px;border-radius:22px;padding:16px;background:#f5f7fb;display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap
+  }
+  .controls label{font-weight:900}
+  .controls select{
+    border:2px solid #d4daea;border-radius:12px;padding:9px 12px;background:#fff;font-weight:900
+  }
+  .random{
+    border:0;background:var(--purple);color:#fff;border-radius:14px;padding:10px 16px;font-weight:900;cursor:pointer
+  }
+  aside.right{background:#faf9f5;border-left:1px solid #eee;padding:18px}
+  .mascot-card,.card,.tip{
+    background:#fff;border-radius:22px;border:1px solid #e1e1e1;box-shadow:0 6px 15px #384f6c17;
+    margin-bottom:14px;padding:16px;
+  }
+  .mascot{font-size:86px;text-align:center}
+  .speech{text-align:center;font-weight:1000;font-size:19px;color:#4c2d7f}
+  .progress-title{font-weight:1000;color:#6843aa;font-size:20px}
+  .bar{height:20px;background:#e4e4ea;border-radius:999px;margin:10px 0;overflow:hidden;border:2px solid #c9c9d2}
+  .bar > div{height:100%;width:65%;background:linear-gradient(90deg,#a5df20,#5eb90d);border-radius:999px}
+  .stat{display:flex;justify-content:space-between;padding:10px 4px;border-bottom:1px solid #eee;font-weight:900}
+  .stat:last-child{border:0}
+  .tip{background:#dff6ff;font-weight:800;line-height:1.45}
+  @media(max-width:1000px){
+    .layout{grid-template-columns:1fr}
+    aside.left,aside.right{display:none}
+    .student{min-width:0}
+  }
+  @media(max-width:700px){
+    header{padding:12px;min-height:120px}
+    .castle{display:none}
+    .student{display:none}
+    main{padding:14px}
+    .table-btn{width:44px;height:44px}
+    .group{grid-template-columns:42px 1fr}
+    .group-num{width:38px;height:38px;font-size:19px}
+    .star{width:50px;height:50px;font-size:42px}
+    .stars{gap:5px}
+  }
+</style>
 </head>
 <body>
-
-<div class="game-container">
-    <h1>🍎 โซน 1: อาเรย์นักประดิษฐ์</h1>
-    
-    <div class="controls">
-        <div>
-            <label>จำนวนแถว (Rows): <span id="rowCount">3</span></label><br>
-            <input type="range" id="rows" min="1" max="5" value="3" oninput="updateGame()">
-        </div>
-        <div style="margin-top: 10px;">
-            <label>จำนวนคอลัมน์ (Cols): <span id="colCount">4</span></label><br>
-            <input type="range" id="cols" min="1" max="5" value="4" oninput="updateGame()">
-        </div>
+<div class="app">
+  <header>
+    <div class="castle">🏰</div>
+    <div class="title">
+      <div class="name">Ai : Ainada's</div>
+      <div class="sub">Multiplication Adventure</div>
     </div>
+    <div class="student">
+      <div class="student-row">
+        <div class="avatar">👧🏻</div>
+        <div><strong>Student: Aylada</strong><br><span>Math Explorer</span></div>
+      </div>
+      <div class="student-stats"><span>⭐ 1,250</span><span>🛡️ Level 3</span></div>
+    </div>
+  </header>
 
-    <div class="grid-container" id="grid">
+  <div class="layout">
+    <aside class="left">
+      <div class="menu active"><span>🏠</span> Home</div>
+      <div class="menu"><span>✏️</span> Practice</div>
+      <div class="menu"><span>🔢</span> Tables</div>
+      <div class="menu"><span>🎮</span> Games</div>
+      <div class="menu"><span>🎁</span> Rewards</div>
+      <div class="menu"><span>📊</span> Progress</div>
+      <div class="menu"><span>👤</span> Profile</div>
+      <div class="menu"><span>❓</span> Help</div>
+      <div class="hero-card">Keep practicing<br>and become a<br><b>Math Hero!</b><div style="font-size:62px">🐲</div></div>
+    </aside>
+
+    <main>
+      <div class="picker-title">Choose a Multiplication Table</div>
+      <div class="table-picker" id="tablePicker"></div>
+
+      <section class="lesson">
+        <div class="lesson-top"><span class="ribbon">⭐ Let's Learn! ⭐</span></div>
+        <div class="equation">
+          <span class="a" id="eqA">2</span> ×
+          <span class="b" id="eqB">5</span> =
+          <span class="ans" id="eqAns">10</span>
         </div>
 
-    <div class="equation-area">
-        <span id="eq-rows">3</span> × <span id="eq-cols">4</span> = 
-        <input type="number" id="player-answer" class="answer-input" placeholder="?">
-    </div>
+        <div class="visual" id="groups"></div>
 
-    <button class="btn-check" onclick="checkAnswer()">ตรวจสอบคำตอบ</button>
-    <div id="feedback"></div>
+        <div class="explain">
+          <span class="blue" id="expA">2</span> groups of
+          <span class="pink" id="expB">5</span> =
+          <span class="purple" id="expAns">10</span><br>
+          <span id="countText">Count the 10 stars!</span>
+        </div>
+      </section>
+
+      <div class="controls">
+        <label>Groups:</label>
+        <select id="groupsSelect"></select>
+        <label>Stars per group:</label>
+        <select id="eachSelect"></select>
+        <button class="random" id="randomBtn">🎲 Random Question</button>
+      </div>
+
+      <div class="encourage">⭐ You can do it, Aylada! Count the stars and learn multiplication! ⭐</div>
+    </main>
+
+    <aside class="right">
+      <div class="mascot-card">
+        <div class="mascot">🐯</div>
+        <div class="speech">Great job!<br>You're amazing!</div>
+      </div>
+      <div class="card">
+        <div class="progress-title">Your Progress</div>
+        <div class="bar"><div></div></div>
+        <b>65%</b><p>Keep going! You're doing awesome!</p>
+      </div>
+      <div class="card">
+        <div class="stat"><span>⭐ Score</span><span>1,250</span></div>
+        <div class="stat"><span>🔥 Current Streak</span><span>7</span></div>
+        <div class="stat"><span>🏆 Best Streak</span><span>12</span></div>
+        <div class="stat"><span>🎯 Correct Answers</span><span>26 / 35</span></div>
+      </div>
+      <div class="tip">💡 <b>Tip:</b> Multiplication means equal groups. For example, 2 × 5 means 2 groups of 5.</div>
+    </aside>
+  </div>
 </div>
 
 <script>
-    function updateGame() {
-        const rows = document.getElementById('rows').value;
-        const cols = document.getElementById('cols').value;
-        const grid = document.getElementById('grid');
-        
-        // อัปเดตตัวเลขบนหน้าจอ
-        document.getElementById('rowCount').innerText = rows;
-        document.getElementById('colCount').innerText = cols;
-        document.getElementById('eq-rows').innerText = rows;
-        document.getElementById('eq-cols').innerText = cols;
-        
-        // ล้างช่องคำตอบและข้อความแจ้งเตือน
-        document.getElementById('player-answer').value = '';
-        document.getElementById('feedback').innerText = '';
-        
-        // สร้างอาเรย์แอปเปิล
-        grid.innerHTML = '';
-        grid.style.gridTemplateColumns = `repeat(${cols}, 50px)`;
-        grid.style.gridTemplateRows = `repeat(${rows}, 50px)`;
-        
-        const totalApples = rows * cols;
-        for (let i = 0; i < totalApples; i++) {
-            const apple = document.createElement('div');
-            apple.classList.add('apple');
-            apple.innerText = '🍎';
-            // เพิ่ม delay เล็กน้อยให้แอปเปิลเด้งทีละลูก
-            apple.style.animationDelay = `${i * 0.05}s`;
-            grid.appendChild(apple);
-        }
+const picker = document.getElementById("tablePicker");
+const groupsBox = document.getElementById("groups");
+const groupsSelect = document.getElementById("groupsSelect");
+const eachSelect = document.getElementById("eachSelect");
+
+let A = 2;
+let B = 5;
+
+const colors = ["#2587e8","#68bd17","#ff9f16","#ef4f79","#7651c9","#1c9ab0","#f07e14","#2787d8","#7853c4","#e75c87","#69b823"];
+
+for(let n=2;n<=12;n++){
+  const btn=document.createElement("button");
+  btn.className="table-btn"+(n===2?" active":"");
+  btn.style.background=colors[(n-2)%colors.length];
+  btn.textContent=n;
+  btn.dataset.n=n;
+  btn.onclick=()=>{
+    A=n;
+    document.querySelectorAll(".table-btn").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    groupsSelect.value=A;
+    render();
+  };
+  picker.appendChild(btn);
+}
+
+for(let n=1;n<=12;n++){
+  const o1=document.createElement("option");
+  o1.value=n;o1.textContent=n;groupsSelect.appendChild(o1);
+  const o2=document.createElement("option");
+  o2.value=n;o2.textContent=n;eachSelect.appendChild(o2);
+}
+groupsSelect.value=A;
+eachSelect.value=B;
+
+groupsSelect.onchange=()=>{
+  A=Number(groupsSelect.value);
+  const btn=document.querySelector(`.table-btn[data-n="${A}"]`);
+  document.querySelectorAll(".table-btn").forEach(b=>b.classList.remove("active"));
+  if(btn) btn.classList.add("active");
+  render();
+};
+eachSelect.onchange=()=>{ B=Number(eachSelect.value); render(); };
+
+document.getElementById("randomBtn").onclick=()=>{
+  A=Math.floor(Math.random()*6)+2; // 2–7 groups so the screen stays kid-friendly
+  B=Math.floor(Math.random()*8)+2; // 2–9 stars per group
+  groupsSelect.value=A;
+  eachSelect.value=B;
+  document.querySelectorAll(".table-btn").forEach(b=>b.classList.toggle("active",Number(b.dataset.n)===A));
+  render();
+};
+
+function render(){
+  const ans=A*B;
+  document.getElementById("eqA").textContent=A;
+  document.getElementById("eqB").textContent=B;
+  document.getElementById("eqAns").textContent=ans;
+  document.getElementById("expA").textContent=A;
+  document.getElementById("expB").textContent=B;
+  document.getElementById("expAns").textContent=ans;
+  document.getElementById("countText").textContent=`Count the ${ans} stars!`;
+
+  groupsBox.innerHTML="";
+  for(let g=1;g<=A;g++){
+    const group=document.createElement("div");
+    group.className="group";
+
+    const num=document.createElement("div");
+    num.className="group-num";
+    num.textContent=g;
+
+    const stars=document.createElement("div");
+    stars.className="stars";
+
+    for(let s=0;s<B;s++){
+      const star=document.createElement("div");
+      star.className="star";
+      star.textContent="⭐";
+      star.style.animationDelay=(s*0.035)+"s";
+      stars.appendChild(star);
     }
-
-    function checkAnswer() {
-        const rows = document.getElementById('rows').value;
-        const cols = document.getElementById('cols').value;
-        const correctAnswer = rows * cols;
-        const playerAnswer = parseInt(document.getElementById('player-answer').value);
-        const feedback = document.getElementById('feedback');
-
-        if (isNaN(playerAnswer)) {
-            feedback.innerText = "กรุณาพิมพ์ตัวเลขก่อนนะ!";
-            feedback.className = 'wrong';
-            return;
-        }
-
-        if (playerAnswer === correctAnswer) {
-            feedback.innerText = "⭐ ถูกต้อง! เก่งมาก ⭐";
-            feedback.className = 'correct';
-        } else {
-            feedback.innerText = "❌ ยังไม่ถูก ลองนับแอปเปิลดูใหม่นะ";
-            feedback.className = 'wrong';
-        }
-    }
-
-    // เริ่มเกมครั้งแรกเมื่อโหลดหน้าเว็บ
-    updateGame();
+    group.append(num,stars);
+    groupsBox.appendChild(group);
+  }
+}
+render();
 </script>
-
 </body>
 </html>
