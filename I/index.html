@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,356 +5,614 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Aylada's Multiplication Adventure</title>
 <style>
-  :root{
-    --blue:#2587e8;
-    --green:#68bd17;
-    --orange:#ff9f16;
-    --pink:#ef4f79;
-    --purple:#7651c9;
-    --teal:#1c9ab0;
-    --navy:#12305d;
-    --cream:#fffaf0;
-    --line:#d9e2ef;
-  }
-  *{box-sizing:border-box}
-  body{
-    margin:0;
-    font-family: "Trebuchet MS", Arial, sans-serif;
-    color:#28304d;
-    background:linear-gradient(#ccefff 0 18%, #fdfcf7 18% 100%);
-  }
-  button,select{font:inherit}
-  .app{max-width:1450px;margin:auto;min-height:100vh;background:#fff;box-shadow:0 0 40px #6684a322}
-  header{
-    min-height:170px;
-    padding:20px 34px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:20px;
-    background:
-      radial-gradient(circle at 15% 28%,#fff 0 35px,transparent 37px),
-      radial-gradient(circle at 88% 20%,#fff 0 34px,transparent 36px),
-      linear-gradient(#45bdf3,#c5efff);
-    border-bottom:8px solid #8bcf3b;
-  }
-  .title{
-    text-align:center;flex:1;
-    font-weight:1000;
-    line-height:.95;
-    text-shadow:0 4px 0 #fff;
-  }
-  .title .name{font-size:clamp(42px,7vw,76px);color:#f04f74}
-  .title .sub{font-size:clamp(28px,4.8vw,54px);color:#16559a}
-  .castle{font-size:80px;filter:drop-shadow(0 6px 6px #36526f33)}
-  .student{
-    min-width:320px;
-    background:#fff;
-    border-radius:28px;
-    padding:16px 22px;
-    box-shadow:0 8px 20px #325d8128;
-  }
-  .student strong{font-size:24px;color:#7050b4}
-  .student-row{display:flex;align-items:center;gap:14px}
-  .avatar{font-size:48px;width:64px;height:64px;border-radius:50%;display:grid;place-items:center;background:#ffe2eb}
-  .student-stats{display:flex;gap:22px;margin-top:12px;font-size:18px;font-weight:900}
-  .layout{display:grid;grid-template-columns:210px 1fr 300px;min-height:720px}
-  aside.left{
-    background:linear-gradient(#9289df,#aaa5ed);
-    padding:18px 12px;
-  }
-  .menu{
-    display:flex;align-items:center;gap:12px;
-    padding:14px 14px;margin:7px 0;border-radius:18px;
-    color:white;font-weight:900;font-size:18px;
-  }
-  .menu.active{background:#ffe697;color:#674f92;box-shadow:0 4px 10px #4d4d7044}
-  .menu span{font-size:26px}
-  .hero-card{
-    margin-top:28px;background:#fff9dc;border-radius:22px;padding:16px;text-align:center;
-    font-weight:900;box-shadow:0 8px 16px #6664a333
-  }
-  .hero-card b{font-size:30px;color:#ef5484}
-  main{
-    background:#fffdf8;
-    padding:22px 24px 30px;
-  }
-  .picker-title{text-align:center;font-weight:900;color:#392a75;margin-bottom:9px}
-  .table-picker{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:20px}
-  .table-btn{
-    width:52px;height:52px;border:none;border-radius:13px;color:#fff;font-size:23px;font-weight:1000;
-    box-shadow:0 5px 0 #0002;cursor:pointer;transition:.15s
-  }
-  .table-btn:hover{transform:translateY(-2px)}
-  .table-btn.active{outline:5px solid #fff;box-shadow:0 0 0 4px #7ec727,0 5px 0 #0002}
-  .lesson{
-    border:2px solid #e0e6ef;border-radius:28px;overflow:hidden;background:linear-gradient(#dff5ff,#fff);
-    box-shadow:0 10px 20px #35506a18;
-  }
-  .lesson-top{text-align:center;padding:10px}
-  .ribbon{
-    display:inline-block;background:linear-gradient(#8e63da,#6a42bd);color:#fff;
-    padding:8px 30px;border-radius:16px;font-weight:1000;font-size:24px;
-    box-shadow:0 4px 0 #5c3c9d
-  }
-  .equation{
-    text-align:center;font-size:clamp(54px,8vw,95px);font-weight:1000;letter-spacing:3px;
-    color:var(--navy);padding:14px 10px 4px
-  }
-  .equation .a{color:var(--blue)}
-  .equation .b{color:var(--pink)}
-  .equation .ans{color:var(--purple)}
-  .visual{
-    padding:10px 22px 16px;
-  }
-  .group{
-    display:grid;
-    grid-template-columns:56px 1fr;
-    align-items:center;
-    gap:10px;
-    margin:10px auto;
-    max-width:780px;
-  }
-  .group-num{
-    width:46px;height:46px;border-radius:50%;display:grid;place-items:center;
-    color:#fff;font-weight:1000;font-size:24px;
-  }
-  .group:nth-child(odd) .group-num{background:var(--blue)}
-  .group:nth-child(even) .group-num{background:var(--pink)}
-  .stars{
-    border:3px dashed var(--blue);border-radius:18px;min-height:104px;padding:12px;
-    display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;background:#ffffffbb;
-  }
-  .group:nth-child(even) .stars{border-color:var(--pink)}
-  .star{
-    width:74px;height:74px;display:grid;place-items:center;
-    font-size:59px;line-height:1;filter:drop-shadow(0 4px 2px #805a002a);
-    animation:pop .35s ease both;
-  }
-  @keyframes pop{from{transform:scale(.55);opacity:0}to{transform:scale(1);opacity:1}}
-  .explain{
-    margin:14px auto 20px;max-width:620px;background:#fff1b6;border:2px solid #ffbe39;border-radius:20px;
-    text-align:center;padding:14px;font-size:25px;font-weight:1000;color:#23427b
-  }
-  .explain .blue{color:var(--blue)} .explain .pink{color:var(--pink)} .explain .purple{color:var(--purple)}
-  .encourage{
-    display:flex;align-items:center;gap:12px;
-    max-width:780px;margin:18px auto 0;padding:13px 18px;border-radius:18px;background:#fff8cc;border:1px solid #f2cb60;
-    font-weight:900;justify-content:center
-  }
-  .controls{
-    margin-top:18px;border-radius:22px;padding:16px;background:#f5f7fb;display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap
-  }
-  .controls label{font-weight:900}
-  .controls select{
-    border:2px solid #d4daea;border-radius:12px;padding:9px 12px;background:#fff;font-weight:900
-  }
-  .random{
-    border:0;background:var(--purple);color:#fff;border-radius:14px;padding:10px 16px;font-weight:900;cursor:pointer
-  }
-  aside.right{background:#faf9f5;border-left:1px solid #eee;padding:18px}
-  .mascot-card,.card,.tip{
-    background:#fff;border-radius:22px;border:1px solid #e1e1e1;box-shadow:0 6px 15px #384f6c17;
-    margin-bottom:14px;padding:16px;
-  }
-  .mascot{font-size:86px;text-align:center}
-  .speech{text-align:center;font-weight:1000;font-size:19px;color:#4c2d7f}
-  .progress-title{font-weight:1000;color:#6843aa;font-size:20px}
-  .bar{height:20px;background:#e4e4ea;border-radius:999px;margin:10px 0;overflow:hidden;border:2px solid #c9c9d2}
-  .bar > div{height:100%;width:65%;background:linear-gradient(90deg,#a5df20,#5eb90d);border-radius:999px}
-  .stat{display:flex;justify-content:space-between;padding:10px 4px;border-bottom:1px solid #eee;font-weight:900}
-  .stat:last-child{border:0}
-  .tip{background:#dff6ff;font-weight:800;line-height:1.45}
-  @media(max-width:1000px){
-    .layout{grid-template-columns:1fr}
-    aside.left,aside.right{display:none}
-    .student{min-width:0}
-  }
-  @media(max-width:700px){
-    header{padding:12px;min-height:120px}
-    .castle{display:none}
-    .student{display:none}
-    main{padding:14px}
-    .table-btn{width:44px;height:44px}
-    .group{grid-template-columns:42px 1fr}
-    .group-num{width:38px;height:38px;font-size:19px}
-    .star{width:50px;height:50px;font-size:42px}
-    .stars{gap:5px}
-  }
+:root{
+  --bg:#f7f4ec;
+  --card:#ffffff;
+  --ink:#25324a;
+  --muted:#6f7a8d;
+  --blue:#377fe8;
+  --blue-dark:#2865c3;
+  --yellow:#f7c948;
+  --coral:#f36f67;
+  --green:#51b889;
+  --purple:#7b68c7;
+  --line:#e5e8ef;
+  --shadow:0 10px 26px rgba(44,57,80,.10);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Inter,ui-rounded,"Trebuchet MS",Arial,sans-serif;
+  color:var(--ink);
+  background:var(--bg);
+}
+button,select{font:inherit}
+button{touch-action:manipulation}
+button:focus-visible,select:focus-visible{
+  outline:4px solid rgba(55,127,232,.25);
+  outline-offset:3px;
+}
+.app{max-width:1280px;margin:0 auto;min-height:100vh}
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;gap:18px;
+  padding:20px 24px;
+}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{
+  width:52px;height:52px;border-radius:16px;background:var(--yellow);
+  display:grid;place-items:center;font-size:28px;
+  box-shadow:0 5px 0 #d9aa2f;
+}
+.brand h1{font-size:clamp(22px,3vw,32px);margin:0}
+.brand small{display:block;color:var(--muted);font-weight:700;margin-top:3px}
+.student-chip{
+  background:var(--card);border:1px solid var(--line);border-radius:18px;
+  padding:10px 14px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow);
+  font-weight:800;
+}
+.avatar{width:42px;height:42px;border-radius:50%;background:#ffe7e2;display:grid;place-items:center;font-size:24px}
+.shell{
+  display:grid;grid-template-columns:190px 1fr;gap:18px;padding:0 24px 26px;
+}
+.sidebar{
+  background:var(--card);border:1px solid var(--line);border-radius:24px;
+  box-shadow:var(--shadow);padding:12px;height:max-content;position:sticky;top:16px;
+}
+.nav-btn{
+  width:100%;border:0;background:transparent;color:#4f5b70;
+  padding:13px 14px;border-radius:14px;display:flex;align-items:center;gap:11px;
+  font-weight:850;cursor:pointer;text-align:left;margin:2px 0;
+  transition:transform .12s,background .15s,color .15s;
+}
+.nav-btn:hover{background:#f1f5fb}
+.nav-btn.active{background:#eaf2ff;color:var(--blue-dark)}
+.nav-btn:active{transform:scale(.97)}
+.nav-icon{font-size:21px;width:26px;text-align:center}
+
+.content{min-width:0}
+.view{display:none}
+.view.active{display:block}
+
+.hero{
+  background:var(--card);border:1px solid var(--line);border-radius:26px;
+  box-shadow:var(--shadow);padding:24px;
+}
+.hero-head{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
+  margin-bottom:18px;
+}
+.hero h2{margin:0;font-size:26px}
+.kicker{color:var(--muted);font-weight:800;margin-top:4px}
+.table-row{display:flex;flex-wrap:wrap;gap:9px}
+.table-btn,.choice-btn,.primary,.secondary,.step-btn,.game-btn{
+  border:0;cursor:pointer;font-weight:900;
+  transition:transform .10s,box-shadow .10s,filter .15s;
+}
+.table-btn{
+  width:46px;height:46px;border-radius:13px;background:#eef2f7;color:#536075;
+  box-shadow:0 4px 0 #d9dee7;
+}
+.table-btn:hover{filter:brightness(.98);transform:translateY(-1px)}
+.table-btn.active{background:var(--blue);color:#fff;box-shadow:0 5px 0 var(--blue-dark)}
+.table-btn:active,.choice-btn:active,.primary:active,.secondary:active,.step-btn:active,.game-btn:active{
+  transform:translateY(4px)!important;
+  box-shadow:0 1px 0 rgba(0,0,0,.22)!important;
+}
+.learn-grid{display:grid;grid-template-columns:1fr 280px;gap:18px}
+.visual-card{
+  background:#fbfcff;border:1px solid var(--line);border-radius:22px;padding:22px;
+}
+.equation{
+  text-align:center;font-size:clamp(48px,7vw,76px);font-weight:1000;
+  letter-spacing:1px;margin:4px 0 20px;
+}
+.equation .a{color:var(--blue)} .equation .b{color:var(--coral)} .equation .ans{color:var(--purple)}
+.group-wrap{display:grid;gap:10px}
+.star-group{
+  background:#fff;border:2px solid #dfe7f3;border-radius:16px;padding:12px 14px;
+  display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:center;
+}
+.group-badge{
+  width:32px;height:32px;border-radius:50%;display:grid;place-items:center;
+  background:#eaf2ff;color:var(--blue-dark);font-weight:1000;
+}
+.stars{display:flex;gap:7px;flex-wrap:wrap}
+.star{
+  width:30px;height:30px;display:grid;place-items:center;font-size:25px;
+  animation:pop .18s ease both;
+}
+@keyframes pop{from{transform:scale(.75);opacity:.2}to{transform:scale(1);opacity:1}}
+.explain{
+  margin-top:16px;text-align:center;background:#fff8df;border:1px solid #f2dc91;
+  border-radius:15px;padding:12px;font-size:18px;font-weight:900;
+}
+.side-control{
+  background:#f5f7fb;border:1px solid var(--line);border-radius:20px;padding:18px;
+}
+.side-control h3{margin:0 0 12px}
+.control-block{margin:15px 0}
+.control-block label{display:block;font-size:13px;color:var(--muted);font-weight:900;margin-bottom:7px}
+.number-control{display:grid;grid-template-columns:44px 1fr 44px;gap:8px;align-items:center}
+.step-btn{
+  height:44px;border-radius:12px;background:#fff;color:var(--blue-dark);
+  box-shadow:0 4px 0 #d7deea;border:1px solid #e1e6ee;font-size:22px;
+}
+.number-value{
+  height:44px;border-radius:12px;background:#fff;border:1px solid var(--line);
+  display:grid;place-items:center;font-size:20px;font-weight:1000;
+}
+.primary{
+  background:var(--blue);color:#fff;border-radius:14px;padding:12px 16px;
+  box-shadow:0 5px 0 var(--blue-dark);
+}
+.secondary{
+  background:#fff;color:#506078;border:1px solid #dfe4ec;border-radius:14px;
+  padding:12px 16px;box-shadow:0 4px 0 #d9dee7;
+}
+.full{width:100%}
+
+.panel{
+  background:var(--card);border:1px solid var(--line);border-radius:24px;
+  box-shadow:var(--shadow);padding:24px;
+}
+.panel h2{margin-top:0}
+.quiz-card{max-width:760px;margin:0 auto}
+.quiz-meta{display:flex;justify-content:space-between;color:var(--muted);font-weight:850;gap:10px}
+.quiz-question{text-align:center;font-size:clamp(46px,8vw,74px);font-weight:1000;margin:26px 0}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.choice-btn{
+  min-height:76px;border-radius:18px;background:#edf3fb;color:#26364f;font-size:30px;
+  box-shadow:0 5px 0 #cfdae9;
+}
+.choice-btn:hover{background:#e5eefb;transform:translateY(-1px)}
+.choice-btn.correct{background:#dff5e9;color:#21734f;box-shadow:0 5px 0 #a9d9bf}
+.choice-btn.wrong{background:#ffe5e2;color:#a7443c;box-shadow:0 5px 0 #e7bab5}
+.feedback{
+  min-height:48px;margin-top:16px;padding:11px 14px;border-radius:14px;
+  background:#f6f7fa;color:#58647a;font-weight:900;text-align:center;
+}
+.practice-actions{display:flex;justify-content:center;gap:10px;margin-top:14px}
+
+.table-sheet{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.fact{
+  padding:14px;border-radius:14px;background:#f7f9fc;border:1px solid var(--line);
+  font-weight:900;text-align:center;font-size:18px;
+}
+.simple-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.mini-card{padding:18px;border-radius:18px;background:#f8f9fc;border:1px solid var(--line)}
+.mini-card h3{margin:0 0 8px}
+.reward{font-size:42px;margin-bottom:8px}
+.progress-bar{height:18px;border-radius:999px;background:#e9edf3;overflow:hidden;margin:10px 0}
+.progress-fill{height:100%;width:0;background:var(--green);transition:width .3s}
+.game-box{text-align:center}
+.game-target{font-size:44px;font-weight:1000;margin:20px 0}
+.game-btn{
+  min-width:120px;padding:15px 18px;border-radius:16px;background:#fff4c7;color:#765f12;
+  box-shadow:0 5px 0 #e0c76b;margin:6px;font-size:22px;
+}
+.help-list{line-height:1.8}
+.footer-note{text-align:center;color:#8a93a3;font-size:13px;margin-top:16px}
+
+@media(max-width:900px){
+  .shell{grid-template-columns:1fr}
+  .sidebar{position:static;display:flex;overflow-x:auto;gap:4px}
+  .nav-btn{min-width:max-content;width:auto}
+  .nav-btn .label{display:none}
+  .learn-grid{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .topbar{padding:14px}
+  .student-chip{display:none}
+  .shell{padding:0 14px 18px}
+  .hero,.panel{padding:16px}
+  .choices,.simple-grid,.table-sheet{grid-template-columns:1fr}
+  .equation{font-size:52px}
+  .star{width:26px;height:26px;font-size:22px}
+}
 </style>
 </head>
 <body>
 <div class="app">
-  <header>
-    <div class="castle">🏰</div>
-    <div class="title">
-      <div class="name">Ai : Ainada's</div>
-      <div class="sub">Multiplication Adventure</div>
-    </div>
-    <div class="student">
-      <div class="student-row">
-        <div class="avatar">👧🏻</div>
-        <div><strong>Student: Aylada</strong><br><span>Math Explorer</span></div>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">✖️</div>
+      <div>
+        <h1>Aylada's Multiplication Adventure</h1>
+        <small>Learn with pictures, practice, and play.</small>
       </div>
-      <div class="student-stats"><span>⭐ 1,250</span><span>🛡️ Level 3</span></div>
+    </div>
+    <div class="student-chip">
+      <div class="avatar">👧🏻</div>
+      <div>Aylada<br><small id="headerScore">⭐ 0 stars</small></div>
     </div>
   </header>
 
-  <div class="layout">
-    <aside class="left">
-      <div class="menu active"><span>🏠</span> Home</div>
-      <div class="menu"><span>✏️</span> Practice</div>
-      <div class="menu"><span>🔢</span> Tables</div>
-      <div class="menu"><span>🎮</span> Games</div>
-      <div class="menu"><span>🎁</span> Rewards</div>
-      <div class="menu"><span>📊</span> Progress</div>
-      <div class="menu"><span>👤</span> Profile</div>
-      <div class="menu"><span>❓</span> Help</div>
-      <div class="hero-card">Keep practicing<br>and become a<br><b>Math Hero!</b><div style="font-size:62px">🐲</div></div>
-    </aside>
+  <div class="shell">
+    <nav class="sidebar" aria-label="Main navigation">
+      <button class="nav-btn active" data-view="learn"><span class="nav-icon">🏠</span><span class="label">Learn</span></button>
+      <button class="nav-btn" data-view="practice"><span class="nav-icon">✏️</span><span class="label">Practice</span></button>
+      <button class="nav-btn" data-view="tables"><span class="nav-icon">🔢</span><span class="label">Tables</span></button>
+      <button class="nav-btn" data-view="games"><span class="nav-icon">🎮</span><span class="label">Game</span></button>
+      <button class="nav-btn" data-view="rewards"><span class="nav-icon">🏆</span><span class="label">Rewards</span></button>
+      <button class="nav-btn" data-view="progress"><span class="nav-icon">📊</span><span class="label">Progress</span></button>
+      <button class="nav-btn" data-view="profile"><span class="nav-icon">👤</span><span class="label">Profile</span></button>
+      <button class="nav-btn" data-view="help"><span class="nav-icon">❓</span><span class="label">Help</span></button>
+    </nav>
 
-    <main>
-      <div class="picker-title">Choose a Multiplication Table</div>
-      <div class="table-picker" id="tablePicker"></div>
+    <main class="content">
 
-      <section class="lesson">
-        <div class="lesson-top"><span class="ribbon">⭐ Let's Learn! ⭐</span></div>
-        <div class="equation">
-          <span class="a" id="eqA">2</span> ×
-          <span class="b" id="eqB">5</span> =
-          <span class="ans" id="eqAns">10</span>
-        </div>
+      <section class="view active" id="learn">
+        <div class="hero">
+          <div class="hero-head">
+            <div>
+              <h2>See multiplication</h2>
+              <div class="kicker">Each row is one equal group.</div>
+            </div>
+            <div class="table-row" id="tablePicker"></div>
+          </div>
 
-        <div class="visual" id="groups"></div>
+          <div class="learn-grid">
+            <div class="visual-card">
+              <div class="equation">
+                <span class="a" id="eqA">2</span> ×
+                <span class="b" id="eqB">5</span> =
+                <span class="ans" id="eqAns">10</span>
+              </div>
+              <div class="group-wrap" id="groups"></div>
+              <div class="explain" id="explain">2 groups of 5 = 10 · Count 10 stars!</div>
+            </div>
 
-        <div class="explain">
-          <span class="blue" id="expA">2</span> groups of
-          <span class="pink" id="expB">5</span> =
-          <span class="purple" id="expAns">10</span><br>
-          <span id="countText">Count the 10 stars!</span>
+            <aside class="side-control">
+              <h3>Try your own</h3>
+              <div class="control-block">
+                <label>Number of groups</label>
+                <div class="number-control">
+                  <button class="step-btn" id="groupMinus" aria-label="Fewer groups">−</button>
+                  <div class="number-value" id="groupValue">2</div>
+                  <button class="step-btn" id="groupPlus" aria-label="More groups">+</button>
+                </div>
+              </div>
+              <div class="control-block">
+                <label>Stars in each group</label>
+                <div class="number-control">
+                  <button class="step-btn" id="eachMinus" aria-label="Fewer stars">−</button>
+                  <div class="number-value" id="eachValue">5</div>
+                  <button class="step-btn" id="eachPlus" aria-label="More stars">+</button>
+                </div>
+              </div>
+              <button class="primary full" id="randomExample">🎲 New example</button>
+            </aside>
+          </div>
         </div>
       </section>
 
-      <div class="controls">
-        <label>Groups:</label>
-        <select id="groupsSelect"></select>
-        <label>Stars per group:</label>
-        <select id="eachSelect"></select>
-        <button class="random" id="randomBtn">🎲 Random Question</button>
-      </div>
+      <section class="view" id="practice">
+        <div class="panel quiz-card">
+          <h2>Practice</h2>
+          <div class="quiz-meta"><span id="practiceRound">Question 1</span><span id="practiceScore">Score: 0</span></div>
+          <div class="quiz-question" id="quizQuestion">2 × 5 = ?</div>
+          <div class="choices" id="choices"></div>
+          <div class="feedback" id="feedback">Choose the answer.</div>
+          <div class="practice-actions">
+            <button class="secondary" id="newQuiz">New question</button>
+            <button class="primary" id="nextQuiz">Next</button>
+          </div>
+        </div>
+      </section>
 
-      <div class="encourage">⭐ You can do it, Aylada! Count the stars and learn multiplication! ⭐</div>
+      <section class="view" id="tables">
+        <div class="panel">
+          <h2>Multiplication Tables</h2>
+          <div class="kicker" style="margin-bottom:14px">Choose a table to see all 12 facts.</div>
+          <div class="table-row" id="tablePicker2"></div>
+          <div class="table-sheet" id="tableSheet" style="margin-top:18px"></div>
+        </div>
+      </section>
+
+      <section class="view" id="games">
+        <div class="panel game-box">
+          <h2>⭐ Star Tap Game</h2>
+          <div class="kicker">Tap the number that matches the multiplication.</div>
+          <div class="game-target" id="gameQuestion">3 × 4 = ?</div>
+          <div id="gameButtons"></div>
+          <div class="feedback" id="gameFeedback">Find the correct answer!</div>
+          <button class="primary" id="newGameRound" style="margin-top:14px">New round</button>
+        </div>
+      </section>
+
+      <section class="view" id="rewards">
+        <div class="panel">
+          <h2>Rewards</h2>
+          <div class="simple-grid">
+            <div class="mini-card"><div class="reward">🌟</div><h3>First Star</h3><p>Answer 1 practice question correctly.</p></div>
+            <div class="mini-card"><div class="reward">🔥</div><h3>Hot Streak</h3><p>Get 3 answers correct in a row.</p></div>
+            <div class="mini-card"><div class="reward">🏅</div><h3>Math Explorer</h3><p>Answer 10 questions correctly.</p></div>
+            <div class="mini-card"><div class="reward">👑</div><h3>Multiplication Hero</h3><p>Answer 25 questions correctly.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="progress">
+        <div class="panel">
+          <h2>Aylada's Progress</h2>
+          <div class="simple-grid">
+            <div class="mini-card"><h3>Correct answers</h3><div style="font-size:34px;font-weight:1000" id="correctStat">0</div></div>
+            <div class="mini-card"><h3>Best streak</h3><div style="font-size:34px;font-weight:1000" id="streakStat">0</div></div>
+          </div>
+          <div class="mini-card" style="margin-top:14px">
+            <h3>Next goal: 25 correct answers</h3>
+            <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+            <div id="progressText">0 / 25</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="profile">
+        <div class="panel">
+          <h2>Profile</h2>
+          <div class="simple-grid">
+            <div class="mini-card"><h3>Student</h3><p style="font-size:24px;font-weight:1000">👧🏻 Aylada</p></div>
+            <div class="mini-card"><h3>Learning goal</h3><p>Understand multiplication by seeing equal groups and practicing facts from 2 to 12.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="help">
+        <div class="panel">
+          <h2>Help</h2>
+          <div class="help-list">
+            <p><b>Learn:</b> Change the two numbers and count the stars.</p>
+            <p><b>Practice:</b> Pick one of four answers. Correct answers earn stars.</p>
+            <p><b>Tables:</b> Review every fact from ×1 to ×12.</p>
+            <p><b>Game:</b> Tap the matching answer as quickly as you can.</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="footer-note">Designed for clear, low-distraction learning with large touch-friendly buttons.</div>
     </main>
-
-    <aside class="right">
-      <div class="mascot-card">
-        <div class="mascot">🐯</div>
-        <div class="speech">Great job!<br>You're amazing!</div>
-      </div>
-      <div class="card">
-        <div class="progress-title">Your Progress</div>
-        <div class="bar"><div></div></div>
-        <b>65%</b><p>Keep going! You're doing awesome!</p>
-      </div>
-      <div class="card">
-        <div class="stat"><span>⭐ Score</span><span>1,250</span></div>
-        <div class="stat"><span>🔥 Current Streak</span><span>7</span></div>
-        <div class="stat"><span>🏆 Best Streak</span><span>12</span></div>
-        <div class="stat"><span>🎯 Correct Answers</span><span>26 / 35</span></div>
-      </div>
-      <div class="tip">💡 <b>Tip:</b> Multiplication means equal groups. For example, 2 × 5 means 2 groups of 5.</div>
-    </aside>
   </div>
 </div>
 
 <script>
-const picker = document.getElementById("tablePicker");
-const groupsBox = document.getElementById("groups");
-const groupsSelect = document.getElementById("groupsSelect");
-const eachSelect = document.getElementById("eachSelect");
-
-let A = 2;
-let B = 5;
-
-const colors = ["#2587e8","#68bd17","#ff9f16","#ef4f79","#7651c9","#1c9ab0","#f07e14","#2787d8","#7853c4","#e75c87","#69b823"];
-
-for(let n=2;n<=12;n++){
-  const btn=document.createElement("button");
-  btn.className="table-btn"+(n===2?" active":"");
-  btn.style.background=colors[(n-2)%colors.length];
-  btn.textContent=n;
-  btn.dataset.n=n;
-  btn.onclick=()=>{
-    A=n;
-    document.querySelectorAll(".table-btn").forEach(b=>b.classList.remove("active"));
-    btn.classList.add("active");
-    groupsSelect.value=A;
-    render();
+(() => {
+  const state = {
+    a: 2,
+    b: 5,
+    table: 2,
+    quizA: 2,
+    quizB: 5,
+    quizAnswer: 10,
+    quizLocked: false,
+    round: 1,
+    score: 0,
+    correct: Number(localStorage.getItem("aylada_correct") || 0),
+    streak: Number(localStorage.getItem("aylada_streak") || 0),
+    bestStreak: Number(localStorage.getItem("aylada_best_streak") || 0)
   };
-  picker.appendChild(btn);
-}
 
-for(let n=1;n<=12;n++){
-  const o1=document.createElement("option");
-  o1.value=n;o1.textContent=n;groupsSelect.appendChild(o1);
-  const o2=document.createElement("option");
-  o2.value=n;o2.textContent=n;eachSelect.appendChild(o2);
-}
-groupsSelect.value=A;
-eachSelect.value=B;
+  const $ = id => document.getElementById(id);
+  const clamp = (n,min,max) => Math.max(min,Math.min(max,n));
 
-groupsSelect.onchange=()=>{
-  A=Number(groupsSelect.value);
-  const btn=document.querySelector(`.table-btn[data-n="${A}"]`);
-  document.querySelectorAll(".table-btn").forEach(b=>b.classList.remove("active"));
-  if(btn) btn.classList.add("active");
-  render();
-};
-eachSelect.onchange=()=>{ B=Number(eachSelect.value); render(); };
-
-document.getElementById("randomBtn").onclick=()=>{
-  A=Math.floor(Math.random()*6)+2; // 2–7 groups so the screen stays kid-friendly
-  B=Math.floor(Math.random()*8)+2; // 2–9 stars per group
-  groupsSelect.value=A;
-  eachSelect.value=B;
-  document.querySelectorAll(".table-btn").forEach(b=>b.classList.toggle("active",Number(b.dataset.n)===A));
-  render();
-};
-
-function render(){
-  const ans=A*B;
-  document.getElementById("eqA").textContent=A;
-  document.getElementById("eqB").textContent=B;
-  document.getElementById("eqAns").textContent=ans;
-  document.getElementById("expA").textContent=A;
-  document.getElementById("expB").textContent=B;
-  document.getElementById("expAns").textContent=ans;
-  document.getElementById("countText").textContent=`Count the ${ans} stars!`;
-
-  groupsBox.innerHTML="";
-  for(let g=1;g<=A;g++){
-    const group=document.createElement("div");
-    group.className="group";
-
-    const num=document.createElement("div");
-    num.className="group-num";
-    num.textContent=g;
-
-    const stars=document.createElement("div");
-    stars.className="stars";
-
-    for(let s=0;s<B;s++){
-      const star=document.createElement("div");
-      star.className="star";
-      star.textContent="⭐";
-      star.style.animationDelay=(s*0.035)+"s";
-      stars.appendChild(star);
-    }
-    group.append(num,stars);
-    groupsBox.appendChild(group);
+  function saveStats(){
+    localStorage.setItem("aylada_correct", state.correct);
+    localStorage.setItem("aylada_streak", state.streak);
+    localStorage.setItem("aylada_best_streak", state.bestStreak);
+    updateStats();
   }
-}
-render();
+
+  function updateStats(){
+    $("headerScore").textContent = `⭐ ${state.correct} stars`;
+    $("correctStat").textContent = state.correct;
+    $("streakStat").textContent = state.bestStreak;
+    const pct = Math.min(100, (state.correct / 25) * 100);
+    $("progressFill").style.width = pct + "%";
+    $("progressText").textContent = `${Math.min(state.correct,25)} / 25`;
+  }
+
+  // Navigation
+  document.querySelectorAll(".nav-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
+      document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+      btn.classList.add("active");
+      $(btn.dataset.view).classList.add("active");
+      if(btn.dataset.view === "progress") updateStats();
+    });
+  });
+
+  // Table picker
+  function buildTablePicker(containerId, onPick){
+    const box = $(containerId);
+    for(let n=2;n<=12;n++){
+      const btn = document.createElement("button");
+      btn.className = "table-btn" + (n===2 ? " active" : "");
+      btn.textContent = n;
+      btn.dataset.table = n;
+      btn.addEventListener("click", () => {
+        box.querySelectorAll(".table-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        onPick(n);
+      });
+      box.appendChild(btn);
+    }
+  }
+
+  buildTablePicker("tablePicker", n => {
+    state.a = n;
+    renderLearn();
+  });
+
+  buildTablePicker("tablePicker2", n => {
+    state.table = n;
+    renderTableSheet();
+  });
+
+  function renderLearn(){
+    const ans = state.a * state.b;
+    $("eqA").textContent = state.a;
+    $("eqB").textContent = state.b;
+    $("eqAns").textContent = ans;
+    $("groupValue").textContent = state.a;
+    $("eachValue").textContent = state.b;
+    $("explain").textContent = `${state.a} groups of ${state.b} = ${ans} · Count ${ans} stars!`;
+
+    const groups = $("groups");
+    groups.innerHTML = "";
+
+    for(let g=1; g<=state.a; g++){
+      const row = document.createElement("div");
+      row.className = "star-group";
+
+      const badge = document.createElement("div");
+      badge.className = "group-badge";
+      badge.textContent = g;
+
+      const stars = document.createElement("div");
+      stars.className = "stars";
+
+      for(let s=0; s<state.b; s++){
+        const star = document.createElement("span");
+        star.className = "star";
+        star.textContent = "⭐";
+        star.style.animationDelay = `${Math.min(.25, s*.025)}s`;
+        stars.appendChild(star);
+      }
+
+      row.append(badge, stars);
+      groups.appendChild(row);
+    }
+
+    document.querySelectorAll("#tablePicker .table-btn").forEach(btn => {
+      btn.classList.toggle("active", Number(btn.dataset.table) === state.a);
+    });
+  }
+
+  $("groupMinus").onclick = () => { state.a = clamp(state.a-1,1,12); renderLearn(); };
+  $("groupPlus").onclick  = () => { state.a = clamp(state.a+1,1,12); renderLearn(); };
+  $("eachMinus").onclick  = () => { state.b = clamp(state.b-1,1,12); renderLearn(); };
+  $("eachPlus").onclick   = () => { state.b = clamp(state.b+1,1,12); renderLearn(); };
+  $("randomExample").onclick = () => {
+    state.a = Math.floor(Math.random()*6)+2;
+    state.b = Math.floor(Math.random()*8)+2;
+    renderLearn();
+  };
+
+  // Practice
+  function shuffle(arr){ return [...arr].sort(() => Math.random() - .5); }
+
+  function makeQuiz(){
+    state.quizA = Math.floor(Math.random()*11)+2;
+    state.quizB = Math.floor(Math.random()*11)+2;
+    state.quizAnswer = state.quizA * state.quizB;
+    state.quizLocked = false;
+    $("quizQuestion").textContent = `${state.quizA} × ${state.quizB} = ?`;
+    $("practiceRound").textContent = `Question ${state.round}`;
+    $("practiceScore").textContent = `Score: ${state.score}`;
+    $("feedback").textContent = "Choose the answer.";
+
+    const opts = new Set([state.quizAnswer]);
+    const nearby = [-2,-1,1,2,3,-3];
+    let i=0;
+    while(opts.size < 4){
+      let guess = state.quizAnswer + nearby[i % nearby.length] * state.quizA;
+      if(guess <= 0 || opts.has(guess)) guess = state.quizAnswer + (i+1);
+      opts.add(guess);
+      i++;
+    }
+
+    const choices = $("choices");
+    choices.innerHTML = "";
+    shuffle([...opts]).forEach(value => {
+      const btn = document.createElement("button");
+      btn.className = "choice-btn";
+      btn.textContent = value;
+      btn.onclick = () => answerQuiz(btn, value);
+      choices.appendChild(btn);
+    });
+  }
+
+  function answerQuiz(btn,value){
+    if(state.quizLocked) return;
+    state.quizLocked = true;
+    const buttons = [...document.querySelectorAll("#choices .choice-btn")];
+
+    if(value === state.quizAnswer){
+      btn.classList.add("correct");
+      state.score += 10;
+      state.correct++;
+      state.streak++;
+      state.bestStreak = Math.max(state.bestStreak,state.streak);
+      $("feedback").textContent = "Correct! Great job, Aylada! ⭐";
+    }else{
+      btn.classList.add("wrong");
+      state.streak = 0;
+      const correctBtn = buttons.find(b => Number(b.textContent) === state.quizAnswer);
+      if(correctBtn) correctBtn.classList.add("correct");
+      $("feedback").textContent = `Almost! The answer is ${state.quizAnswer}.`;
+    }
+    $("practiceScore").textContent = `Score: ${state.score}`;
+    saveStats();
+  }
+
+  $("nextQuiz").onclick = () => { state.round++; makeQuiz(); };
+  $("newQuiz").onclick = () => { makeQuiz(); };
+
+  // Tables
+  function renderTableSheet(){
+    const sheet = $("tableSheet");
+    sheet.innerHTML = "";
+    for(let n=1;n<=12;n++){
+      const fact = document.createElement("div");
+      fact.className = "fact";
+      fact.textContent = `${state.table} × ${n} = ${state.table*n}`;
+      sheet.appendChild(fact);
+    }
+  }
+
+  // Game
+  function makeGameRound(){
+    const a = Math.floor(Math.random()*8)+2;
+    const b = Math.floor(Math.random()*8)+2;
+    const ans = a*b;
+    $("gameQuestion").textContent = `${a} × ${b} = ?`;
+    $("gameFeedback").textContent = "Find the correct answer!";
+    const values = new Set([ans]);
+    let delta=1;
+    while(values.size<4){
+      values.add(ans + delta*a);
+      delta++;
+    }
+    const box = $("gameButtons");
+    box.innerHTML = "";
+    shuffle([...values]).forEach(v => {
+      const btn = document.createElement("button");
+      btn.className = "game-btn";
+      btn.textContent = v;
+      btn.onclick = () => {
+        if(v===ans){
+          $("gameFeedback").textContent = "Yes! ⭐";
+          btn.style.background="#dff5e9";
+          state.correct++;
+          state.streak++;
+          state.bestStreak=Math.max(state.bestStreak,state.streak);
+          saveStats();
+        }else{
+          $("gameFeedback").textContent = "Try another number.";
+          btn.style.background="#ffe5e2";
+        }
+      };
+      box.appendChild(btn);
+    });
+  }
+  $("newGameRound").onclick = makeGameRound;
+
+  renderLearn();
+  makeQuiz();
+  renderTableSheet();
+  makeGameRound();
+  updateStats();
+})();
 </script>
 </body>
 </html>
