@@ -118,12 +118,24 @@
         .btn-hint:hover { background-color: #d68910; }
 
         #message {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: bold;
             margin-top: 25px;
             min-height: 35px;
             max-width: 400px;
-            line-height: 1.4;
+            line-height: 1.6;
+        }
+        
+        .solution-list {
+            font-size: 18px;
+            font-weight: normal;
+            margin-top: 10px;
+            background: #fff;
+            padding: 10px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            display: inline-block;
+            text-align: left;
         }
     </style>
 </head>
@@ -163,7 +175,7 @@
         ];
 
         let currentNumbers = [];
-        let currentSolution = ""; // ตัวแปรเก็บเฉลยที่คำนวณเตรียมไว้
+        let currentSolutionsHTML = ""; // ตัวแปรเก็บเฉลยแบบหลายคำตอบ
 
         function generateNumbers() {
             const randomIndex = Math.floor(Math.random() * solvableSets.length);
@@ -175,21 +187,28 @@
             }
 
             document.getElementById('equation').value = '';
-            document.getElementById('message').innerText = '';
+            document.getElementById('message').innerHTML = '';
             
-            // ให้ AI คำนวณหาเฉลยเตรียมไว้ทันทีที่สุ่มเลขเสร็จ
-            currentSolution = calculate24(currentNumbers);
+            // ให้ AI คำนวณหาเฉลยเตรียมไว้ทันที
+            currentSolutionsHTML = calculate24(currentNumbers);
         }
 
-        // ฟังก์ชัน Algorithm หาเฉลยของเกม 24 (คิดทุกความเป็นไปได้แบบ Tree/DFS)
         function calculate24(arr) {
-            let res = [];
+            let res = new Set(); // ใช้ Set เพื่อกรองคำตอบที่สมการหน้าตาซ้ำกันออก
+            
             function dfs(nums, exprs) {
-                if (res.length > 0) return; // เจอเฉลยแล้วหยุดค้นหา
                 if (nums.length === 1) {
-                    if (Math.abs(nums[0] - 24) < 0.0001) res.push(exprs[0]);
+                    if (Math.abs(nums[0] - 24) < 0.0001) {
+                        let finalExpr = exprs[0];
+                        // จัดรูปแบบลบวงเล็บนอกสุดให้ดูง่ายขึ้น
+                        if (finalExpr.startsWith('(') && finalExpr.endsWith(')')) {
+                            finalExpr = finalExpr.substring(1, finalExpr.length - 1);
+                        }
+                        res.add(finalExpr + " = 24");
+                    }
                     return;
                 }
+                
                 for (let i = 0; i < nums.length; i++) {
                     for (let j = 0; j < nums.length; j++) {
                         if (i === j) continue;
@@ -223,21 +242,31 @@
                     }
                 }
             }
+            
             dfs(arr, arr.map(String));
 
-            // จัดรูปแบบวงเล็บให้ดูง่ายขึ้น
-            if (res.length > 0) {
-                let finalExpr = res[0];
-                if (finalExpr.startsWith('(') && finalExpr.endsWith(')')) {
-                    finalExpr = finalExpr.substring(1, finalExpr.length - 1);
+            if (res.size > 0) {
+                // แปลง Set เป็น Array และสุ่มเลือกมาแสดงไม่เกิน 5 รูปแบบ
+                let solutions = Array.from(res);
+                let displayCount = Math.min(solutions.length, 5); 
+                let htmlOutput = `💡 เจอทั้งหมด ${solutions.length} รูปแบบ<br><div class="solution-list">`;
+                
+                for(let i = 0; i < displayCount; i++){
+                    htmlOutput += `• ${solutions[i]}<br>`;
                 }
-                return finalExpr + " = 24";
+                
+                if(solutions.length > 5) {
+                    htmlOutput += `<i>(และรูปแบบอื่นๆ อีก ${solutions.length - 5} แบบ)</i>`;
+                }
+                htmlOutput += `</div>`;
+                
+                return htmlOutput;
             }
             return "ไม่มีเฉลย";
         }
 
         function showHint() {
-            showMessage("💡 เฉลย: " + currentSolution, "#e67e22");
+            showMessage(currentSolutionsHTML, "#e67e22");
         }
 
         function checkAnswer() {
@@ -277,9 +306,9 @@
             }
         }
 
-        function showMessage(text, color) {
+        function showMessage(textHTML, color) {
             let msgEl = document.getElementById('message');
-            msgEl.innerText = text;
+            msgEl.innerHTML = textHTML; // ใช้ innerHTML เพื่อให้รองรับ <br> และ <div> ได้
             msgEl.style.color = color;
         }
 
