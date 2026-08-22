@@ -32,7 +32,6 @@
             line-height: 1.5;
         }
 
-        /* ตารางสี่ช่อง (2x2) */
         .card-container {
             display: grid;
             grid-template-columns: repeat(2, 110px);
@@ -41,7 +40,6 @@
             margin-bottom: 30px;
         }
 
-        /* ตกแต่งการ์ดให้สวยงามและมีมิติ */
         .card {
             background: linear-gradient(145deg, #ffffff, #e6e9ef);
             font-size: 48px;
@@ -57,7 +55,6 @@
             transition: all 0.3s ease;
         }
 
-        /* เอฟเฟกต์ตอนเอาเมาส์ชี้ */
         .card:hover {
             transform: translateY(-5px) scale(1.05);
             box-shadow: 12px 12px 20px rgba(0,0,0,0.15), 
@@ -99,34 +96,32 @@
             background-color: #3498db;
             color: white;
             border: none;
-            padding: 12px 28px;
-            font-size: 18px;
+            padding: 12px 24px;
+            font-size: 16px;
             font-weight: bold;
             border-radius: 12px;
             cursor: pointer;
             transition: 0.2s;
             font-family: inherit;
-            box-shadow: 4px 4px 10px rgba(52, 152, 219, 0.3);
+            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.15);
         }
 
-        button:hover { 
-            background-color: #2980b9; 
-            transform: translateY(-2px);
-        }
+        button:hover { transform: translateY(-2px); }
         
-        .btn-reset { 
-            background-color: #e74c3c; 
-            box-shadow: 4px 4px 10px rgba(231, 76, 60, 0.3);
-        }
-        .btn-reset:hover { 
-            background-color: #c0392b; 
-        }
+        .btn-submit { background-color: #27ae60; }
+        .btn-submit:hover { background-color: #219653; }
+
+        .btn-reset { background-color: #e74c3c; }
+        .btn-reset:hover { background-color: #c0392b; }
+
+        .btn-hint { background-color: #f39c12; }
+        .btn-hint:hover { background-color: #d68910; }
 
         #message {
-            font-size: 20px;
+            font-size: 22px;
             font-weight: bold;
             margin-top: 25px;
-            height: 30px;
+            min-height: 35px;
             max-width: 400px;
             line-height: 1.4;
         }
@@ -134,7 +129,7 @@
 </head>
 <body>
 
-    <h1>🎮 เกม 24</h1>
+    <h1>🎮 เกม 24 by คุณครูเป๋าฮื้อ กับ อลิน</h1>
     <div class="instructions">
         นำตัวเลขทั้ง 4 ตัวมา <b>+ - * /</b> หรือใส่ <b>( )</b> <br>
         ให้ได้ผลลัพธ์เท่ากับ 24 พอดี 
@@ -151,8 +146,9 @@
     <input type="text" id="equation" placeholder="พิมพ์สมการที่นี่ (เช่น 4*6)" autocomplete="off">
 
     <div class="btn-group">
-        <button onclick="checkAnswer()">✔️ ตรวจคำตอบ</button>
-        <button class="btn-reset" onclick="generateNumbers()">🎲 สุ่มตัวเลขใหม่</button>
+        <button class="btn-submit" onclick="checkAnswer()">✔️ ตรวจคำตอบ</button>
+        <button class="btn-reset" onclick="generateNumbers()">🎲 สุ่มใหม่</button>
+        <button class="btn-hint" onclick="showHint()">💡 ดูเฉลย</button>
     </div>
 
     <div id="message"></div>
@@ -167,6 +163,7 @@
         ];
 
         let currentNumbers = [];
+        let currentSolution = ""; // ตัวแปรเก็บเฉลยที่คำนวณเตรียมไว้
 
         function generateNumbers() {
             const randomIndex = Math.floor(Math.random() * solvableSets.length);
@@ -179,6 +176,68 @@
 
             document.getElementById('equation').value = '';
             document.getElementById('message').innerText = '';
+            
+            // ให้ AI คำนวณหาเฉลยเตรียมไว้ทันทีที่สุ่มเลขเสร็จ
+            currentSolution = calculate24(currentNumbers);
+        }
+
+        // ฟังก์ชัน Algorithm หาเฉลยของเกม 24 (คิดทุกความเป็นไปได้แบบ Tree/DFS)
+        function calculate24(arr) {
+            let res = [];
+            function dfs(nums, exprs) {
+                if (res.length > 0) return; // เจอเฉลยแล้วหยุดค้นหา
+                if (nums.length === 1) {
+                    if (Math.abs(nums[0] - 24) < 0.0001) res.push(exprs[0]);
+                    return;
+                }
+                for (let i = 0; i < nums.length; i++) {
+                    for (let j = 0; j < nums.length; j++) {
+                        if (i === j) continue;
+                        
+                        let nextNums = [];
+                        let nextExprs = [];
+                        for (let k = 0; k < nums.length; k++) {
+                            if (k !== i && k !== j) {
+                                nextNums.push(nums[k]);
+                                nextExprs.push(exprs[k]);
+                            }
+                        }
+                        
+                        let a = nums[i], b = nums[j];
+                        let expA = exprs[i], expB = exprs[j];
+                        
+                        const ops = [
+                            { val: a + b, str: `(${expA} + ${expB})` },
+                            { val: a - b, str: `(${expA} - ${expB})` },
+                            { val: a * b, str: `(${expA} * ${expB})` }
+                        ];
+                        if (Math.abs(b) > 0.0001) ops.push({ val: a / b, str: `(${expA} / ${expB})` });
+
+                        for (let op of ops) {
+                            nextNums.push(op.val);
+                            nextExprs.push(op.str);
+                            dfs(nextNums, nextExprs);
+                            nextNums.pop();
+                            nextExprs.pop();
+                        }
+                    }
+                }
+            }
+            dfs(arr, arr.map(String));
+
+            // จัดรูปแบบวงเล็บให้ดูง่ายขึ้น
+            if (res.length > 0) {
+                let finalExpr = res[0];
+                if (finalExpr.startsWith('(') && finalExpr.endsWith(')')) {
+                    finalExpr = finalExpr.substring(1, finalExpr.length - 1);
+                }
+                return finalExpr + " = 24";
+            }
+            return "ไม่มีเฉลย";
+        }
+
+        function showHint() {
+            showMessage("💡 เฉลย: " + currentSolution, "#e67e22");
         }
 
         function checkAnswer() {
