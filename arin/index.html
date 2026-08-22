@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เกม 24 (24 Game)</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Sarabun', sans-serif;
+            text-align: center;
+            background-color: #f0f4f8;
+            padding: 20px;
+            color: #2c3e50;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        h1 { 
+            margin-bottom: 5px; 
+            color: #2c3e50;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .instructions {
+            font-size: 16px;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            max-width: 400px;
+            line-height: 1.5;
+        }
+
+        /* ตารางสี่ช่อง (2x2) */
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(2, 110px);
+            grid-template-rows: repeat(2, 110px);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        /* ตกแต่งการ์ดให้สวยงามและมีมิติ */
+        .card {
+            background: linear-gradient(145deg, #ffffff, #e6e9ef);
+            font-size: 48px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 24px;
+            box-shadow: 8px 8px 16px rgba(0,0,0,0.1), 
+                       -8px -8px 16px rgba(255,255,255,1);
+            color: #34495e;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        /* เอฟเฟกต์ตอนเอาเมาส์ชี้ */
+        .card:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 12px 12px 20px rgba(0,0,0,0.15), 
+                       -12px -12px 20px rgba(255,255,255,1);
+            color: #e74c3c;
+            border-color: #ffcccc;
+        }
+
+        input[type="text"] {
+            font-size: 24px;
+            padding: 15px;
+            width: 100%;
+            max-width: 350px;
+            text-align: center;
+            border: none;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            font-family: inherit;
+            box-shadow: inset 4px 4px 8px rgba(0,0,0,0.1), 
+                        inset -4px -4px 8px rgba(255,255,255,0.9);
+            outline: none;
+            color: #2c3e50;
+            transition: box-shadow 0.2s;
+        }
+
+        input[type="text"]:focus {
+            box-shadow: inset 6px 6px 12px rgba(0,0,0,0.15), 
+                        inset -6px -6px 12px rgba(255,255,255,1);
+        }
+
+        .btn-group { 
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: inherit;
+            box-shadow: 4px 4px 10px rgba(52, 152, 219, 0.3);
+        }
+
+        button:hover { 
+            background-color: #2980b9; 
+            transform: translateY(-2px);
+        }
+        
+        .btn-reset { 
+            background-color: #e74c3c; 
+            box-shadow: 4px 4px 10px rgba(231, 76, 60, 0.3);
+        }
+        .btn-reset:hover { 
+            background-color: #c0392b; 
+        }
+
+        #message {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 25px;
+            height: 30px;
+            max-width: 400px;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🎮 เกม 24</h1>
+    <div class="instructions">
+        นำตัวเลขทั้ง 4 ตัวมา <b>+ - * /</b> หรือใส่ <b>( )</b> <br>
+        ให้ได้ผลลัพธ์เท่ากับ 24 พอดี 
+    </div>
+
+    <!-- ตารางสี่ช่อง (2x2) -->
+    <div class="card-container" id="cards">
+        <div class="card" id="num0">?</div>
+        <div class="card" id="num1">?</div>
+        <div class="card" id="num2">?</div>
+        <div class="card" id="num3">?</div>
+    </div>
+
+    <input type="text" id="equation" placeholder="พิมพ์สมการที่นี่ (เช่น 4*6)" autocomplete="off">
+
+    <div class="btn-group">
+        <button onclick="checkAnswer()">✔️ ตรวจคำตอบ</button>
+        <button class="btn-reset" onclick="generateNumbers()">🎲 สุ่มตัวเลขใหม่</button>
+    </div>
+
+    <div id="message"></div>
+
+    <script>
+        const solvableSets = [
+            [1, 2, 3, 4], [1, 2, 4, 6], [1, 3, 4, 6], [1, 3, 8, 8], [1, 4, 5, 6], [1, 5, 5, 5],
+            [2, 2, 4, 8], [2, 3, 4, 5], [2, 3, 5, 8], [2, 4, 6, 8], [2, 5, 7, 8], [2, 6, 6, 8],
+            [3, 3, 7, 7], [3, 3, 8, 8], [3, 4, 5, 6], [3, 5, 7, 9], [3, 6, 6, 9], [4, 4, 4, 4],
+            [4, 4, 7, 7], [4, 6, 7, 8], [5, 5, 7, 9], [5, 6, 6, 9], [6, 6, 6, 6], [6, 8, 8, 9],
+            [7, 7, 8, 9], [1, 1, 4, 6], [2, 2, 3, 8], [1, 2, 7, 8], [8, 8, 3, 3], [5, 5, 5, 1]
+        ];
+
+        let currentNumbers = [];
+
+        function generateNumbers() {
+            const randomIndex = Math.floor(Math.random() * solvableSets.length);
+            currentNumbers = [...solvableSets[randomIndex]];
+            currentNumbers.sort(() => Math.random() - 0.5);
+
+            for (let i = 0; i < 4; i++) {
+                document.getElementById(`num${i}`).innerText = currentNumbers[i];
+            }
+
+            document.getElementById('equation').value = '';
+            document.getElementById('message').innerText = '';
+        }
+
+        function checkAnswer() {
+            let expr = document.getElementById('equation').value;
+            if (/[^0-9+\-*/().\s]/.test(expr) || expr.trim() === '') {
+                showMessage("⚠️ กรุณาใช้เฉพาะตัวเลขและเครื่องหมาย +, -, *, /, ()", "#e67e22");
+                return;
+            }
+
+            let numsUsed = expr.match(/\d+/g);
+            if (!numsUsed) numsUsed = [];
+
+            if (numsUsed.length !== 4) {
+                showMessage("⚠️ ต้องใช้ตัวเลขให้ครบ 4 ตัว (ห้ามรวมเลขกัน)", "#e74c3c");
+                return;
+            }
+
+            let sortedUsed = numsUsed.map(Number).sort((a, b) => a - b);
+            let sortedGiven = [...currentNumbers].sort((a, b) => a - b);
+
+            for (let i = 0; i < 4; i++) {
+                if (sortedUsed[i] !== sortedGiven[i]) {
+                    showMessage("⚠️ คุณใช้ตัวเลขไม่ตรงกับที่กำหนดให้!", "#e74c3c");
+                    return;
+                }
+            }
+
+            try {
+                let result = eval(expr);
+                if (Math.abs(result - 24) < 0.0001) {
+                    showMessage("🎉 ถูกต้อง! ยอดเยี่ยมมาก", "#27ae60");
+                } else {
+                    showMessage(`❌ ได้ ${result} ยังไม่เท่ากับ 24 ลองใหม่นะ`, "#e74c3c");
+                }
+            } catch (e) {
+                showMessage("⚠️ สมการไม่ถูกต้อง ลองตรวจวงเล็บดูนะครับ", "#e74c3c");
+            }
+        }
+
+        function showMessage(text, color) {
+            let msgEl = document.getElementById('message');
+            msgEl.innerText = text;
+            msgEl.style.color = color;
+        }
+
+        window.onload = generateNumbers;
+    </script>
+</body>
+</html>
