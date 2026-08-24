@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Falling in Love — Wedding Invitation</title>
+<meta name="description" content="Wedding invitation inspired by the supplied Falling in Love sample." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Maitree:wght@300;400;500;600&family=Montserrat:wght@400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#fef2e9;
+  --sand:#edcdb4;
+  --rose:#e3b694;
+  --ink:#382d24;
+  --muted:#7a6b60;
+  --line:#d9c6b7;
+  --paper:#fffaf5;
+  --shadow:0 24px 60px rgba(56,45,36,.14);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#f1efec;color:var(--ink);font-family:"Maitree",serif;-webkit-font-smoothing:antialiased}
+button,input{font:inherit}
+img{display:block;max-width:100%}
+.preview-bar{
+  position:sticky;top:0;z-index:50;height:70px;display:flex;align-items:center;justify-content:space-between;gap:18px;
+  padding:10px clamp(12px,3vw,28px);background:rgba(255,255,255,.82);backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(56,45,36,.08)
+}
+.preview-bar .left,.preview-bar .right{display:flex;align-items:center;gap:10px}
+.back,.use-template,.device-btn,.music-toggle{border:0;cursor:pointer;color:#2f2b28;background:transparent}
+.back{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:12px}
+.back:hover{background:#f3f0ed}
+.device-switch{display:flex;background:#f1f1ef;border:1px solid #e4e1dd;border-radius:12px;padding:3px;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+.device-btn{width:42px;height:34px;border-radius:9px;display:grid;place-items:center;color:#777}
+.device-btn.active{background:white;color:#222;box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.use-template{background:#252525;color:#fff;border-radius:11px;padding:10px 16px;font-family:"Montserrat",sans-serif;font-size:13px}
+.preview-shell{width:min(100%,1440px);margin:0 auto;padding:0 0 70px;transition:.35s ease}
+.preview-shell.mobile{width:430px;max-width:calc(100% - 20px);padding-top:18px}
+.preview-shell.mobile .invitation{border-radius:18px;overflow:hidden;box-shadow:var(--shadow)}
+.invitation{position:relative;overflow:hidden;background:var(--cream)}
+.hero{
+  min-height:850px;position:relative;display:flex;justify-content:center;align-items:flex-start;overflow:hidden;
+  background:var(--cream)
+}
+.hero-flower{position:absolute;inset:-3%;width:106%;height:106%;object-fit:cover;opacity:.98;z-index:0}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(254,242,233,.08),rgba(254,242,233,.35) 82%,var(--cream));z-index:1;pointer-events:none}
+.hero-inner{position:relative;z-index:2;width:min(920px,94%);padding:70px 22px 90px;text-align:center}
+.photo-collage{position:relative;width:min(650px,90vw);height:430px;margin:0 auto 34px}
+.photo{position:absolute;overflow:hidden;background:#ead7c8;box-shadow:0 16px 35px rgba(56,45,36,.17)}
+.photo img{width:100%;height:100%;object-fit:cover}
+.photo.one{width:54%;height:86%;left:7%;top:8%;transform:rotate(-3.5deg)}
+.photo.two{width:51%;height:76%;right:3%;top:2%;transform:rotate(3.8deg)}
+.save-date{display:flex;align-items:center;justify-content:center;gap:16px;font:500 11px/1 "Montserrat",sans-serif;letter-spacing:.18em;text-transform:uppercase}
+.rings{font-size:21px;line-height:1;letter-spacing:-7px;margin-right:7px;transform:rotate(-10deg)}
+.hero-rule{width:min(600px,80%);border:0;border-top:1px solid rgba(56,45,36,.55);margin:18px auto 16px}
+.names{display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap}
+.names h1{font-family:"Pinyon Script",cursive;font-size:clamp(58px,7vw,96px);font-weight:400;line-height:.9;margin:0}
+.amp{font-family:"Pinyon Script",cursive;font-size:52px;transform:rotate(-8deg)}
+.location-kicker{display:block;margin-top:22px;font:500 10px/1.5 "Montserrat",sans-serif;letter-spacing:.18em;text-transform:uppercase}
+.section{padding:82px 22px;text-align:center;background:var(--cream)}
+.section.alt{background:#fbede2}
+.section-title{font-family:"Pinyon Script",cursive;font-weight:400;font-size:clamp(56px,6.6vw,88px);line-height:1;margin:0 0 38px}
+.narrow{width:min(720px,100%);margin:0 auto}
+.guest-copy{font-size:17px;line-height:2.05;margin:0 auto;color:#4a3e35}
+.guest-copy p{margin:0}
+.signature{display:block;margin-top:25px;font-family:"Pinyon Script",cursive;font-size:43px}
+.couple-intro{padding-top:36px}
+.wide-photo{width:min(890px,100%);margin:0 auto 32px;aspect-ratio:16/9;overflow:hidden}
+.wide-photo img{width:100%;height:100%;object-fit:cover}
+.parents-grid{width:min(760px,100%);margin:0 auto;display:grid;grid-template-columns:1fr 70px 1fr;gap:20px;align-items:center}
+.parent-name{font-family:"Pinyon Script",cursive;font-size:48px;margin:0}
+.parent-bio{font-size:13px;margin:3px 0 0;font-family:"Montserrat",sans-serif;color:var(--muted)}
+.parent-amp{font-family:"Pinyon Script",cursive;font-size:46px}
+.calendar-wrap{width:min(610px,100%);margin:0 auto;padding:6px 0 0}
+.calendar-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;font-family:"Montserrat",sans-serif;font-size:15px}
+.calendar-head .month{font-weight:500}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;font-family:"Montserrat",sans-serif;font-size:12px}
+.dow{font-size:10px;color:#8b7d72;padding-bottom:8px}.sun{color:#a95d55}
+.day{aspect-ratio:1;border-radius:50%;display:grid;place-items:center;max-width:42px;width:100%;justify-self:center;color:#574a41}
+.day.empty{visibility:hidden}.day.active{background:var(--ink);color:#fff;box-shadow:0 5px 14px rgba(56,45,36,.18)}
+.date-detail{margin-top:36px;display:grid;gap:2px;font-family:"Montserrat",sans-serif;font-size:14px}
+.date-detail::before{content:"⌁";font-family:serif;color:#c0a994;font-size:30px;margin-bottom:4px}
+.countdown-section{padding:42px 18px 56px;background:#ead4c3}
+.countdown-title{font-size:16px;font-weight:400;margin:0 0 20px}
+.countdown{width:min(700px,100%);margin:auto;display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.count-item{padding:6px 4px}.count-num{font-family:"Pinyon Script",cursive;font-size:50px;line-height:1}.count-unit{font:500 9px/1.4 "Montserrat",sans-serif;text-transform:uppercase;letter-spacing:.12em;color:#6f5d50}
+.map{width:min(780px,100%);height:390px;border:0;display:block;margin:0 auto 24px;filter:saturate(.78) contrast(.95)}
+.venue{display:grid;gap:3px}.venue strong{font-size:20px;font-weight:500}.venue span{font-family:"Montserrat",sans-serif;font-size:12px;color:#766a62}
+.map-btn{display:inline-block;margin-top:20px;text-decoration:none;color:var(--ink);border:1px solid var(--ink);padding:11px 28px;border-radius:999px;font-family:"Montserrat",sans-serif;font-size:12px;transition:.2s}
+.map-btn:hover{background:var(--ink);color:#fff}
+.feature-photo{padding:0;background:var(--cream)}
+.feature-photo img{width:100%;max-height:850px;object-fit:cover}
+.rsvp-form{width:min(560px,100%);margin:auto;text-align:left}
+.response-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:28px}
+.response-option{border:1px solid var(--line);background:rgba(255,255,255,.35);padding:15px;border-radius:4px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:.2s}
+.response-option.active{background:#fff;border-color:#8e7664}.response-dot{width:23px;height:23px;border:1px solid #8e7664;border-radius:50%;display:grid;place-items:center}.response-option.active .response-dot::after{content:"";width:11px;height:11px;background:#8e7664;border-radius:50%}
+.field{margin:18px 0}.field label{display:block;font-size:13px;margin-bottom:8px}.required{color:#b26358}
+.field input[type="text"],.field input[type="tel"]{width:100%;background:transparent;border:0;border-bottom:1px solid #bfa99a;padding:10px 2px;outline:0;font-family:"Maitree",serif}.field input:focus{border-color:var(--ink)}
+.radios{display:grid;gap:7px;font-size:14px}.radios label{display:flex;align-items:center;gap:8px;cursor:pointer}
+.submit-btn{width:100%;border:1px solid var(--ink);background:var(--ink);color:#fff;padding:12px;margin-top:14px;cursor:pointer}
+.form-note{display:none;margin-top:14px;text-align:center;font-size:13px;color:#6d5f54}.form-note.show{display:block}
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:min(880px,100%);margin:auto}.gallery-item{overflow:hidden;aspect-ratio:2/3;background:#ead7c8}.gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}.gallery-item:hover img{transform:scale(1.035)}
+.quote{padding:100px 22px 130px;background:#edcdb4;text-align:center}.quote .big{font-family:"Pinyon Script",cursive;font-size:clamp(70px,8vw,112px);line-height:.92;margin:0}.quote .author{display:block;margin-top:22px;font:500 10px/1 "Montserrat",sans-serif;letter-spacing:.2em;text-transform:uppercase}
+.music-toggle{position:fixed;right:18px;bottom:18px;z-index:30;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.88);box-shadow:0 7px 22px rgba(0,0,0,.16);display:grid;place-items:center;font-size:18px}
+.fade{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}.fade.visible{opacity:1;transform:none}
+@media(max-width:720px){
+  .preview-bar{height:62px}.preview-bar .back span,.use-template{display:none}.preview-bar{justify-content:center}.preview-bar .left{position:absolute;left:9px}.preview-bar .right{position:absolute;right:9px}.device-switch{display:none}
+  .preview-shell{padding-bottom:0}.hero{min-height:760px}.hero-inner{padding-top:48px}.photo-collage{height:360px;width:min(520px,94vw)}.photo.one{width:59%;height:85%;left:3%}.photo.two{width:55%;height:72%;right:1%;top:10%}
+  .names{gap:10px}.amp{font-size:38px}.section{padding:67px 18px}.guest-copy{font-size:15px;line-height:1.95}.parents-grid{grid-template-columns:1fr}.parent-amp{order:2}.parents-grid>div:nth-child(1){order:1}.parents-grid>div:nth-child(3){order:3}.parent-bio{font-size:11px}.map{height:320px}.gallery{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:420px){
+  .hero{min-height:700px}.photo-collage{height:310px}.section-title{margin-bottom:28px}.countdown{gap:3px}.count-num{font-size:43px}.response-row{grid-template-columns:1fr}.map{height:280px}.quote{padding:80px 16px 95px}
+}
+</style>
+</head>
+<body>
+<header class="preview-bar" aria-label="Preview controls">
+  <div class="left"><button class="back" onclick="history.back()" aria-label="ย้อนกลับ">← <span>ย้อนกลับ</span></button></div>
+  <div class="device-switch" aria-label="Preview width">
+    <button class="device-btn active" data-mode="desktop" title="Desktop">▣</button>
+    <button class="device-btn" data-mode="mobile" title="Mobile">▯</button>
+  </div>
+  <div class="right"><button class="use-template" onclick="document.querySelector('#rsvp').scrollIntoView({behavior:'smooth'})">ใช้เทมเพลตนี้</button></div>
+</header>
+
+<div class="preview-shell" id="previewShell">
+<main class="invitation">
+  <section class="hero">
+    <img class="hero-flower" src="https://media.saranghada.com/photos/objects/flowers/7krlsqos9xjb/pex_object_flower011_001.jpg" alt="" />
+    <div class="hero-inner">
+      <div class="photo-collage fade">
+        <div class="photo one"><img src="https://media.saranghada.com/photos/people/western-004/pex_wes004_couple_001-kb18.jpg" alt="Amelia and Benjamin" /></div>
+        <div class="photo two"><img src="https://media.saranghada.com/photos/people/western-004/pex_wes004_couple_002-wn34.jpg" alt="Amelia and Benjamin" /></div>
+      </div>
+      <div class="save-date fade"><span>SAVE THE DATE</span><span class="rings">○○</span><span>16 Aug 2027</span></div>
+      <hr class="hero-rule fade" />
+      <div class="names fade"><h1>Amelia</h1><span class="amp">&amp;</span><h1>Benjamin</h1></div>
+      <span class="location-kicker fade">AT Lumphini Park</span>
+    </div>
+  </section>
+
+  <section class="section" id="guest">
+    <div class="narrow">
+      <h2 class="section-title fade">Be Our Guest</h2>
+      <div class="guest-copy fade">
+        <p>ด้วยความยินดีและปลื้มปิติอย่างสูง</p>
+        <p>เราสองคนขอเรียนเชิญแขกผู้มีเกียรติ</p>
+        <p>และญาติพี่น้องที่เคารพทุกท่าน</p>
+        <p>มาร่วมพิธีมงคลสมรส และร่วมแสดง</p>
+        <p>ความยินดีในโอกาสอันเป็นสิริมงคลนี้</p>
+        <p>เพื่อเป็นสักขีพยานในความรักและ</p>
+        <p>การเริ่มต้นชีวิตคู่ของเราทั้งสอง</p>
+        <span class="signature">Amelia &amp; Benjamin</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section couple-intro">
+    <div class="wide-photo fade"><img src="https://media.saranghada.com/photos/people/western-004/pex_wes004_couple_004-o7b0.jpg" alt="Couple portrait" /></div>
+    <div class="parents-grid fade">
+      <div><h3 class="parent-name">Amelia</h3><p class="parent-bio">Daughter of Mr. &amp; Mrs. Johnson</p></div>
+      <div class="parent-amp">&amp;</div>
+      <div><h3 class="parent-name">Benjamin</h3><p class="parent-bio">Son of Mr. &amp; Mrs. Rodriguez</p></div>
+    </div>
+  </section>
+
+  <section class="section alt" id="wedding-day">
+    <h2 class="section-title fade">Wedding Day</h2>
+    <div class="calendar-wrap fade">
+      <div class="calendar-head"><span>‹</span><span class="month">สิงหาคม 2570</span><span>›</span></div>
+      <div class="cal-grid" id="calendarGrid"></div>
+      <div class="date-detail"><strong>Monday,</strong><span>16 สิงหาคม 2570</span><span>10:00</span></div>
+    </div>
+  </section>
+
+  <section class="countdown-section">
+    <h3 class="countdown-title fade">Countdown to our Wedding</h3>
+    <div class="countdown fade" id="countdown">
+      <div class="count-item"><div class="count-num" data-unit="days">0</div><div class="count-unit">Days</div></div>
+      <div class="count-item"><div class="count-num" data-unit="hours">0</div><div class="count-unit">Hours</div></div>
+      <div class="count-item"><div class="count-num" data-unit="minutes">0</div><div class="count-unit">Minutes</div></div>
+      <div class="count-item"><div class="count-num" data-unit="seconds">0</div><div class="count-unit">Seconds</div></div>
+    </div>
+  </section>
+
+  <section class="section" id="location">
+    <h2 class="section-title fade">Location</h2>
+    <iframe class="map fade" title="Map to Lumphini Park" src="https://www.google.com/maps?q=Lumphini%20Park%20Bangkok&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    <div class="venue fade"><strong>Lumphini Park</strong><span>Lumphini, Pathum Wan, Bangkok 10330, Thailand</span></div>
+    <a class="map-btn fade" href="https://www.google.com/maps/search/?api=1&query=Lumphini+Park+Bangkok" target="_blank" rel="noopener">Go to Map</a>
+  </section>
+
+  <section class="feature-photo">
+    <img class="fade" src="https://media.saranghada.com/photos/people/western-004/pex_wes004_couple_005-6kas.jpg" alt="Wedding couple" />
+  </section>
+
+  <section class="section alt" id="rsvp">
+    <h2 class="section-title fade">RSVP</h2>
+    <form class="rsvp-form fade" id="rsvpForm">
+      <input type="hidden" name="attendance" id="attendance" value="yes" />
+      <div class="response-row">
+        <div class="response-option active" data-value="yes" role="button" tabindex="0"><span class="response-dot"></span><span>เข้าร่วม</span></div>
+        <div class="response-option" data-value="no" role="button" tabindex="0"><span class="response-dot"></span><span>ไม่เข้าร่วม</span></div>
+      </div>
+      <div class="field"><label for="name">ชื่อ <span class="required">*</span></label><input id="name" name="name" type="text" placeholder="เช่น สมชาย" required /></div>
+      <div class="field"><label>คุณเป็นแขกของฝ่ายใด <span class="required">*</span></label>
+        <div class="radios">
+          <label><input type="radio" name="side" value="bride" required /> ฝ่ายเจ้าสาว</label>
+          <label><input type="radio" name="side" value="groom" /> ฝ่ายเจ้าบ่าว</label>
+          <label><input type="radio" name="side" value="both" /> ทั้งสองฝ่าย</label>
+        </div>
+      </div>
+      <div class="field"><label for="phone">หมายเลขโทรศัพท์</label><input id="phone" name="phone" type="tel" placeholder="เช่น 0812345678" /></div>
+      <button class="submit-btn" type="submit">ส่ง</button>
+      <div class="form-note" id="formNote">บันทึกตัวอย่าง RSVP เรียบร้อยแล้ว (เดโม)</div>
+    </form>
+  </section>
+
+  <section class="section" id="gallery">
+    <h2 class="section-title fade">Gallery</h2>
+    <div class="gallery">
+      <div class="gallery-item fade"><img src="https://media.saranghada.com/photos/people/western-008/7172zvru1w1m/pex_wes008_couple_001.jpg" alt="Gallery photo 1"></div>
+      <div class="gallery-item fade"><img src="https://media.saranghada.com/photos/objects/body/r6nwkqb39slj/pex_object_body014_001.jpg" alt="Gallery photo 2"></div>
+      <div class="gallery-item fade"><img src="https://media.saranghada.com/photos/people/western-009/74i9pbqc8l8v/pex_wes009_couple_001.jpg" alt="Gallery photo 3"></div>
+      <div class="gallery-item fade"><img src="https://media.saranghada.com/photos/objects/body/4ckjhr7cs19v/pex_object_body008_001.jpg" alt="Gallery photo 4"></div>
+      <div class="gallery-item fade"><img src="https://media.saranghada.com/photos/objects/body/wjaiztstpc1x/pex_object_body015_001.jpg" alt="Gallery photo 5"></div>
+      <div class="gallery-item fade"><img src="https://media.saranghada.com/photos/objects/body/9x2ia5zts0j4/pex_object_body016_001.jpg" alt="Gallery photo 6"></div>
+    </div>
+  </section>
+
+  <section class="quote">
+    <p class="big fade">All you need is love</p>
+    <span class="author fade">Paul McCartney</span>
+  </section>
+</main>
+</div>
+
+<audio id="bgMusic" loop preload="none" src="https://media.saranghada.com/musics/My+Story.mp3"></audio>
+<button class="music-toggle" id="musicToggle" aria-label="เปิดหรือปิดเพลง">♫</button>
+
+<script>
+// Device preview controls
+const shell = document.getElementById('previewShell');
+document.querySelectorAll('.device-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.device-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    shell.classList.toggle('mobile', btn.dataset.mode==='mobile');
+  });
+});
+
+// Calendar: August 2027, Monday-first. 1 Aug 2027 is Sunday.
+const cal = document.getElementById('calendarGrid');
+const dows = ['จ','อ','พ','พฤ','ศ','ส','อา'];
+dows.forEach((d,i)=>{ const x=document.createElement('div'); x.className='dow'+(i===6?' sun':''); x.textContent=d; cal.appendChild(x); });
+for(let i=0;i<6;i++){ const x=document.createElement('div'); x.className='day empty'; x.textContent='0'; cal.appendChild(x); }
+for(let d=1;d<=31;d++){ const x=document.createElement('div'); x.className='day'+(d===16?' active':'')+(((d+6)%7===0)?' sun':''); x.textContent=d; cal.appendChild(x); }
+
+// Live countdown to 16 Aug 2027 10:00 Asia/Bangkok (UTC+7)
+const wedding = new Date('2027-08-16T10:00:00+07:00');
+function updateCountdown(){
+  let diff = Math.max(0, wedding - new Date());
+  const days=Math.floor(diff/86400000); diff%=86400000;
+  const hours=Math.floor(diff/3600000); diff%=3600000;
+  const minutes=Math.floor(diff/60000); diff%=60000;
+  const seconds=Math.floor(diff/1000);
+  const v={days,hours,minutes,seconds};
+  Object.keys(v).forEach(k=>{ const el=document.querySelector(`[data-unit="${k}"]`); if(el) el.textContent=String(v[k]).padStart(k==='days'?1:2,'0'); });
+}
+updateCountdown(); setInterval(updateCountdown,1000);
+
+// Fade-in animation
+const io = new IntersectionObserver(entries=>entries.forEach(e=>{ if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);} }),{threshold:.09});
+document.querySelectorAll('.fade').forEach(el=>io.observe(el));
+
+// RSVP demo behavior
+const options=[...document.querySelectorAll('.response-option')];
+function chooseOption(el){ options.forEach(o=>o.classList.toggle('active',o===el)); document.getElementById('attendance').value=el.dataset.value; }
+options.forEach(el=>{ el.addEventListener('click',()=>chooseOption(el)); el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();chooseOption(el)}}); });
+document.getElementById('rsvpForm').addEventListener('submit',e=>{ e.preventDefault(); document.getElementById('formNote').classList.add('show'); });
+
+// Background music: starts only after user interaction (browser policy)
+const music=document.getElementById('bgMusic'), musicBtn=document.getElementById('musicToggle');
+musicBtn.addEventListener('click', async()=>{
+  try{ if(music.paused){ await music.play(); musicBtn.textContent='❚❚'; } else { music.pause(); musicBtn.textContent='♫'; } }
+  catch(e){ musicBtn.textContent='♫'; }
+});
+</script>
+</body>
+</html>
