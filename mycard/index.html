@@ -71,47 +71,129 @@ img{display:block;max-width:100%}
 #wedding-day{
   position:relative;
   padding-top:clamp(88px,10vw,128px);
-  padding-bottom:clamp(88px,10vw,124px);
+  padding-bottom:clamp(94px,10vw,132px);
   background:
-    radial-gradient(circle at 12% 8%,rgba(227,182,148,.15),transparent 34%),
-    radial-gradient(circle at 88% 92%,rgba(237,205,180,.24),transparent 38%),
-    linear-gradient(180deg,#fdf2e9 0%,#fbede2 52%,#fdf3eb 100%);
+    radial-gradient(circle at 14% 10%,rgba(227,182,148,.22),transparent 30%),
+    radial-gradient(circle at 87% 87%,rgba(185,120,93,.12),transparent 33%),
+    linear-gradient(180deg,#fdf4ed 0%,#f8e7da 52%,#fdf4ed 100%);
   overflow:hidden;
 }
-#wedding-day::before,#wedding-day::after{content:"";position:absolute;width:220px;height:220px;border:1px solid rgba(56,45,36,.06);border-radius:50%;pointer-events:none}
-#wedding-day::before{top:-125px;left:-100px}
-#wedding-day::after{right:-95px;bottom:-135px}
-#wedding-day .section-title{position:relative;margin-bottom:48px;color:var(--ink)}
-#wedding-day .section-title::after{content:"";display:block;width:58px;height:1px;margin:20px auto 0;background:rgba(56,45,36,.34)}
+#wedding-day::before,#wedding-day::after{
+  content:"";
+  position:absolute;
+  width:290px;
+  height:290px;
+  border:1px solid rgba(56,45,36,.065);
+  border-radius:50%;
+  pointer-events:none;
+}
+#wedding-day::before{top:-175px;left:-140px;box-shadow:0 0 0 34px rgba(255,255,255,.09)}
+#wedding-day::after{right:-140px;bottom:-180px;box-shadow:0 0 0 34px rgba(255,255,255,.08)}
+#wedding-day .section-title{position:relative;margin-bottom:18px;color:var(--ink)}
+#wedding-day .section-title::after{content:"";display:block;width:56px;height:1px;margin:19px auto 0;background:linear-gradient(90deg,transparent,rgba(56,45,36,.46),transparent)}
+.calendar-kicker{margin:0 auto 34px;font:600 11px/1.4 "Cormorant Garamond",serif;letter-spacing:.28em;text-transform:uppercase;color:#9a7865}
 
 .calendar-wrap{
   position:relative;
-  width:min(560px,100%);
+  width:min(610px,100%);
   margin:0 auto;
-  padding:38px 40px 40px;
-  background:rgba(255,250,245,.76);
-  border:1px solid rgba(56,45,36,.10);
-  border-radius:28px;
-  box-shadow:0 24px 65px rgba(56,45,36,.09),0 4px 14px rgba(56,45,36,.04);
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
+  padding:42px 46px 42px;
+  background:linear-gradient(145deg,rgba(255,252,248,.93),rgba(255,247,240,.78));
+  border:1px solid rgba(117,86,68,.16);
+  border-radius:34px;
+  box-shadow:0 30px 75px rgba(83,55,39,.12),0 5px 16px rgba(83,55,39,.05),inset 0 1px 0 rgba(255,255,255,.75);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  isolation:isolate;
 }
-.calendar-head{display:grid;grid-template-columns:44px 1fr 44px;align-items:center;margin-bottom:30px;font-family:"Noto Serif Thai",serif;color:var(--ink)}
-.calendar-head .month{text-align:center;font-size:18px;font-weight:500;letter-spacing:.02em}
-.calendar-head>span:first-child,.calendar-head>span:last-child{width:40px;height:40px;display:grid;place-items:center;border-radius:50%;font-family:Arial,sans-serif;font-size:26px;font-weight:300;color:#7b695d;transition:background .25s ease,transform .25s ease}
-.calendar-head>span:first-child:hover,.calendar-head>span:last-child:hover{background:rgba(56,45,36,.06);transform:scale(1.06)}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;font-family:"Cormorant Garamond",serif;font-size:18px;font-weight:500;color:var(--ink)}
-.dow{font-family:"Noto Serif Thai",serif;font-size:13px;font-weight:500;letter-spacing:.03em;color:#8b7d72;padding-bottom:11px}.sun{color:#a95d55}
-.day{position:relative;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;max-width:44px;width:100%;justify-self:center;color:#574a41;transition:background .25s ease,color .25s ease,transform .25s ease}
-.day:not(.empty):hover{background:rgba(56,45,36,.055);transform:translateY(-1px)}
+.calendar-wrap::before{
+  content:"";
+  position:absolute;
+  inset:9px;
+  border:1px solid rgba(185,120,93,.12);
+  border-radius:27px;
+  pointer-events:none;
+  z-index:-1;
+}
+.calendar-wrap::after{
+  content:"♡";
+  position:absolute;
+  left:50%;
+  top:-18px;
+  transform:translateX(-50%);
+  width:38px;
+  height:38px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:#fff8f2;
+  border:1px solid rgba(185,120,93,.22);
+  color:#b9785d;
+  font:500 20px/1 "Cormorant Garamond",serif;
+  box-shadow:0 8px 22px rgba(83,55,39,.08);
+}
+.calendar-head{
+  display:grid;
+  grid-template-columns:46px 1fr 46px;
+  gap:16px;
+  align-items:center;
+  margin:2px 0 30px;
+  color:var(--ink);
+}
+.calendar-ornament{display:flex;align-items:center;gap:6px;color:#b9785d;font-family:"Cormorant Garamond",serif;font-size:18px;opacity:.78}
+.calendar-ornament::before,.calendar-ornament::after{content:"";height:1px;flex:1;background:linear-gradient(90deg,transparent,rgba(185,120,93,.42))}
+.calendar-ornament:last-child{transform:scaleX(-1)}
+.calendar-month{text-align:center;display:grid;gap:4px}
+.calendar-month .month-en{font:500 clamp(31px,5vw,42px)/.95 "Cormorant Garamond",serif;font-style:italic;letter-spacing:.01em;color:#4a392e}
+.calendar-month .month-th{font:500 18px/1.55 "Noto Serif Thai",serif;letter-spacing:.02em;color:#907769}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);column-gap:9px;row-gap:12px;font-family:"Cormorant Garamond",serif;font-size:18px;font-weight:500;color:var(--ink)}
+.dow{position:relative;font-family:"Noto Serif Thai",serif;font-size:13px;font-weight:500;letter-spacing:.03em;color:#9a8a7f;padding:0 0 15px}
+.dow::after{content:"";position:absolute;left:18%;right:18%;bottom:5px;height:1px;background:rgba(56,45,36,.08)}
+.sun{color:#b36c61}
+.day{position:relative;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;max-width:48px;width:100%;justify-self:center;color:#5d4b40;transition:background .25s ease,color .25s ease,transform .25s ease,box-shadow .25s ease}
+.day:not(.empty):hover{background:rgba(185,120,93,.09);transform:translateY(-2px)}
 .day.empty{visibility:hidden}
-.day.active{background:var(--ink);color:#fff;font-weight:600;box-shadow:0 8px 22px rgba(56,45,36,.22)}
-.day.active::after{content:"";position:absolute;inset:-5px;border:1px solid rgba(56,45,36,.23);border-radius:50%}
-.date-detail{position:relative;margin-top:38px;padding-top:32px;display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center;font-family:"Noto Serif Thai",serif;color:var(--ink)}
-.date-detail::before{content:"";position:absolute;top:0;width:70%;max-width:280px;height:1px;background:linear-gradient(90deg,transparent,rgba(56,45,36,.28),transparent)}
-.date-detail strong{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:32px;font-weight:500;line-height:1.05}
-.date-detail span{font-size:17px;line-height:1.55;color:#77675c}
-.date-detail span:last-child{margin-top:7px;font-size:19px;font-weight:500;letter-spacing:.06em;color:var(--ink)}
+.day.active{
+  background:linear-gradient(145deg,#bc7c62,#a96851);
+  color:#fff;
+  font-weight:600;
+  transform:scale(1.06);
+  box-shadow:0 10px 24px rgba(169,104,81,.30),inset 0 1px 0 rgba(255,255,255,.26);
+}
+.day.active::before{content:"";position:absolute;inset:-6px;border:1px solid rgba(185,120,93,.42);border-radius:50%}
+.day.active::after{content:"♥";position:absolute;top:-19px;right:-10px;width:22px;height:22px;display:grid;place-items:center;border-radius:50%;background:#fff8f2;border:1px solid rgba(185,120,93,.24);color:#b9785d;font:600 10px/1 Arial,sans-serif;box-shadow:0 5px 12px rgba(83,55,39,.08)}
+.date-detail{
+  position:relative;
+  margin-top:38px;
+  padding:27px 20px 3px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+  text-align:center;
+  font-family:"Noto Serif Thai",serif;
+  color:var(--ink);
+}
+.date-detail::before{content:"";position:absolute;top:0;width:82%;max-width:330px;height:1px;background:linear-gradient(90deg,transparent,rgba(185,120,93,.34),transparent)}
+.date-detail::after{content:"OUR SPECIAL DAY";position:absolute;top:-7px;left:50%;transform:translateX(-50%);padding:0 12px;background:#fff9f4;font:600 9px/1.4 "Cormorant Garamond",serif;letter-spacing:.22em;color:#a77963;white-space:nowrap}
+.date-detail strong{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:32px;font-weight:500;line-height:1.05;color:#4a392e}
+.date-detail span{font-size:17px;line-height:1.55;color:#7d6a5f}
+.date-detail span:last-child{margin-top:7px;padding:8px 18px;border:1px solid rgba(185,120,93,.18);border-radius:999px;background:rgba(255,255,255,.46);font-family:"Noto Serif Thai",serif;font-size:19px;font-weight:500;line-height:1.55;letter-spacing:.06em;color:#6c5142}
+
+@media(max-width:620px){
+  .calendar-wrap{padding:38px 20px 36px;border-radius:28px}
+  .calendar-wrap::before{inset:7px;border-radius:22px}
+  .calendar-head{grid-template-columns:28px 1fr 28px;gap:8px;margin-bottom:25px}
+  .calendar-ornament{font-size:14px}
+  .calendar-month .month-en{font-size:34px}
+  .calendar-month .month-th{font-size:18px}
+  .cal-grid{column-gap:4px;row-gap:10px;font-size:18px}
+  .dow{font-size:13px;padding-bottom:13px}
+  .day{max-width:42px}
+  .date-detail{margin-top:31px;padding-left:8px;padding-right:8px}
+  .date-detail strong{font-size:32px}
+  .date-detail span{font-size:17px}
+}
 
 /* Countdown */
 .countdown-section{position:relative;padding:84px 20px 96px;text-align:center;background:linear-gradient(180deg,#fdf3eb 0%,#f2ddcc 100%);color:var(--ink);overflow:hidden}
@@ -123,6 +205,20 @@ img{display:block;max-width:100%}
 .count-num{font-family:"Cormorant Garamond",serif;font-size:clamp(34px,5vw,56px);font-weight:500;line-height:1;letter-spacing:-.04em;color:var(--ink)}
 .count-unit{margin-top:12px;font:600 12px/1.45 "Cormorant Garamond",serif;text-transform:uppercase;letter-spacing:.15em;color:#756458}
 .count-item:not(:last-child)::after{content:"·";position:absolute;top:50%;right:-11px;transform:translateY(-56%);font-size:20px;color:rgba(56,45,36,.28)}
+
+
+/* Numeric alignment only — do not change the original typography */
+.save-date span:last-child,
+.calendar-month .month-th,
+.cal-grid .day,
+.date-detail strong,
+.date-detail span,
+.count-num,
+input[type="number"],
+input[type="tel"]{
+  font-variant-numeric:tabular-nums lining-nums;
+  font-feature-settings:"tnum" 1,"lnum" 1;
+}
 
 /* Wedding Theme - Earth Tone */
 .theme-section{
@@ -356,10 +452,15 @@ img{display:block;max-width:100%}
 
   <section class="section alt" id="wedding-day">
     <h2 class="section-title fade">Wedding Day</h2>
+    <p class="calendar-kicker fade">SAVE OUR DATE · 28 NOVEMBER 2026</p>
     <div class="calendar-wrap fade">
-      <div class="calendar-head"><span>‹</span><span class="month">พฤศจิกายน 2569</span><span>›</span></div>
+      <div class="calendar-head">
+        <span class="calendar-ornament">♡</span>
+        <div class="calendar-month"><span class="month-en">November</span><span class="month-th">พฤศจิกายน 2569</span></div>
+        <span class="calendar-ornament">♡</span>
+      </div>
       <div class="cal-grid" id="calendarGrid"></div>
-      <div class="date-detail"><strong>Saturday,</strong><span>28 พฤศจิกายน 2569</span><span>17:00</span></div>
+      <div class="date-detail"><strong>Saturday, 28</strong><span>พฤศจิกายน 2569</span><span>17:00 น.</span></div>
     </div>
   </section>
 
@@ -460,12 +561,31 @@ window.addEventListener('load',()=>{
 
 const cal = document.getElementById('calendarGrid');
 const dows = ['อา','จ','อ','พ','พฤ','ศ','ส'];
-dows.forEach((d,i)=>{ const x=document.createElement('div'); x.className='dow'+(i===0?' sun':''); x.textContent=d; cal.appendChild(x); });
-for(let d=1;d<=30;d++){ 
-  const x=document.createElement('div'); 
-  x.className='day'+(d===28?' active':'')+((d%7===1)?' sun':''); 
-  x.textContent=d; 
-  cal.appendChild(x); 
+const calendarYear = 2026;
+const calendarMonth = 10; // November (0 = January)
+const specialDay = 28;
+const firstWeekday = new Date(calendarYear, calendarMonth, 1).getDay();
+const daysInMonth = new Date(calendarYear, calendarMonth + 1, 0).getDate();
+
+dows.forEach((d,i)=>{
+  const x=document.createElement('div');
+  x.className='dow'+(i===0?' sun':'');
+  x.textContent=d;
+  cal.appendChild(x);
+});
+for(let i=0;i<firstWeekday;i++){
+  const x=document.createElement('div');
+  x.className='day empty';
+  x.setAttribute('aria-hidden','true');
+  cal.appendChild(x);
+}
+for(let d=1;d<=daysInMonth;d++){
+  const x=document.createElement('div');
+  const weekday = new Date(calendarYear, calendarMonth, d).getDay();
+  x.className='day'+(d===specialDay?' active':'')+(weekday===0?' sun':'');
+  x.textContent=d;
+  if(d===specialDay) x.setAttribute('aria-label','วันแต่งงาน 28 พฤศจิกายน 2569');
+  cal.appendChild(x);
 }
 
 const wedding = new Date('2026-11-28T10:00:00+07:00');
@@ -476,7 +596,7 @@ function updateCountdown(){
   const minutes=Math.floor(diff/60000); diff%=60000;
   const seconds=Math.floor(diff/1000);
   const v={days,hours,minutes,seconds};
-  Object.keys(v).forEach(k=>{ const el=document.querySelector(`[data-unit="${k}"]`); if(el) el.textContent=String(v[k]).padStart(k==='days'?1:2,'0'); });
+  Object.keys(v).forEach(k=>{ const el=document.querySelector(`[data-unit="${k}"]`); if(el) el.textContent=String(v[k]).padStart(2,'0'); });
 }
 updateCountdown(); setInterval(updateCountdown,1000);
 
@@ -539,6 +659,7 @@ rsvpForm.addEventListener('submit', async (e)=>{
 const music = document.getElementById('bgMusic');
 const musicRecord = document.getElementById('musicRecord');
 music.volume = 0.65;
+music.autoplay = true;
 let weddingMusicStarted = false;
 const musicStartEvents = ['pointerdown', 'touchstart', 'click', 'keydown'];
 
@@ -555,13 +676,38 @@ function setMusicUI(){
     musicRecord.setAttribute('title','หยุดเพลง');
   }
 }
-function removeMusicStartListeners(){ musicStartEvents.forEach(eventName => document.removeEventListener(eventName, startWeddingMusic)); }
+function removeMusicStartListeners(){
+  musicStartEvents.forEach(eventName => document.removeEventListener(eventName, startWeddingMusic));
+}
 async function startWeddingMusic(){
-  try{ await music.play(); weddingMusicStarted = true; removeMusicStartListeners(); }catch(err){ console.warn('Autoplay blocked.', err); }
+  if(!music.paused){
+    weddingMusicStarted = true;
+    removeMusicStartListeners();
+    setMusicUI();
+    return;
+  }
+  try{
+    await music.play();
+    weddingMusicStarted = true;
+    removeMusicStartListeners();
+  }catch(err){
+    // บางเบราว์เซอร์บล็อกเสียงอัตโนมัติจนกว่าจะมีการแตะ/คลิกครั้งแรก
+    console.warn('Autoplay blocked by browser policy.', err);
+  }
   setMusicUI();
 }
 async function toggleWeddingMusic(){
-  try{ if(music.paused){ await music.play(); weddingMusicStarted = true; removeMusicStartListeners(); }else{ music.pause(); } }catch(err){ console.warn('Music toggle failed:', err); }
+  try{
+    if(music.paused){
+      await music.play();
+      weddingMusicStarted = true;
+      removeMusicStartListeners();
+    }else{
+      music.pause();
+    }
+  }catch(err){
+    console.warn('Music toggle failed:', err);
+  }
   setMusicUI();
 }
 
@@ -569,10 +715,15 @@ musicRecord.addEventListener('click', toggleWeddingMusic);
 music.addEventListener('play', setMusicUI);
 music.addEventListener('pause', setMusicUI);
 music.addEventListener('ended', setMusicUI);
-music.addEventListener('error', () => { setMusicUI(); });
+music.addEventListener('error', setMusicUI);
 
-window.addEventListener('load', startWeddingMusic);
-musicStartEvents.forEach(eventName => { document.addEventListener(eventName, startWeddingMusic, { passive: eventName !== 'keydown' }); });
+// สั่งเล่นทันทีที่ JavaScript มาถึงตรงนี้ — ไม่รอ window.load
+startWeddingMusic();
+
+// ใช้เฉพาะเป็น fallback ถ้า browser บล็อก autoplay แบบมีเสียง
+musicStartEvents.forEach(eventName => {
+  document.addEventListener(eventName, startWeddingMusic, { passive: eventName !== 'keydown' });
+});
 setMusicUI();
 </script>
 </body>
