@@ -3,727 +3,535 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Falling in Love — Wedding Invitation</title>
-<meta name="description" content="Wedding invitation inspired by the supplied Falling in Love sample." />
+<title>Suporn & Thanapon — Wedding Invitation</title>
+<meta name="description" content="Wedding invitation for Suporn and Thanapon — 28 November 2026, Khon Kaen." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Noto+Serif+Thai:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --cream:#fef2e9;
-  --sand:#edcdb4;
-  --rose:#e3b694;
-  --ink:#382d24;
-  --muted:#7a6b60;
-  --line:#d9c6b7;
-  --paper:#fffaf5;
-  --shadow:0 24px 60px rgba(56,45,36,.14);
+  --bg:#fff;
+  --ink:#545454;
+  --muted:#7e7e7e;
+  --accent:#c78469;
+  --accent-soft:#e8c5b2;
+  --line:#ded8d3;
+  --cream:#f8f2ed;
+  --terracotta:#b9785d;
+  --sage:#8d9878;
+  --sand:#d7b98e;
+  --max:1120px;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--cream);color:var(--ink);font-family:"Noto Serif Thai",serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-button,input{font:inherit}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"Noto Sans Thai",sans-serif;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
 img{display:block;max-width:100%}
-.back,.use-template,.device-btn{border:0;cursor:pointer;color:#2f2b28;background:transparent}
-.preview-shell{width:100%;margin:0;padding:0}
-.invitation{position:relative;width:100%;overflow:hidden;background:var(--cream)}
-.hero{
-  min-height:100svh;position:relative;display:flex;justify-content:center;align-items:center;overflow:hidden;
-  background:var(--cream);isolation:isolate
-}
-.hero-flower{position:absolute;inset:-4%;width:108%;height:108%;object-fit:cover;opacity:.94;z-index:0;transform:scale(1.02);animation:heroDrift 18s ease-in-out infinite alternate}
-.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(254,242,233,.04) 0%,rgba(254,242,233,.10) 46%,rgba(254,242,233,.48) 88%,var(--cream) 100%);z-index:1;pointer-events:none}
-.hero-inner{position:relative;z-index:2;width:min(920px,94%);padding:clamp(34px,6vh,72px) 22px clamp(58px,9vh,100px);text-align:center}
+button,input,textarea{font:inherit}
+a{color:inherit}
 
-/* ปรับรูปให้ใหญ่ขึ้น */
-.photo-collage{position:relative;width:min(900px,96vw);aspect-ratio:9 / 7;height:auto;margin:0 auto clamp(30px,5vh,50px)}
-.photo{position:absolute;overflow:hidden;background:#ead7c8;box-shadow:0 16px 35px rgba(56,45,36,.17)}
-.photo img{width:100%;height:100%;object-fit:cover}
-.photo.one{width:54%;height:86%;left:7%;top:8%;transform:rotate(-3.6deg)}
-.photo.two{width:51%;height:76%;right:3%;top:2%;transform:rotate(3.6deg)}
-.photo.one{width:46%;height:70%;left:-5%}
-  .photo.two{width:45%;height:72%;right:5%;top:0%}
+/* ---------- common ---------- */
+.wrap{width:min(var(--max),calc(100% - 44px));margin-inline:auto}
+.section{padding:clamp(74px,8vw,118px) 0}
+.kicker{margin:0 0 14px;font:700 clamp(12px,1.2vw,15px)/1.4 "Montserrat",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+.heading{margin:0;font:700 clamp(38px,5.8vw,72px)/1.04 "Montserrat",sans-serif;letter-spacing:-.035em;color:var(--ink)}
+.body-copy{font-size:clamp(16px,1.45vw,19px);line-height:1.95;color:#626262}
+.accent{color:var(--accent)}
+.rule{width:100%;height:1px;background:var(--line)}
 
-/* ปรับข้อความและชื่อให้ใหญ่ขึ้น */
-.save-date{display:flex;align-items:center;justify-content:center;gap:18px;font:600 24px/1.35 "Cormorant Garamond",serif;letter-spacing:.2em;text-transform:uppercase}
-.rings{font-size:50px;line-height:1;letter-spacing:-9px;margin-right:7px;transform:rotate(-10deg);font-family:sans-serif;}
-.hero-rule{width:min(700px,85%);border:0;border-top:1px solid rgba(56,45,36,.55);margin:24px auto 20px}
-.names{display:flex;align-items:center;justify-content:center;gap:24px;flex-wrap:wrap}
-.names h1{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:clamp(80px,12vw,150px);font-weight:500;line-height:.9;margin:0}
-.amp{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:80px;transform:rotate(-8deg)}
-.location-kicker{display:block;margin-top:28px;font:600 20px/1.55 "Cormorant Garamond",serif;letter-spacing:.25em;text-transform:uppercase}
-
-.section{position:relative;padding:clamp(74px,9vw,118px) 22px;text-align:center;background:var(--cream)}
-.section.alt{background:linear-gradient(180deg,#fdf0e6 0%,#fbede2 50%,#fdf1e7 100%)}
-.section-title{font-family:"Cormorant Garamond",serif;font-style:italic;font-weight:500;font-size:clamp(48px,6vw,72px);line-height:1;margin:0 0 38px}
-.narrow{width:min(720px,100%);margin:0 auto}
-.guest-copy{font-size:17px;line-height:2.05;margin:0 auto;color:#4a3e35}
-.guest-copy p{margin:0}
-.signature{display:block;margin-top:25px;font-family:"Cormorant Garamond",serif;font-style:italic;font-size:40px}
-.couple-intro{padding-top:36px}
-.wide-photo{width:min(890px,100%);margin:0 auto 32px;overflow:visible}
-.wide-photo img{width:100%;height:auto;object-fit:contain}
-.parents-grid{width:min(760px,100%);margin:0 auto;display:grid;grid-template-columns:1fr 70px 1fr;gap:20px;align-items:center}
-.parent-name{font-family:"Cormorant Garamond",serif;font-style:italic;font-weight:500;font-size:42px;margin:0}
-.parent-bio{font-size:15px;line-height:1.6;margin:5px 0 0;font-family:"Noto Serif Thai",serif;color:var(--muted)}
-.parent-amp{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:40px}
-/* Wedding Day */
-#wedding-day{
-  position:relative;
-  padding-top:clamp(88px,10vw,128px);
-  padding-bottom:clamp(94px,10vw,132px);
-  background:
-    radial-gradient(circle at 14% 10%,rgba(227,182,148,.22),transparent 30%),
-    radial-gradient(circle at 87% 87%,rgba(185,120,93,.12),transparent 33%),
-    linear-gradient(180deg,#fdf4ed 0%,#f8e7da 52%,#fdf4ed 100%);
+/* ---------- full bleed opening image ---------- */
+.hero-photo{
+  width:100%;
+  aspect-ratio:1897 / 827;
+  min-height:330px;
+  max-height:850px;
   overflow:hidden;
+  background:#eee;
 }
-#wedding-day::before,#wedding-day::after{
-  content:"";
-  position:absolute;
-  width:290px;
-  height:290px;
-  border:1px solid rgba(56,45,36,.065);
-  border-radius:50%;
-  pointer-events:none;
-}
-#wedding-day::before{top:-175px;left:-140px;box-shadow:0 0 0 34px rgba(255,255,255,.09)}
-#wedding-day::after{right:-140px;bottom:-180px;box-shadow:0 0 0 34px rgba(255,255,255,.08)}
-#wedding-day .section-title{position:relative;margin-bottom:18px;color:var(--ink)}
-#wedding-day .section-title::after{content:"";display:block;width:56px;height:1px;margin:19px auto 0;background:linear-gradient(90deg,transparent,rgba(56,45,36,.46),transparent)}
-.calendar-kicker{margin:0 auto 34px;font:600 11px/1.4 "Cormorant Garamond",serif;letter-spacing:.28em;text-transform:uppercase;color:#9a7865}
+.hero-photo img{width:100%;height:100%;object-fit:cover;object-position:center 44%}
 
-.calendar-wrap{
-  position:relative;
-  width:min(610px,100%);
-  margin:0 auto;
-  padding:42px 46px 42px;
-  background:linear-gradient(145deg,rgba(255,252,248,.93),rgba(255,247,240,.78));
-  border:1px solid rgba(117,86,68,.16);
-  border-radius:34px;
-  box-shadow:0 30px 75px rgba(83,55,39,.12),0 5px 16px rgba(83,55,39,.05),inset 0 1px 0 rgba(255,255,255,.75);
-  backdrop-filter:blur(18px);
-  -webkit-backdrop-filter:blur(18px);
-  isolation:isolate;
-}
-.calendar-wrap::before{
-  content:"";
-  position:absolute;
-  inset:9px;
-  border:1px solid rgba(185,120,93,.12);
-  border-radius:27px;
-  pointer-events:none;
-  z-index:-1;
-}
-.calendar-wrap::after{
-  content:"♡";
-  position:absolute;
-  left:50%;
-  top:-18px;
-  transform:translateX(-50%);
-  width:38px;
-  height:38px;
-  display:grid;
-  place-items:center;
-  border-radius:50%;
-  background:#fff8f2;
-  border:1px solid rgba(185,120,93,.22);
-  color:#b9785d;
-  font:500 20px/1 "Cormorant Garamond",serif;
-  box-shadow:0 8px 22px rgba(83,55,39,.08);
-}
-.calendar-head{
-  display:grid;
-  grid-template-columns:46px 1fr 46px;
-  gap:16px;
-  align-items:center;
-  margin:2px 0 30px;
-  color:var(--ink);
-}
-.calendar-ornament{display:flex;align-items:center;gap:6px;color:#b9785d;font-family:"Cormorant Garamond",serif;font-size:18px;opacity:.78}
-.calendar-ornament::before,.calendar-ornament::after{content:"";height:1px;flex:1;background:linear-gradient(90deg,transparent,rgba(185,120,93,.42))}
-.calendar-ornament:last-child{transform:scaleX(-1)}
-.calendar-month{text-align:center;display:grid;gap:4px}
-.calendar-month .month-en{font:500 clamp(31px,5vw,42px)/.95 "Cormorant Garamond",serif;font-style:italic;letter-spacing:.01em;color:#4a392e}
-.calendar-month .month-th{font:500 18px/1.55 "Noto Serif Thai",serif;letter-spacing:.02em;color:#907769}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);column-gap:9px;row-gap:12px;font-family:"Cormorant Garamond",serif;font-size:18px;font-weight:500;color:var(--ink)}
-.dow{position:relative;font-family:"Noto Serif Thai",serif;font-size:13px;font-weight:500;letter-spacing:.03em;color:#9a8a7f;padding:0 0 15px}
-.dow::after{content:"";position:absolute;left:18%;right:18%;bottom:5px;height:1px;background:rgba(56,45,36,.08)}
-.sun{color:#b36c61}
-.day{position:relative;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;max-width:48px;width:100%;justify-self:center;color:#5d4b40;transition:background .25s ease,color .25s ease,transform .25s ease,box-shadow .25s ease}
-.day:not(.empty):hover{background:rgba(185,120,93,.09);transform:translateY(-2px)}
+/* ---------- invitation ---------- */
+.invite{padding:clamp(72px,8vw,112px) 0 clamp(64px,7vw,96px);text-align:center}
+.invite-inner{width:min(920px,100%);margin:auto}
+.invite-top{font:700 clamp(42px,6.2vw,76px)/1 "Montserrat",sans-serif;letter-spacing:-.04em;margin:0 0 34px}
+.family-line{font:700 clamp(18px,2.2vw,30px)/1.55 "Montserrat",sans-serif;letter-spacing:.02em;text-transform:uppercase;margin:0}
+.couple-name{font:700 clamp(38px,5vw,66px)/1.2 "Montserrat",sans-serif;color:var(--accent);margin:7px 0}
+.invite-thai{font-size:clamp(18px,2vw,25px);line-height:1.8;margin:28px auto 0;color:#626262}
+.invite-date{margin:22px 0 0;font:700 clamp(20px,2vw,28px)/1.3 "Montserrat",sans-serif;color:var(--accent);letter-spacing:.04em}
+.invite-place{margin:8px 0 0;font:500 clamp(14px,1.5vw,18px)/1.5 "Montserrat",sans-serif;letter-spacing:.1em;text-transform:uppercase}
+
+/* ---------- countdown ---------- */
+.countdown-wrap{width:min(780px,100%);margin:52px auto 0}
+.countdown{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:24px 0}
+.count-item{position:relative;padding:8px 5px}
+.count-item:not(:last-child)::after{content:"";position:absolute;right:-5px;top:13%;bottom:13%;width:1px;background:var(--line)}
+.count-num{font:600 clamp(30px,4.6vw,56px)/1 "Montserrat",sans-serif;font-variant-numeric:tabular-nums;color:var(--ink)}
+.count-unit{margin-top:9px;font:600 clamp(9px,1vw,12px)/1.4 "Montserrat",sans-serif;letter-spacing:.13em;text-transform:uppercase;color:#898989}
+
+/* ---------- intro photos like template ---------- */
+.pair-photos{padding:clamp(18px,3vw,38px) 0 clamp(72px,8vw,112px)}
+.pair-grid{width:min(900px,100%);margin:auto;display:grid;grid-template-columns:1fr 1fr;gap:clamp(12px,2.2vw,26px)}
+.frame{overflow:hidden;background:#eee}
+.frame img{width:100%;height:100%;object-fit:cover}
+.pair-grid .frame{aspect-ratio:4 / 5}
+.pair-grid .frame:first-child img{object-position:center 42%}
+.pair-grid .frame:last-child img{object-position:center 42%}
+.parents{width:min(850px,100%);margin:30px auto 0;display:grid;grid-template-columns:1fr auto 1fr;gap:24px;align-items:start;text-align:center}
+.parent-name{font:700 clamp(22px,2.5vw,34px)/1.2 "Montserrat",sans-serif;color:var(--accent);margin:0 0 7px}
+.parent-bio{font-size:clamp(13px,1.3vw,16px);line-height:1.7;margin:0;color:#767676}
+.parent-and{font:600 clamp(24px,2.4vw,34px)/1 "Montserrat",sans-serif;padding-top:6px;color:#8a8a8a}
+
+/* ---------- wedding day: template-like two-column ---------- */
+.wedding-day{background:#fff;padding:clamp(76px,8vw,112px) 0}
+.day-layout{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.15fr);gap:clamp(30px,6vw,76px);align-items:center}
+.day-title{margin-bottom:30px}
+.calendar{width:min(480px,100%);margin:0;border-top:2px solid var(--ink);border-bottom:1px solid var(--line);padding:22px 0 24px}
+.calendar-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}
+.calendar-month{font:700 clamp(18px,2vw,24px)/1.3 "Montserrat",sans-serif;letter-spacing:.02em}
+.calendar-year{font:600 13px/1.3 "Montserrat",sans-serif;letter-spacing:.12em;color:var(--accent)}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;text-align:center;font-family:"Montserrat",sans-serif;font-variant-numeric:tabular-nums}
+.dow{font-size:11px;font-weight:700;color:#9a9a9a;padding:4px 0 7px;letter-spacing:.04em}
+.day{aspect-ratio:1;display:grid;place-items:center;border-radius:50%;font-size:clamp(12px,1.25vw,15px);font-weight:500;color:#666}
 .day.empty{visibility:hidden}
-.day.active{
-  background:linear-gradient(145deg,#bc7c62,#a96851);
-  color:#fff;
-  font-weight:600;
-  transform:scale(1.06);
-  box-shadow:0 10px 24px rgba(169,104,81,.30),inset 0 1px 0 rgba(255,255,255,.26);
-}
-.day.active::before{content:"";position:absolute;inset:-6px;border:1px solid rgba(185,120,93,.42);border-radius:50%}
-.day.active::after{content:"♥";position:absolute;top:-19px;right:-10px;width:22px;height:22px;display:grid;place-items:center;border-radius:50%;background:#fff8f2;border:1px solid rgba(185,120,93,.24);color:#b9785d;font:600 10px/1 Arial,sans-serif;box-shadow:0 5px 12px rgba(83,55,39,.08)}
-.date-detail{
-  position:relative;
-  margin-top:38px;
-  padding:27px 20px 3px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:6px;
-  text-align:center;
-  font-family:"Noto Serif Thai",serif;
-  color:var(--ink);
-}
-.date-detail::before{content:"";position:absolute;top:0;width:82%;max-width:330px;height:1px;background:linear-gradient(90deg,transparent,rgba(185,120,93,.34),transparent)}
-.date-detail::after{content:"OUR SPECIAL DAY";position:absolute;top:-7px;left:50%;transform:translateX(-50%);padding:0 12px;background:#fff9f4;font:600 9px/1.4 "Cormorant Garamond",serif;letter-spacing:.22em;color:#a77963;white-space:nowrap}
-.date-detail strong{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:32px;font-weight:500;line-height:1.05;color:#4a392e}
-.date-detail span{font-size:17px;line-height:1.55;color:#7d6a5f}
-.date-detail span:last-child{margin-top:7px;padding:8px 18px;border:1px solid rgba(185,120,93,.18);border-radius:999px;background:rgba(255,255,255,.46);font-family:"Noto Serif Thai",serif;font-size:19px;font-weight:500;line-height:1.55;letter-spacing:.06em;color:#6c5142}
+.day.active{background:var(--accent);color:white;font-weight:700;box-shadow:0 0 0 5px rgba(199,132,105,.14)}
+.day-detail{margin-top:24px;padding-left:18px;border-left:3px solid var(--accent)}
+.day-detail strong{display:block;font:700 clamp(20px,2.2vw,29px)/1.3 "Montserrat",sans-serif;color:var(--ink)}
+.day-detail span{display:block;margin-top:6px;font-size:clamp(14px,1.4vw,17px);color:#757575}
+.day-image{aspect-ratio:1.44 / 1;overflow:hidden;background:#eee}
+.day-image img{width:100%;height:100%;object-fit:cover;object-position:center 42%}
 
-@media(max-width:620px){
-  .calendar-wrap{padding:38px 20px 36px;border-radius:28px}
-  .calendar-wrap::before{inset:7px;border-radius:22px}
-  .calendar-head{grid-template-columns:28px 1fr 28px;gap:8px;margin-bottom:25px}
-  .calendar-ornament{font-size:14px}
-  .calendar-month .month-en{font-size:34px}
-  .calendar-month .month-th{font-size:18px}
-  .cal-grid{column-gap:4px;row-gap:10px;font-size:18px}
-  .dow{font-size:13px;padding-bottom:13px}
-  .day{max-width:42px}
-  .date-detail{margin-top:31px;padding-left:8px;padding-right:8px}
-  .date-detail strong{font-size:32px}
-  .date-detail span{font-size:17px}
-}
+/* ---------- theme ---------- */
+.theme{text-align:center;padding:clamp(74px,8vw,108px) 0}
+.theme .heading{font-size:clamp(36px,5vw,64px)}
+.theme-sub{margin:17px auto 0;font-size:clamp(15px,1.45vw,18px);color:#777}
+.theme-colors{display:flex;justify-content:center;gap:clamp(26px,5vw,62px);margin-top:38px}
+.theme-item{display:flex;flex-direction:column;align-items:center;gap:11px}
+.theme-dot{width:clamp(62px,7vw,92px);aspect-ratio:1;border-radius:50%;box-shadow:0 0 0 6px #fff,0 0 0 7px #e4dfdb}
+.theme-dot.terracotta{background:var(--terracotta)}
+.theme-dot.sage{background:var(--sage)}
+.theme-dot.sand{background:var(--sand)}
+.theme-label{font:600 11px/1.4 "Montserrat",sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#747474}
 
-/* Countdown */
-.countdown-section{position:relative;padding:84px 20px 96px;text-align:center;background:linear-gradient(180deg,#fdf3eb 0%,#f2ddcc 100%);color:var(--ink);overflow:hidden}
-.countdown-section::before{content:"";position:absolute;top:0;left:50%;width:1px;height:38px;transform:translateX(-50%);background:rgba(56,45,36,.18)}
-.countdown-title{margin:0 0 40px;font-family:"Noto Serif Thai",serif;font-size:18px;font-weight:500;letter-spacing:.06em;color:#76675d}
-.countdown{width:min(720px,100%);margin:auto;display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-.count-item{position:relative;padding:27px 10px 24px;background:rgba(255,255,255,.44);border:1px solid rgba(56,45,36,.08);border-radius:20px;box-shadow:0 12px 35px rgba(56,45,36,.045);transition:transform .3s ease,box-shadow .3s ease,background .3s ease}
-.count-item:hover{transform:translateY(-4px);background:rgba(255,255,255,.64);box-shadow:0 18px 45px rgba(56,45,36,.075)}
-.count-num{font-family:"Cormorant Garamond",serif;font-size:clamp(34px,5vw,56px);font-weight:500;line-height:1;letter-spacing:-.04em;color:var(--ink)}
-.count-unit{margin-top:12px;font:600 12px/1.45 "Cormorant Garamond",serif;text-transform:uppercase;letter-spacing:.15em;color:#756458}
-.count-item:not(:last-child)::after{content:"·";position:absolute;top:50%;right:-11px;transform:translateY(-56%);font-size:20px;color:rgba(56,45,36,.28)}
+/* ---------- quick actions like Canva reference ---------- */
+.quick-actions{padding:clamp(48px,5vw,72px) 0 clamp(60px,7vw,98px)}
+.action-grid{width:min(720px,100%);margin:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(24px,6vw,70px)}
+.action{display:flex;flex-direction:column;align-items:center;text-align:center;text-decoration:none;gap:14px}
+.action-icon{width:clamp(78px,9vw,110px);aspect-ratio:1;display:grid;place-items:center;border:1.5px solid #cfc8c2;border-radius:50%;transition:.25s;background:#fff}
+.action-icon svg{width:46%;height:46%;stroke:var(--accent);fill:none;stroke-width:1.65;stroke-linecap:round;stroke-linejoin:round}
+.action-label{font:600 clamp(11px,1.2vw,14px)/1.4 "Montserrat",sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#666}
+.action:hover .action-icon{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 12px 28px rgba(84,84,84,.08)}
 
+/* ---------- gallery — fixed composition at every viewport ---------- */
+.gallery-section{padding:clamp(42px,5vw,72px) 0 clamp(84px,9vw,132px)}
+.gallery-title{text-align:center;margin-bottom:clamp(42px,5vw,66px)}
+.gallery-title .heading{font-size:clamp(38px,5.7vw,72px)}
+.gallery-mosaic{
+  width:min(1050px,100%);
+  margin:auto;
+  display:grid;
+  grid-template-columns:repeat(12,minmax(0,1fr));
+  gap:clamp(7px,1.2vw,14px);
+}
+.gallery-mosaic .g{overflow:hidden;background:#eee;min-width:0}
+.gallery-mosaic img{width:100%;height:100%;object-fit:cover;transition:transform .65s cubic-bezier(.2,.65,.3,1)}
+.gallery-mosaic .g:hover img{transform:scale(1.025)}
+.g1{grid-column:2 / span 5;aspect-ratio:4 / 5}
+.g2{grid-column:7 / span 5;aspect-ratio:4 / 5}
+.g3{grid-column:2 / span 10;aspect-ratio:1.86 / 1}
+.g4{grid-column:1 / span 4;aspect-ratio:4 / 5}
+.g5{grid-column:5 / span 4;aspect-ratio:4 / 5}
+.g6{grid-column:9 / span 4;aspect-ratio:4 / 5}
+.g7{grid-column:1 / span 5;grid-row:4 / span 2;aspect-ratio:.9 / 1}
+.g8{grid-column:6 / span 7;grid-row:4;aspect-ratio:2.04 / 1}
+.g9{grid-column:6 / span 7;grid-row:5;aspect-ratio:2.04 / 1}
+.g10{grid-column:2 / span 10;aspect-ratio:1.95 / 1}
+.g1 img{object-position:center 22%}.g2 img{object-position:center 26%}.g4 img{object-position:center 25%}.g5 img{object-position:center 24%}.g6 img{object-position:center 24%}.g7 img{object-position:center 30%}
 
-/* Numeric alignment only — do not change the original typography */
-.save-date span:last-child,
-.calendar-month .month-th,
-.cal-grid .day,
-.date-detail strong,
-.date-detail span,
-.count-num,
-input[type="number"],
-input[type="tel"]{
-  font-variant-numeric:tabular-nums lining-nums;
-  font-feature-settings:"tnum" 1,"lnum" 1;
-}
-
-/* Wedding Theme - Earth Tone */
-.theme-section{
-  position:relative;
-  padding:clamp(68px,8vw,96px) 20px;
-  text-align:center;
-  background:linear-gradient(180deg,#f2ddcc 0%,#f8eadf 48%,#fef2e9 100%);
-  color:var(--ink);
-  overflow:hidden;
-}
-.theme-section::before{
-  content:"";
-  position:absolute;
-  left:50%;
-  top:0;
-  width:1px;
-  height:34px;
-  transform:translateX(-50%);
-  background:rgba(56,45,36,.16);
-}
-.theme-title{
-  margin:0 0 40px 0; /* เพิ่ม Margin Bottom เพื่อดันไม่ให้สีลงมาทับหัวข้อ */
-  font-family:"Cormorant Garamond",serif;
-  font-style:italic;
-  font-weight:500;
-  font-size:clamp(46px,6vw,68px);
-  line-height:1;
-  color:var(--ink);
-}
-.theme-subtitle{
-  width:min(620px,100%);
-  margin:17px auto 34px;
-  font-family:"Noto Serif Thai",serif;
-  font-size:16px;
-  line-height:1.8;
-  color:#756458;
-}
-.theme-colors{
-  width:min(560px,100%);
-  margin:0 auto;
-  display:flex;
-  align-items:flex-start;
-  justify-content:center;
-  gap:clamp(24px,6vw,54px);
-}
-.theme-color-item{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:12px;
-  min-width:92px;
-}
-.theme-dot{
-  width:clamp(74px,10vw,100px);
-  height:clamp(74px,10vw,100px);
-  border-radius:50%;
-  border:5px solid rgba(255,250,245,.92);
-  box-shadow:0 12px 30px rgba(56,45,36,.13),0 0 0 1px rgba(56,45,36,.07);
-  transition:transform .3s ease,box-shadow .3s ease;
-}
-.theme-color-item:hover .theme-dot{
-  transform:translateY(-4px) scale(1.03);
-  box-shadow:0 18px 36px rgba(56,45,36,.16),0 0 0 1px rgba(56,45,36,.08);
-}
-.theme-dot.terracotta{background:#b9785d}
-.theme-dot.sage{background:#8d9878}
-.theme-dot.sand{background:#d7b98e}
-.theme-color-name{
-  font:600 12px/1.4 "Cormorant Garamond",serif;
-  letter-spacing:.15em;
-  text-transform:uppercase;
-  color:#6f5d50;
-}
-.theme-note{
-  margin:30px auto 0;
-  font-size:15px;
-  line-height:1.7;
-  color:#7a6b60;
-}
-
-/* ส่วนแสดงผลมือถือ */
-@media(max-width:720px){
-  /* ขยายรูปหน้าแรกมือถือ */
-  .photo-collage{width:min(600px,96vw);aspect-ratio:9 / 7;height:auto;margin-bottom:30px}
-  .save-date{gap:14px;font-size:16px;line-height:1.4;letter-spacing:.15em}
-  .rings{font-size:36px}
-  .names h1{font-size:clamp(64px,18vw,90px)}
-  .amp{font-size:50px}
-  .location-kicker{margin-top:20px;font-size:14px;letter-spacing:.15em}
-
-  .theme-section{padding:62px 16px 70px}
-  .theme-subtitle{font-size:15px;margin-bottom:28px}
-  .theme-colors{gap:18px}
-  .theme-color-item{min-width:78px;gap:10px}
-  .theme-dot{width:76px;height:76px;border-width:4px}
-  .theme-color-name{font-size:11px;letter-spacing:.1em}
-  .theme-note{font-size:14px;margin-top:24px}
-}
-@media(max-width:420px){
-  .theme-colors{gap:12px}
-  .theme-color-item{min-width:70px}
-  .theme-dot{width:68px;height:68px}
-  .theme-color-name{font-size:10px;letter-spacing:.08em}
-}
-
-.map{width:min(780px,100%);height:390px;border:0;display:block;margin:0 auto 24px;filter:saturate(.78) contrast(.95)}
-.venue{display:grid;gap:5px}.venue strong{font-family:"Cormorant Garamond",serif;font-size:26px;font-weight:500}.venue span{font-family:"Noto Serif Thai",serif;font-size:15px;line-height:1.6;color:#766a62}
-.map-btn{display:inline-block;margin-top:20px;text-decoration:none;color:var(--ink);border:1px solid var(--ink);padding:12px 30px;border-radius:999px;font-family:"Noto Serif Thai",serif;font-size:14px;font-weight:500;transition:.2s}
+/* ---------- location ---------- */
+.location-section{background:var(--cream);padding:clamp(74px,8vw,112px) 0}
+.location-grid{display:grid;grid-template-columns:minmax(0,.76fr) minmax(0,1.24fr);gap:clamp(30px,5vw,64px);align-items:center}
+.location-copy .heading{font-size:clamp(36px,4.8vw,60px)}
+.location-copy p{margin:18px 0 0;font-size:clamp(15px,1.5vw,18px);line-height:1.8;color:#6c6c6c}
+.map{width:100%;aspect-ratio:1.55 / 1;border:0;display:block;filter:saturate(.72) contrast(.96)}
+.map-btn{display:inline-flex;align-items:center;justify-content:center;margin-top:26px;padding:13px 27px;border:1px solid var(--ink);text-decoration:none;font:600 12px/1.4 "Montserrat",sans-serif;letter-spacing:.1em;text-transform:uppercase;transition:.2s}
 .map-btn:hover{background:var(--ink);color:#fff}
-.feature-photo{padding:0;background:var(--cream);overflow:visible}
-.feature-photo img{width:100%;height:auto;display:block;object-fit:contain}
-.rsvp-form{width:min(560px,100%);margin:auto;text-align:left}
-.response-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:28px}
-.response-option{border:1px solid var(--line);background:rgba(255,255,255,.35);padding:15px;border-radius:4px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:.2s}
-.response-option.active{background:#fff;border-color:#8e7664}.response-dot{width:23px;height:23px;border:1px solid #8e7664;border-radius:50%;display:grid;place-items:center}.response-option.active .response-dot::after{content:"";width:11px;height:11px;background:#8e7664;border-radius:50%}
-.field{margin:20px 0}.field label{display:block;font-size:16px;line-height:1.55;margin-bottom:9px;font-weight:500}.required{color:#b26358}
-.field input[type="text"],.field input[type="tel"],.field input[type="number"],.field textarea{width:100%;background:transparent;border:0;border-bottom:1px solid #bfa99a;padding:10px 2px;outline:0;font-family:"Noto Serif Thai",serif;font-size:16px;color:var(--ink)}.field textarea{min-height:110px;resize:vertical;line-height:1.75}.field input:focus,.field textarea:focus{border-color:var(--ink)}.field textarea::placeholder{color:#9c8b7f}
-.radios{display:grid;gap:10px;font-size:16px}.radios label{display:flex;align-items:center;gap:9px;cursor:pointer}
-.submit-btn{width:100%;border:1px solid var(--ink);background:var(--ink);color:#fff;padding:12px;margin-top:14px;cursor:pointer;font-family:"Noto Serif Thai",serif;font-size:16px;font-weight:500;}
-.form-note{display:none;margin-top:14px;text-align:center;font-size:15px;line-height:1.6;color:#6d5f54}.form-note.show{display:block}
-.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:min(880px,100%);margin:auto}.gallery-item{overflow:hidden;aspect-ratio:2/3;background:#ead7c8}.gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}.gallery-item:hover img{transform:scale(1.035)}
-.quote{padding:clamp(100px,13vw,170px) 22px clamp(120px,15vw,190px);background:linear-gradient(180deg,#edcdb4 0%,#e8c5aa 100%);text-align:center}.quote .big{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:clamp(56px,8vw,88px);line-height:.92;margin:0}.quote .author{display:block;margin-top:22px;font:600 13px/1.4 "Cormorant Garamond",serif;letter-spacing:.16em;text-transform:uppercase}
 
-.music-record{
-  position:fixed;
-  right:max(16px,env(safe-area-inset-right));
-  bottom:max(16px,env(safe-area-inset-bottom));
-  z-index:60;
-  width:74px;
-  height:74px;
-  border:0;
-  border-radius:50%;
-  cursor:pointer;
-  background:
-    radial-gradient(circle at center,#f7e7d8 0 7px,#221d1a 7px 10px,#8a7466 10px 12px,#1f1b18 12px 19px,#2b2420 19px 24px,#1f1b18 24px 29px,#2b2420 29px 34px,#151210 34px 100%);
-  box-shadow:0 14px 34px rgba(56,45,36,.24), inset 0 0 0 2px rgba(255,255,255,.14);
-  display:grid;
-  place-items:center;
-  transition:transform .22s ease, box-shadow .22s ease, opacity .22s ease;
-}
-.music-record::before{
-  content:"";
-  position:absolute;
-  width:18px;
-  height:18px;
-  border-radius:50%;
-  background:#f6eadf;
-  box-shadow:0 0 0 3px #3d332c inset;
-}
-.music-record::after{
-  content:"♪";
-  position:absolute;
-  top:-7px;
-  right:2px;
-  width:24px;
-  height:24px;
-  border-radius:50%;
-  display:grid;
-  place-items:center;
-  font:600 12px/1 sans-serif;
-  color:#fff;
-  background:rgba(56,45,36,.82);
-  box-shadow:0 6px 18px rgba(56,45,36,.18);
-}
-.music-record:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 18px 38px rgba(56,45,36,.28), inset 0 0 0 2px rgba(255,255,255,.15)}
-.music-record.spinning{animation:recordSpin 4.2s linear infinite}
-.music-record.paused{opacity:.88;animation:none}
-.music-record.paused::after{content:"▶";font-size:11px;padding-left:2px}
-@keyframes recordSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-@media(max-width:420px){
-  .music-record{width:64px;height:64px;right:max(12px,env(safe-area-inset-right));bottom:max(12px,env(safe-area-inset-bottom))}
-  .music-record::before{width:16px;height:16px}
-}
+/* ---------- RSVP ---------- */
+.rsvp-section{padding:clamp(76px,8vw,118px) 0}
+.rsvp-head{text-align:center;margin-bottom:48px}
+.rsvp-head .heading{font-size:clamp(38px,5.5vw,66px)}
+.rsvp-form{width:min(660px,100%);margin:auto}
+.response-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:28px}
+.response-option{border:1px solid #cfc8c2;padding:15px 18px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:.2s;background:#fff}
+.response-option.active{border-color:var(--accent);background:#fbf5f1}
+.response-dot{width:21px;height:21px;border:1px solid #9c8f86;border-radius:50%;display:grid;place-items:center;flex:none}
+.response-option.active .response-dot::after{content:"";width:9px;height:9px;background:var(--accent);border-radius:50%}
+.field{margin:22px 0}
+.field label{display:block;font-size:15px;font-weight:600;margin-bottom:8px;color:#5d5d5d}
+.required{color:var(--accent)}
+.field input[type="text"],.field input[type="tel"],.field input[type="number"],.field textarea{width:100%;border:0;border-bottom:1px solid #bfb8b3;padding:11px 2px;background:transparent;outline:0;color:var(--ink);font-size:16px}
+.field textarea{min-height:115px;resize:vertical;line-height:1.7}
+.field input:focus,.field textarea:focus{border-color:var(--accent)}
+.radios{display:grid;gap:10px;font-size:15px}
+.radios label{display:flex;align-items:center;gap:8px;font-weight:400;margin:0}
+.submit-btn{width:100%;border:0;background:var(--ink);color:#fff;padding:14px 18px;margin-top:14px;cursor:pointer;font:600 13px/1.4 "Montserrat",sans-serif;letter-spacing:.09em;text-transform:uppercase;transition:.2s}
+.submit-btn:hover{background:var(--accent)}
+.form-note{display:none;text-align:center;margin-top:16px;font-size:15px;color:#686868}.form-note.show{display:block}
 
-.fade{opacity:0;transform:translateY(20px);transition:opacity .9s cubic-bezier(.2,.65,.3,1),transform .9s cubic-bezier(.2,.65,.3,1)}.fade.visible{opacity:1;transform:none}
-@keyframes heroDrift{from{transform:scale(1.02) translate3d(0,0,0)}to{transform:scale(1.06) translate3d(0,-1.2%,0)}}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.hero-flower{animation:none}.fade{transition:none;transform:none;opacity:1}}
-.gallery-item img.zoom-60 {
-  transform: none;
-  transform-origin: center center;
+/* ---------- ending ---------- */
+.thankyou{padding:clamp(88px,10vw,146px) 0 50px;text-align:center}
+.thank-photo{width:min(410px,62vw);aspect-ratio:1;margin:0 auto 44px;overflow:hidden;background:#eee}
+.thank-photo img{width:100%;height:100%;object-fit:cover;object-position:center 35%}
+.thank-title{font:700 clamp(42px,6vw,72px)/1 "Montserrat",sans-serif;letter-spacing:.04em;margin:0}
+.thank-sub{font-size:clamp(15px,1.5vw,18px);margin:18px 0 0;color:#777}
+.end-note{padding:44px 22px 72px;text-align:center;font:400 clamp(13px,1.2vw,16px)/1.8 "Montserrat",sans-serif;color:#777}
+
+/* ---------- music ---------- */
+.music-btn{position:fixed;right:18px;bottom:18px;z-index:50;width:58px;height:58px;border-radius:50%;border:1px solid rgba(84,84,84,.18);background:rgba(255,255,255,.92);box-shadow:0 10px 28px rgba(0,0,0,.10);cursor:pointer;display:grid;place-items:center;backdrop-filter:blur(8px)}
+.music-disc{width:34px;height:34px;border-radius:50%;background:radial-gradient(circle,#fff 0 4px,#c78469 4px 7px,#555 7px 11px,#282828 11px 100%)}
+.music-btn.playing .music-disc{animation:spin 4s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ---------- subtle entrance ---------- */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .75s ease,transform .75s ease}
+.reveal.visible{opacity:1;transform:none}
+
+@media(max-width:760px){
+  .wrap{width:min(var(--max),calc(100% - 28px))}
+  .hero-photo{min-height:260px}
+  .countdown{gap:4px;padding:20px 0}
+  .pair-grid{gap:10px}
+  .parents{gap:10px;grid-template-columns:1fr 32px 1fr}
+  .parent-bio{font-size:12px}
+  .day-layout{grid-template-columns:1fr;gap:32px}
+  .day-image{width:100%;aspect-ratio:1.44 / 1}
+  .action-grid{gap:14px}
+  .gallery-mosaic{gap:6px}
+  .location-grid{grid-template-columns:1fr;gap:32px}
+  .location-copy{text-align:center}
+  .music-btn{width:52px;height:52px;right:12px;bottom:12px}
+  .music-disc{width:30px;height:30px}
 }
-.gallery-item:hover img.zoom-60 {
-  transform: scale(1.035);
-  transform-origin: center center;
+@media(max-width:440px){
+  .hero-photo{aspect-ratio:1.55 / 1;min-height:0}
+  .hero-photo img{object-position:center 45%}
+  .invite{padding-top:58px}
+  .count-unit{letter-spacing:.06em}
+  .parents{grid-template-columns:1fr;gap:18px}
+  .parent-and{padding:0}
+  .action-icon{width:70px}
+  .action-label{font-size:9px;letter-spacing:.06em}
+  .gallery-mosaic{gap:4px}
 }
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1;transform:none;transition:none}.music-btn.playing .music-disc{animation:none}}
 </style>
 </head>
 <body>
 
-<div class="preview-shell" id="previewShell">
-<main class="invitation">
-  <section class="hero">
-    <img class="hero-flower" src="https://media.saranghada.com/photos/objects/flowers/7krlsqos9xjb/pex_object_flower011_001.jpg" alt="" />
-    <div class="hero-inner">
-      <div class="photo-collage fade">
-        <div class="photo one"><img src="use3up.png" alt="Suporn and Thanapon" /></div>
-        <div class="photo two"><img src="use1up.png" alt="Suporn and Thanapon" /></div>
-      </div>
-      <div class="save-date fade"><span>SAVE THE DATE</span><span class="rings">○○</span><span>28 NOV 2026</span></div>
-      <hr class="hero-rule fade" />
-      <div class="names fade"><h1>Suporn</h1><span class="amp">&amp;</span><h1>Thanapon</h1></div>
-      <span class="location-kicker fade">AT Khon Kaen</span>
-    </div>
-  </section>
+<header class="hero-photo">
+  <img src="(Studio) AP-76.jpg" alt="Suporn and Thanapon" />
+</header>
 
-  <section class="section" id="guest">
-    <div class="narrow">
-      <h2 class="section-title fade">Be Our Guest</h2>
-      <div class="guest-copy fade">
-        <p>ด้วยความยินดีและปลื้มปิติอย่างสูง</p>
-        <p>เราสองคนขอเรียนเชิญแขกผู้มีเกียรติ</p>
-        <p>และญาติพี่น้องที่เคารพทุกท่าน</p>
-        <p>มาร่วมพิธีมงคลสมรส และร่วมแสดง</p>
-        <p>ความยินดีในโอกาสอันเป็นสิริมงคลนี้</p>
-        <p>เพื่อเป็นสักขีพยานในความรักและ</p>
-        <p>การเริ่มต้นชีวิตคู่ของเราทั้งสอง</p>
-        <span class="signature">Suporn &amp; Thanapon</span>
-      </div>
-    </div>
-  </section>
+<main>
+  <section class="invite">
+    <div class="wrap invite-inner reveal">
+      <h1 class="invite-top">SAVE THE DATE</h1>
+      <p class="family-line">TOGETHER WITH THEIR FAMILIES</p>
+      <p class="couple-name">SUPORN &amp; THANAPON</p>
+      <p class="family-line">INVITE YOU TO CELEBRATE THEIR MARRIAGE</p>
+      <p class="invite-thai">ขอเรียนเชิญร่วมเป็นเกียรติในพิธีมงคลสมรส<br>และร่วมเฉลิมฉลองการเริ่มต้นชีวิตคู่ของเราทั้งสอง</p>
+      <p class="invite-date">28 NOVEMBER 2026 · 17:00</p>
+      <p class="invite-place">KHON KAEN · THAILAND</p>
 
-  <section class="section couple-intro">
-    <div class="wide-photo fade"><img src="(Studio) AP-128.jpg" alt="Couple portrait" /></div>
-    <div class="parents-grid fade">
-      <div><h3 class="parent-name">Suporn</h3><p class="parent-bio">Daughter of Mr. Damrongsak<br>Mrs. Yuphin Thong-om</p></div>
-      <div class="parent-amp">&amp;</div>
-      <div><h3 class="parent-name">Thanapon</h3><p class="parent-bio">Son of Mr. Phaiboon<br>Mrs. Amornrat Poonthong</p></div>
-    </div>
-  </section>
-
-  <section class="section alt" id="wedding-day">
-    <h2 class="section-title fade">Wedding Day</h2>
-    <p class="calendar-kicker fade">SAVE OUR DATE · 28 NOVEMBER 2026</p>
-    <div class="calendar-wrap fade">
-      <div class="calendar-head">
-        <span class="calendar-ornament">♡</span>
-        <div class="calendar-month"><span class="month-en">November</span><span class="month-th">พฤศจิกายน 2569</span></div>
-        <span class="calendar-ornament">♡</span>
-      </div>
-      <div class="cal-grid" id="calendarGrid"></div>
-      <div class="date-detail"><strong>Saturday, 28</strong><span>พฤศจิกายน 2569</span><span>17:00 น.</span></div>
-    </div>
-  </section>
-
-  <section class="countdown-section">
-    <h3 class="countdown-title fade">Countdown to our Wedding</h3>
-    <div class="countdown fade" id="countdown">
-      <div class="count-item"><div class="count-num" data-unit="days">0</div><div class="count-unit">Days</div></div>
-      <div class="count-item"><div class="count-num" data-unit="hours">0</div><div class="count-unit">Hours</div></div>
-      <div class="count-item"><div class="count-num" data-unit="minutes">0</div><div class="count-unit">Minutes</div></div>
-      <div class="count-item"><div class="count-num" data-unit="seconds">0</div><div class="count-unit">Seconds</div></div>
-    </div>
-  </section>
-
-  <section class="theme-section" id="wedding-theme">
-    <h2 class="theme-title fade">Wedding Theme</h2>
-    <!-- ข้อความคำอธิบายถูกซ่อนเอาไว้ -->
-    <!-- <p class="theme-subtitle fade">Earth Tone — โทนสีอบอุ่น เรียบง่าย และเป็นธรรมชาติ สำหรับแขกที่อยากแต่งตัวให้เข้ากับบรรยากาศของงาน</p> -->
-    <div class="theme-colors fade" aria-label="Earth tone wedding colors">
-      <div class="theme-color-item">
-        <span class="theme-dot terracotta" aria-hidden="true"></span>
-        <span class="theme-color-name">Terracotta</span>
-      </div>
-      <div class="theme-color-item">
-        <span class="theme-dot sage" aria-hidden="true"></span>
-        <span class="theme-color-name">Sage</span>
-      </div>
-      <div class="theme-color-item">
-        <span class="theme-dot sand" aria-hidden="true"></span>
-        <span class="theme-color-name">Sand</span>
-      </div>
-    </div>
-    <!-- <p class="theme-note fade">เลือกเฉดใกล้เคียงได้ตามสะดวก ไม่จำเป็นต้องตรงสีตัวอย่างทั้งหมด</p> -->
-  </section>
-
-  <section class="section" id="location">
-    <h2 class="section-title fade">Location</h2>
-    <iframe class="map fade" title="Wedding venue map in Khon Kaen" src="https://www.google.com/maps?q=Khon%20Kaen%20Thailand&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-    <div class="venue fade"><strong>Wedding Venue</strong><span>Khon Kaen, Thailand</span></div>
-    <a class="map-btn fade" href="https://maps.app.goo.gl/yqRWQGaPESBfK6NV8" target="_blank" rel="noopener noreferrer">Go to Map</a>
-  </section>
-
-  <section class="feature-photo">
-    <img class="fade" src="(Studio) AP-76.jpg" alt="Wedding couple" />
-  </section>
-
-  <section class="section alt" id="rsvp">
-    <h2 class="section-title fade">RSVP</h2>
-    <form class="rsvp-form fade" id="rsvpForm">
-      <input type="hidden" name="attendance" id="attendance" value="yes" />
-      <div class="response-row">
-        <div class="response-option active" data-value="yes" role="button" tabindex="0"><span class="response-dot"></span><span>เข้าร่วม</span></div>
-        <div class="response-option" data-value="no" role="button" tabindex="0"><span class="response-dot"></span><span>ไม่เข้าร่วม</span></div>
-      </div>
-      <div class="field"><label for="name">ชื่อ <span class="required">*</span></label><input id="name" name="name" type="text" placeholder="เช่น สมชาย" required /></div>
-      <div class="field"><label for="followers">มีผู้ติดตามกี่คน</label><input id="followers" name="followers" type="number" min="0" step="1" value="0" inputmode="numeric" aria-describedby="followersHelp" /><small id="followersHelp" style="display:block;margin-top:7px;color:var(--muted);font-size:14px;line-height:1.5;">ไม่รวมตัวท่านเอง หากไม่มีผู้ติดตามให้ใส่ 0</small></div>
-      <div class="field"><label>คุณเป็นแขกของฝ่ายใด <span class="required">*</span></label>
-        <div class="radios">
-          <label><input type="radio" name="side" value="bride" required /> ฝ่ายเจ้าสาว</label>
-          <label><input type="radio" name="side" value="groom" /> ฝ่ายเจ้าบ่าว</label>
-          <label><input type="radio" name="side" value="both" /> ทั้งสองฝ่าย</label>
+      <div class="countdown-wrap">
+        <div class="countdown" id="countdown">
+          <div class="count-item"><div class="count-num" data-unit="days">00</div><div class="count-unit">Days</div></div>
+          <div class="count-item"><div class="count-num" data-unit="hours">00</div><div class="count-unit">Hours</div></div>
+          <div class="count-item"><div class="count-num" data-unit="minutes">00</div><div class="count-unit">Minutes</div></div>
+          <div class="count-item"><div class="count-num" data-unit="seconds">00</div><div class="count-unit">Seconds</div></div>
         </div>
       </div>
-      <div class="field"><label for="phone">หมายเลขโทรศัพท์</label><input id="phone" name="phone" type="tel" placeholder="เช่น 0812345678" /></div>
-      <div class="field"><label for="blessing">คำอวยพรถึงบ่าวสาว</label><textarea id="blessing" name="blessing" maxlength="500" placeholder="เขียนคำอวยพรหรือข้อความถึง Suporn &amp; Thanapon ได้ที่นี่ 🤍"></textarea></div>
-      <button class="submit-btn" id="submitBtn" type="submit">ส่ง</button>
-      <div class="form-note" id="formNote">ส่งข้อมูลเรียบร้อยแล้ว</div>
-    </form>
-  </section>
-
-  <section class="section" id="gallery">
-    <h2 class="section-title fade">Gallery</h2>
-    <div class="gallery">
-      <div class="gallery-item fade"><img src="(Studio) AP-113.jpg" alt="Gallery photo 1" class="zoom-60"></div><div class="gallery-item fade"><img src="416067.jpg" alt="Gallery photo 2"></div>
-      <div class="gallery-item fade"><img src="416072.jpg" alt="Gallery photo 3"></div>
-      <div class="gallery-item fade"><img src="(Studio) AP-41.jpg" alt="Gallery photo 4"></div>
-      <div class="gallery-item fade"><img src="use2.jpg" alt="Gallery photo 5"></div>
-      <div class="gallery-item fade"><img src="(Studio) AP-154.jpg" alt="Gallery photo 6"></div>
     </div>
   </section>
-  <!-- (Studio) AP-167 -->
 
-  <section class="quote">
-    <p class="big fade">All you need is love</p>
-    <span class="author fade">Paul McCartney</span>
+  <section class="pair-photos">
+    <div class="wrap">
+      <div class="pair-grid reveal">
+        <div class="frame"><img src="use3up.png" alt="Suporn" /></div>
+        <div class="frame"><img src="use1up.png" alt="Thanapon" /></div>
+      </div>
+      <div class="parents reveal">
+        <div><h2 class="parent-name">Suporn</h2><p class="parent-bio">Daughter of Mr. Damrongsak<br>Mrs. Yuphin Thong-om</p></div>
+        <div class="parent-and">&amp;</div>
+        <div><h2 class="parent-name">Thanapon</h2><p class="parent-bio">Son of Mr. Phaiboon<br>Mrs. Amornrat Poonthong</p></div>
+      </div>
+    </div>
   </section>
+
+  <section class="wedding-day" id="wedding-day">
+    <div class="wrap day-layout">
+      <div class="reveal">
+        <p class="kicker">Our Special Day</p>
+        <h2 class="heading day-title"><span class="accent">WEDDING</span> DAY</h2>
+        <div class="calendar">
+          <div class="calendar-head"><span class="calendar-month">NOVEMBER</span><span class="calendar-year">2026</span></div>
+          <div class="cal-grid" id="calendarGrid"></div>
+        </div>
+        <div class="day-detail"><strong>Saturday, 28 November 2026</strong><span>17:00 · Khon Kaen, Thailand</span></div>
+      </div>
+      <div class="day-image reveal"><img src="(Studio) AP-128.jpg" alt="Suporn and Thanapon portrait" /></div>
+    </div>
+  </section>
+
+  <section class="theme" id="wedding-theme">
+    <div class="wrap reveal">
+      <p class="kicker">Dress with us</p>
+      <h2 class="heading">Wedding <span class="accent">Theme</span></h2>
+      <p class="theme-sub">Earth Tone — โทนสีอบอุ่น เรียบง่าย และเป็นธรรมชาติ</p>
+      <div class="theme-colors">
+        <div class="theme-item"><span class="theme-dot terracotta"></span><span class="theme-label">Terracotta</span></div>
+        <div class="theme-item"><span class="theme-dot sage"></span><span class="theme-label">Sage</span></div>
+        <div class="theme-item"><span class="theme-dot sand"></span><span class="theme-label">Sand</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="quick-actions">
+    <div class="wrap action-grid reveal">
+      <a class="action" href="#location">
+        <span class="action-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M24 43s13-12.2 13-25A13 13 0 1 0 11 18c0 12.8 13 25 13 25Z"/><circle cx="24" cy="18" r="4.5"/></svg></span>
+        <span class="action-label">Location</span>
+      </a>
+      <a class="action" href="#rsvp">
+        <span class="action-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M9 12h30v24H9z"/><path d="m10 14 14 12 14-12"/><path d="M16 8h16"/></svg></span>
+        <span class="action-label">RSVP</span>
+      </a>
+      <a class="action" href="#blessing">
+        <span class="action-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M24 40S8 31 8 19a9 9 0 0 1 16-5 9 9 0 0 1 16 5c0 12-16 21-16 21Z"/></svg></span>
+        <span class="action-label">Blessing</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="gallery-section" id="gallery">
+    <div class="wrap">
+      <div class="gallery-title reveal">
+        <p class="kicker">Our memories</p>
+        <h2 class="heading">SPECIAL GALLERY</h2>
+      </div>
+      <div class="gallery-mosaic reveal">
+        <div class="g g1"><img src="(Studio) AP-113.jpg" alt="Wedding gallery photo 1" /></div>
+        <div class="g g2"><img src="416067.jpg" alt="Wedding gallery photo 2" /></div>
+        <div class="g g3"><img src="(Studio) AP-128.jpg" alt="Wedding gallery photo 3" /></div>
+        <div class="g g4"><img src="416072.jpg" alt="Wedding gallery photo 4" /></div>
+        <div class="g g5"><img src="(Studio) AP-41.jpg" alt="Wedding gallery photo 5" /></div>
+        <div class="g g6"><img src="use2.jpg" alt="Wedding gallery photo 6" /></div>
+        <div class="g g7"><img src="(Studio) AP-154.jpg" alt="Wedding gallery photo 7" /></div>
+        <div class="g g8"><img src="use3up.png" alt="Wedding gallery photo 8" /></div>
+        <div class="g g9"><img src="use1up.png" alt="Wedding gallery photo 9" /></div>
+        <div class="g g10"><img src="(Studio) AP-76.jpg" alt="Wedding gallery photo 10" /></div>
+      </div>
+    </div>
+  </section>
+<!-- 
+  <section class="location-section" id="location">
+    <div class="wrap location-grid">
+      <div class="location-copy reveal">
+        <p class="kicker">See you there</p>
+        <h2 class="heading"><span class="accent">LOCATION</span></h2>
+        <p><strong>Wedding Venue</strong><br>Khon Kaen, Thailand</p>
+        <a class="map-btn" href="https://maps.app.goo.gl/yqRWQGaPESBfK6NV8" target="_blank" rel="noopener noreferrer">Open in Maps</a>
+      </div>
+      <iframe class="map reveal" title="Wedding venue map in Khon Kaen" src="https://www.google.com/maps?q=Khon%20Kaen%20Thailand&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </section> -->
+<!-- 
+  <section class="rsvp-section" id="rsvp">
+    <div class="wrap">
+      <div class="rsvp-head reveal">
+        <p class="kicker">Will you join us?</p>
+        <h2 class="heading">RSVP</h2>
+      </div>
+      <form class="rsvp-form reveal" id="rsvpForm">
+        <input type="hidden" name="attendance" id="attendance" value="yes" />
+        <div class="response-row">
+          <div class="response-option active" data-value="yes" role="button" tabindex="0"><span class="response-dot"></span><span>เข้าร่วม</span></div>
+          <div class="response-option" data-value="no" role="button" tabindex="0"><span class="response-dot"></span><span>ไม่เข้าร่วม</span></div>
+        </div>
+        <div class="field"><label for="name">ชื่อ <span class="required">*</span></label><input id="name" name="name" type="text" placeholder="เช่น สมชาย" required /></div>
+        <div class="field"><label for="followers">มีผู้ติดตามกี่คน</label><input id="followers" name="followers" type="number" min="0" step="1" value="0" inputmode="numeric" aria-describedby="followersHelp" /><small id="followersHelp" style="display:block;margin-top:7px;color:#888;font-size:13px;line-height:1.5;">ไม่รวมตัวท่านเอง หากไม่มีผู้ติดตามให้ใส่ 0</small></div>
+        <div class="field"><label>คุณเป็นแขกของฝ่ายใด <span class="required">*</span></label>
+          <div class="radios">
+            <label><input type="radio" name="side" value="bride" required /> ฝ่ายเจ้าสาว</label>
+            <label><input type="radio" name="side" value="groom" /> ฝ่ายเจ้าบ่าว</label>
+            <label><input type="radio" name="side" value="both" /> ทั้งสองฝ่าย</label>
+          </div>
+        </div>
+        <div class="field"><label for="phone">หมายเลขโทรศัพท์</label><input id="phone" name="phone" type="tel" placeholder="เช่น 0812345678" /></div>
+        <div class="field" id="blessing"><label for="blessingText">คำอวยพรถึงบ่าวสาว</label><textarea id="blessingText" name="blessing" maxlength="500" placeholder="เขียนคำอวยพรหรือข้อความถึง Suporn &amp; Thanapon ได้ที่นี่ 🤍"></textarea></div>
+        <button class="submit-btn" id="submitBtn" type="submit">Send RSVP</button>
+        <div class="form-note" id="formNote">ส่งข้อมูลเรียบร้อยแล้ว</div>
+      </form>
+    </div>
+  </section> -->
+
+  <section class="thankyou">
+    <div class="wrap reveal">
+      <div class="thank-photo"><img src="416072.jpg" alt="Suporn and Thanapon" /></div>
+      <h2 class="thank-title">THANK YOU</h2>
+      <p class="thank-sub">ขอบคุณที่มาร่วมเป็นส่วนหนึ่งในวันสำคัญของเรา</p>
+    </div>
+  </section>
+  <div class="end-note">We are thrilled to invite you to celebrate our special day!<br>Join us as we begin this beautiful journey together.</div>
 </main>
-</div>
 
 <audio id="bgMusic" loop preload="auto" playsinline autoplay hidden>
   <source src="canon.mp3" type="audio/mpeg" />
 </audio>
-<button class="music-record spinning" id="musicRecord" aria-label="เปิดหรือหยุดเพลง" title="เปิดหรือหยุดเพลง"></button>
+<button class="music-btn playing" id="musicBtn" aria-label="เปิดหรือหยุดเพลง" title="เปิดหรือหยุดเพลง"><span class="music-disc"></span></button>
 
 <script>
-window.addEventListener('load',()=>{
-  document.querySelectorAll('.hero .fade').forEach((el,i)=>setTimeout(()=>el.classList.add('visible'),120+i*110));
-});
+// Reveal
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+},{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
+// Calendar — November 2026
 const cal = document.getElementById('calendarGrid');
-const dows = ['อา','จ','อ','พ','พฤ','ศ','ส'];
+const dows = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
 const calendarYear = 2026;
-const calendarMonth = 10; // November (0 = January)
+const calendarMonth = 10;
 const specialDay = 28;
-const firstWeekday = new Date(calendarYear, calendarMonth, 1).getDay();
-const daysInMonth = new Date(calendarYear, calendarMonth + 1, 0).getDate();
-
-dows.forEach((d,i)=>{
-  const x=document.createElement('div');
-  x.className='dow'+(i===0?' sun':'');
-  x.textContent=d;
-  cal.appendChild(x);
+dows.forEach(d => {
+  const el = document.createElement('div');
+  el.className = 'dow';
+  el.textContent = d;
+  cal.appendChild(el);
 });
+const firstWeekday = new Date(calendarYear,calendarMonth,1).getDay();
+const daysInMonth = new Date(calendarYear,calendarMonth+1,0).getDate();
 for(let i=0;i<firstWeekday;i++){
-  const x=document.createElement('div');
-  x.className='day empty';
-  x.setAttribute('aria-hidden','true');
-  cal.appendChild(x);
+  const el=document.createElement('div');
+  el.className='day empty';
+  el.setAttribute('aria-hidden','true');
+  cal.appendChild(el);
 }
 for(let d=1;d<=daysInMonth;d++){
-  const x=document.createElement('div');
-  const weekday = new Date(calendarYear, calendarMonth, d).getDay();
-  x.className='day'+(d===specialDay?' active':'')+(weekday===0?' sun':'');
-  x.textContent=d;
-  if(d===specialDay) x.setAttribute('aria-label','วันแต่งงาน 28 พฤศจิกายน 2569');
-  cal.appendChild(x);
+  const el=document.createElement('div');
+  el.className='day'+(d===specialDay?' active':'');
+  el.textContent=d;
+  if(d===specialDay) el.setAttribute('aria-label','วันแต่งงาน 28 พฤศจิกายน 2569');
+  cal.appendChild(el);
 }
 
-const wedding = new Date('2026-11-28T10:00:00+07:00');
+// Countdown to 28 Nov 2026, 17:00 Thailand time
+const wedding = new Date('2026-11-28T17:00:00+07:00');
 function updateCountdown(){
-  let diff = Math.max(0, wedding - new Date());
+  let diff = Math.max(0,wedding-new Date());
   const days=Math.floor(diff/86400000); diff%=86400000;
   const hours=Math.floor(diff/3600000); diff%=3600000;
   const minutes=Math.floor(diff/60000); diff%=60000;
   const seconds=Math.floor(diff/1000);
-  const v={days,hours,minutes,seconds};
-  Object.keys(v).forEach(k=>{ const el=document.querySelector(`[data-unit="${k}"]`); if(el) el.textContent=String(v[k]).padStart(2,'0'); });
+  const values={days,hours,minutes,seconds};
+  Object.entries(values).forEach(([key,value])=>{
+    const el=document.querySelector(`[data-unit="${key}"]`);
+    if(el) el.textContent=String(value).padStart(2,'0');
+  });
 }
-updateCountdown(); setInterval(updateCountdown,1000);
+updateCountdown();
+setInterval(updateCountdown,1000);
 
-const io = new IntersectionObserver(entries=>entries.forEach(e=>{ if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);} }),{threshold:.09});
-document.querySelectorAll('.fade').forEach(el=>io.observe(el));
-
+// RSVP selection
 const options=[...document.querySelectorAll('.response-option')];
-function chooseOption(el){ options.forEach(o=>o.classList.toggle('active',o===el)); document.getElementById('attendance').value=el.dataset.value; }
-options.forEach(el=>{ el.addEventListener('click',()=>chooseOption(el)); el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();chooseOption(el)}}); });
+function chooseOption(el){
+  options.forEach(o=>o.classList.toggle('active',o===el));
+  document.getElementById('attendance').value=el.dataset.value;
+}
+options.forEach(el=>{
+  el.addEventListener('click',()=>chooseOption(el));
+  el.addEventListener('keydown',e=>{
+    if(e.key==='Enter'||e.key===' '){e.preventDefault();chooseOption(el);}
+  });
+});
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby9eX66vbPDIKgxCSPr9xH6-mit-Rs6-0x5MMrgr7q-l92EWYib1oS39yYepOC1fdjZ/exec';
-const rsvpForm = document.getElementById('rsvpForm');
-const submitBtn = document.getElementById('submitBtn');
-const formNote = document.getElementById('formNote');
-
-rsvpForm.addEventListener('submit', async (e)=>{
+// RSVP submit
+const SCRIPT_URL='https://script.google.com/macros/s/AKfycby9eX66vbPDIKgxCSPr9xH6-mit-Rs6-0x5MMrgr7q-l92EWYib1oS39yYepOC1fdjZ/exec';
+const rsvpForm=document.getElementById('rsvpForm');
+const submitBtn=document.getElementById('submitBtn');
+const formNote=document.getElementById('formNote');
+rsvpForm.addEventListener('submit',async e=>{
   e.preventDefault();
-  const name = document.getElementById('name').value.trim();
-  const phone = document.getElementById('phone').value.trim();
-  const blessing = document.getElementById('blessing').value.trim();
-  const followersRaw = document.getElementById('followers').value;
-  const followers = Number.parseInt(followersRaw, 10);
-  const sideEl = document.querySelector('input[name="side"]:checked');
-  const attendanceValue = document.getElementById('attendance').value;
-
-  if(!name){ alert('กรุณาระบุชื่อ'); return; }
-  if(!Number.isInteger(followers) || followers < 0){ alert('กรุณาระบุจำนวนผู้ติดตามเป็น 0 หรือจำนวนเต็มที่มากกว่า 0'); return; }
-  if(!sideEl){ alert('กรุณาเลือกว่าท่านเป็นแขกของฝ่ายใด'); return; }
-
-  const sideMap = { bride: 'ฝ่ายเจ้าสาว', groom: 'ฝ่ายเจ้าบ่าว', both: 'ทั้งสองฝ่าย' };
-  const data = {
-    name, phone, relation: sideMap[sideEl.value] || sideEl.value,
-    attendance: attendanceValue === 'yes' ? 'เข้าร่วมได้' : 'ไม่สามารถเข้าร่วมได้',
-    count: attendanceValue === 'yes' ? 1 + followers : 0, message: blessing
+  const name=document.getElementById('name').value.trim();
+  const phone=document.getElementById('phone').value.trim();
+  const blessing=document.getElementById('blessingText').value.trim();
+  const followers=Number.parseInt(document.getElementById('followers').value,10);
+  const sideEl=document.querySelector('input[name="side"]:checked');
+  const attendanceValue=document.getElementById('attendance').value;
+  if(!name){alert('กรุณาระบุชื่อ');return;}
+  if(!Number.isInteger(followers)||followers<0){alert('กรุณาระบุจำนวนผู้ติดตามเป็น 0 หรือจำนวนเต็มที่มากกว่า 0');return;}
+  if(!sideEl){alert('กรุณาเลือกว่าท่านเป็นแขกของฝ่ายใด');return;}
+  const sideMap={bride:'ฝ่ายเจ้าสาว',groom:'ฝ่ายเจ้าบ่าว',both:'ทั้งสองฝ่าย'};
+  const data={
+    name,
+    phone,
+    relation:sideMap[sideEl.value]||sideEl.value,
+    attendance:attendanceValue==='yes'?'เข้าร่วมได้':'ไม่สามารถเข้าร่วมได้',
+    count:attendanceValue==='yes'?1+followers:0,
+    message:blessing
   };
-
-  submitBtn.disabled = true;
-  submitBtn.textContent = 'กำลังส่ง...';
+  submitBtn.disabled=true;
+  submitBtn.textContent='กำลังส่ง...';
   formNote.classList.remove('show');
-
   try{
-    const res = await fetch(SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(data) });
-    if(!res.ok) throw new Error('HTTP ' + res.status);
-    formNote.textContent = 'ส่งข้อมูลเรียบร้อยแล้ว ✓';
+    const res=await fetch(SCRIPT_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(data)});
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    formNote.textContent='ส่งข้อมูลเรียบร้อยแล้ว ✓';
     formNote.classList.add('show');
     rsvpForm.reset();
-    document.getElementById('followers').value = '0';
-    document.getElementById('attendance').value = 'yes';
-    options.forEach((o,i)=>o.classList.toggle('active', i===0));
+    document.getElementById('followers').value='0';
+    document.getElementById('attendance').value='yes';
+    options.forEach((o,i)=>o.classList.toggle('active',i===0));
   }catch(err){
     console.error(err);
-    formNote.textContent = 'ส่งข้อมูลไม่สำเร็จ กรุณาลองอีกครั้ง';
+    formNote.textContent='ส่งข้อมูลไม่สำเร็จ กรุณาลองอีกครั้ง';
     formNote.classList.add('show');
   }finally{
-    submitBtn.disabled = false;
-    submitBtn.textContent = 'ส่ง';
+    submitBtn.disabled=false;
+    submitBtn.textContent='Send RSVP';
   }
 });
 
-const music = document.getElementById('bgMusic');
-const musicRecord = document.getElementById('musicRecord');
-music.volume = 0.65;
-music.autoplay = true;
-let weddingMusicStarted = false;
-const musicStartEvents = ['pointerdown', 'touchstart', 'click', 'keydown'];
-
-function setMusicUI(){
-  if(music.paused){
-    musicRecord.classList.add('paused');
-    musicRecord.classList.remove('spinning');
-    musicRecord.setAttribute('aria-label','เล่นเพลง');
-    musicRecord.setAttribute('title','เล่นเพลง');
-  }else{
-    musicRecord.classList.remove('paused');
-    musicRecord.classList.add('spinning');
-    musicRecord.setAttribute('aria-label','หยุดเพลง');
-    musicRecord.setAttribute('title','หยุดเพลง');
-  }
+// Music: request play immediately; browsers may still enforce autoplay policy.
+const music=document.getElementById('bgMusic');
+const musicBtn=document.getElementById('musicBtn');
+music.volume=.65;
+function syncMusicUI(){musicBtn.classList.toggle('playing',!music.paused);}
+async function startMusic(){
+  try{await music.play();}catch(err){}
+  syncMusicUI();
 }
-function removeMusicStartListeners(){
-  musicStartEvents.forEach(eventName => document.removeEventListener(eventName, startWeddingMusic));
+async function toggleMusic(){
+  try{if(music.paused){await music.play();}else{music.pause();}}catch(err){}
+  syncMusicUI();
 }
-async function startWeddingMusic(){
-  if(!music.paused){
-    weddingMusicStarted = true;
-    removeMusicStartListeners();
-    setMusicUI();
-    return;
-  }
-  try{
-    await music.play();
-    weddingMusicStarted = true;
-    removeMusicStartListeners();
-  }catch(err){
-    // บางเบราว์เซอร์บล็อกเสียงอัตโนมัติจนกว่าจะมีการแตะ/คลิกครั้งแรก
-    console.warn('Autoplay blocked by browser policy.', err);
-  }
-  setMusicUI();
-}
-async function toggleWeddingMusic(){
-  try{
-    if(music.paused){
-      await music.play();
-      weddingMusicStarted = true;
-      removeMusicStartListeners();
-    }else{
-      music.pause();
-    }
-  }catch(err){
-    console.warn('Music toggle failed:', err);
-  }
-  setMusicUI();
-}
-
-musicRecord.addEventListener('click', toggleWeddingMusic);
-music.addEventListener('play', setMusicUI);
-music.addEventListener('pause', setMusicUI);
-music.addEventListener('ended', setMusicUI);
-music.addEventListener('error', setMusicUI);
-
-// สั่งเล่นทันทีที่ JavaScript มาถึงตรงนี้ — ไม่รอ window.load
-startWeddingMusic();
-
-// ใช้เฉพาะเป็น fallback ถ้า browser บล็อก autoplay แบบมีเสียง
-musicStartEvents.forEach(eventName => {
-  document.addEventListener(eventName, startWeddingMusic, { passive: eventName !== 'keydown' });
-});
-setMusicUI();
+musicBtn.addEventListener('click',toggleMusic);
+music.addEventListener('play',syncMusicUI);
+music.addEventListener('pause',syncMusicUI);
+startMusic();
+window.addEventListener('load',startMusic,{once:true});
+['pointerdown','touchstart','keydown'].forEach(evt=>document.addEventListener(evt,startMusic,{once:true,passive:evt!=='keydown'}));
 </script>
 </body>
 </html>
