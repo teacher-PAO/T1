@@ -3,13 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bar Model Generator</title>
+    <title>Animated Bar Model - Clear Labels</title>
     <style>
         :root {
             --primary: #2c3e50;
-            --box-bg: #b0b4b8; /* สีเทาแบบในหนังสือ */
+            --box-bg: #e0e6ed;
             --border: #333333;
             --bg: #f4f7f6;
+            --highlight: #4CAF50;
+            
+            /* สีสำหรับแยกความแตกต่าง */
+            --group-color: #2196F3; /* สีฟ้า สำหรับ "กลุ่ม" */
+            --value-color: #ff9800; /* สีส้ม สำหรับ "ค่าในแต่ละกลุ่ม" */
         }
 
         body {
@@ -37,19 +42,19 @@
         h2 {
             text-align: center;
             margin-top: 0;
-            color: #4CAF50;
+            color: var(--primary);
         }
 
-        /* ส่วนฟอร์มกรอกข้อมูล */
         .controls {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            display: flex;
             gap: 15px;
             margin-bottom: 30px;
             background: #f9f9f9;
             padding: 15px;
             border-radius: 8px;
             border: 1px solid #ddd;
+            justify-content: center;
+            align-items: flex-end;
         }
 
         .input-group {
@@ -59,87 +64,81 @@
         }
 
         .input-group label {
-            font-size: 0.9rem;
             font-weight: bold;
         }
 
-        input[type="text"], input[type="number"] {
+        /* ใส่สีให้ Label ตรงช่องกรอกข้อมูล เพื่อโยงกับภาพด้านล่าง */
+        .lbl-group { color: var(--group-color); }
+        .lbl-value { color: var(--value-color); }
+
+        input[type="number"] {
             padding: 8px;
             border: 1px solid #ccc;
             border-radius: 4px;
             font-size: 1rem;
+            width: 120px;
         }
 
         button {
-            grid-column: 1 / -1;
-            padding: 10px;
-            background-color: #4CAF50;
+            padding: 10px 20px;
+            background-color: var(--highlight);
             color: white;
             border: none;
             border-radius: 4px;
             font-size: 1rem;
             cursor: pointer;
             font-weight: bold;
+            transition: background-color 0.2s;
         }
 
-        button:hover {
-            background-color: #45a049;
-        }
+        button:hover { background-color: #45a049; }
+        button:disabled { background-color: #ccc; cursor: not-allowed; }
 
-        /* --- ส่วนจำลอง Bar Model --- */
+        /* --- ส่วน Layout ของ Bar Model --- */
         .model-area {
-            display: flex;
-            justify-content: center;
-            margin-top: 40px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: #222;
-        }
-
-        .layout-grid {
-            display: grid;
-            grid-template-columns: auto 1fr;
-            grid-template-rows: auto auto auto;
-            row-gap: 5px;
-            column-gap: 15px;
-            align-items: center;
-            width: 100%;
-            max-width: 600px;
-        }
-
-        /* ข้อความฝั่งซ้าย */
-        .left-label-top, .left-label-mid {
-            text-align: right;
-            white-space: nowrap;
-        }
-
-        /* ปีกกาด้านบน (Bracket) */
-        .top-bracket-container {
             display: flex;
             flex-direction: column;
             align-items: center;
+            margin-top: 20px;
         }
 
-        .total-text {
-            margin-bottom: 2px;
+        .running-sum {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #555;
+            height: 35px;
+            margin-bottom: 15px;
+            text-align: center;
         }
 
-        .bracket {
+        /* ใช้ CSS Grid แบ่งฝั่งซ้าย (ป้ายบอกกลุ่ม) และฝั่งขวา (แท่ง Bar) */
+        .layout-grid {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            grid-template-rows: auto auto;
+            align-items: center;
+            column-gap: 15px;
             width: 100%;
-            height: 8px;
-            border-top: 2px solid var(--border);
-            border-left: 2px solid var(--border);
-            border-right: 2px solid var(--border);
-            margin-bottom: 2px;
+            max-width: 700px;
         }
 
-        /* กล่อง Bar Model */
+        /* ป้ายชี้บอก "จำนวนกลุ่ม" ด้านซ้าย */
+        .group-pointer {
+            color: var(--group-color);
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-align: right;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
         .bar-container {
             display: flex;
             width: 100%;
             border: 2px solid var(--border);
             background-color: var(--box-bg);
-            height: 45px;
+            height: 60px;
         }
 
         .box {
@@ -148,122 +147,203 @@
             justify-content: center;
             align-items: center;
             border-right: 2px solid var(--border);
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--value-color); /* ให้ตัวเลขในกล่องเป็นสีส้ม */
+            overflow: hidden;
         }
 
         .box:last-child {
             border-right: none;
         }
 
-        /* ลูกศรและข้อความด้านล่าง */
-        .bottom-label-container {
+        /* ป้ายชี้บอก "ค่าในกลุ่ม" ด้านล่าง */
+        .value-pointer {
+            grid-column: 2; /* ให้อยู่คอลัมน์เดียวกับ Bar */
             display: flex;
             flex-direction: column;
             align-items: flex-start;
+            color: var(--value-color);
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.5s;
             margin-top: 5px;
-            /* ขยับให้อยู่ตรงกลางกล่องแรกพอดี (สมมติ 5 กล่อง = 20%) */
+        }
+        
+        .arrow-up { font-size: 1.5rem; line-height: 1; margin-left: -4px;}
+        .pointer-text { font-size: 1.1rem; margin-top: 2px; }
+
+        /* --- Animation --- */
+        .number {
+            opacity: 0;
+            transform: scale(0);
+            transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .arrow-up {
-            font-size: 1.2rem;
-            line-height: 1;
-            margin-left: 0; 
+        .number.show {
+            opacity: 1;
+            transform: scale(1);
         }
 
-        .bottom-text {
-            margin-top: 2px;
-            font-size: 1rem;
+        .box.active {
+            background-color: #fff9c4; /* ไฮไลต์สีเหลืองอ่อนตอนบวก */
+            transition: background-color 0.3s;
+        }
+
+        .mul-summary {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 1.3rem;
             color: #333;
+            min-height: 80px;
         }
 
+        .fade-in-text {
+            animation: fadeIn 1s ease-in forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h2>สร้างสื่อการสอน Bar Model</h2>
+        <h2>สอนแนวคิด: กลุ่ม และ ค่าในกลุ่ม</h2>
         
         <div class="controls">
             <div class="input-group">
-                <label>ทั้งหมด (เช่น 15 หรือ ?)</label>
-                <input type="text" id="totalInput" value="15">
+                <label class="lbl-group">จำนวนกลุ่ม (มีกี่กล่อง?)</label>
+                <input type="number" id="groupCount" value="4" min="1" max="10">
             </div>
             <div class="input-group">
-                <label>จำนวนกลุ่ม (ต้องเป็นตัวเลข)</label>
-                <input type="number" id="groupCount" value="5" min="1" max="20">
+                <label class="lbl-value">ค่าในแต่ละกลุ่ม (กล่องละเท่าไหร่?)</label>
+                <input type="number" id="eachValue" value="5" min="1">
             </div>
-            <div class="input-group">
-                <label>ใน 1 กลุ่มมี (เช่น 3 หรือ ?)</label>
-                <input type="text" id="eachInput" value="3">
-            </div>
-            <div class="input-group">
-                <label>ชื่อสิ่งของ (เช่น T-shirts)</label>
-                <input type="text" id="itemName" value="T-shirts">
-            </div>
-            <div class="input-group">
-                <label>ชื่อกลุ่ม (เช่น bins)</label>
-                <input type="text" id="groupName" value="bins">
-            </div>
-            <button onclick="generateModel()">อัปเดต Bar Model</button>
+            <button id="startBtn" onclick="startAnimation()">เริ่มอนิเมชัน</button>
         </div>
 
         <div class="model-area">
-            <div class="layout-grid" id="modelDisplay">
-                <!-- โครงสร้าง Bar Model จะถูกสร้างที่นี่ด้วย JavaScript -->
+            <div class="running-sum" id="sumDisplay"></div>
+            
+            <div class="layout-grid">
+                <!-- ชี้เป้า: กลุ่ม -->
+                <div class="group-pointer" id="groupPointer"></div>
+                
+                <!-- ตัว Bar Model -->
+                <div class="bar-container" id="barContainer"></div>
+                
+                <div></div> <!-- ช่องว่างจัด Layout -->
+                
+                <!-- ชี้เป้า: ค่าในกลุ่ม -->
+                <div class="value-pointer" id="valuePointer"></div>
             </div>
+
+            <div class="mul-summary" id="mulDisplay"></div>
         </div>
     </div>
 
     <script>
-        function generateModel() {
-            const total = document.getElementById('totalInput').value || '?';
-            const numGroups = parseInt(document.getElementById('groupCount').value) || 5;
-            const each = document.getElementById('eachInput').value || '?';
-            const itemName = document.getElementById('itemName').value || 'items';
-            const groupName = document.getElementById('groupName').value || 'groups';
-            const display = document.getElementById('modelDisplay');
+        const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-            // คำนวณความกว้างของกล่องแรกเป็นเปอร์เซ็นต์ เพื่อวางลูกศรให้ตรงจุด
+        async function startAnimation() {
+            const btn = document.getElementById('startBtn');
+            const numGroups = parseInt(document.getElementById('groupCount').value) || 4;
+            const eachValue = parseInt(document.getElementById('eachValue').value) || 5;
+            
+            const barContainer = document.getElementById('barContainer');
+            const sumDisplay = document.getElementById('sumDisplay');
+            const mulDisplay = document.getElementById('mulDisplay');
+            const groupPointer = document.getElementById('groupPointer');
+            const valuePointer = document.getElementById('valuePointer');
+            
+            // เคลียร์ค่าเริ่มต้น
+            btn.disabled = true;
+            sumDisplay.innerHTML = '';
+            mulDisplay.innerHTML = '';
+            barContainer.innerHTML = '';
+            groupPointer.style.opacity = '0';
+            valuePointer.style.opacity = '0';
+
+            // คำนวณจุดกึ่งกลางของกล่องแรก เพื่อให้ลูกศรชี้ตรงเป้าเสมอ
             const firstBoxCenterPercent = (100 / numGroups) / 2;
+            
+            // กำหนดข้อความให้ป้ายชี้
+            groupPointer.innerHTML = `จำนวน<br><span style="font-size:1.6rem;">${numGroups}</span> กลุ่ม &rarr;`;
+            valuePointer.innerHTML = `
+                <div class="arrow-up">&uarr;</div>
+                <div class="pointer-text">ค่าใน 1 กลุ่ม = <strong>${eachValue}</strong></div>
+            `;
+            // ขยับลูกศรให้ตรงกล่องแรก
+            valuePointer.style.paddingLeft = `calc(${firstBoxCenterPercent}% - 8px)`;
 
-            // สร้างกล่องตามจำนวนกลุ่ม
-            let boxesHtml = '';
+            // สร้างกล่อง
             for (let i = 0; i < numGroups; i++) {
-                boxesHtml += `<div class="box">${each}</div>`;
+                barContainer.innerHTML += `
+                    <div class="box" id="box-${i}">
+                        <div class="number">${eachValue}</div>
+                    </div>
+                `;
             }
 
-            // HTML สำหรับจัด Layout เลียนแบบรูปภาพ
-            display.innerHTML = `
-                <!-- แถวที่ 1: Label ด้านซ้ายบน และ ปีกกา Total -->
-                <div class="left-label-top">${total} ${itemName} &rarr;</div>
-                <div class="top-bracket-container">
-                    <div class="total-text">${total}</div>
-                    <div class="bracket"></div>
-                </div>
+            // แสดงโครงสร้าง Bar และป้ายชี้ ก่อนเริ่มบวก
+            await sleep(300);
+            groupPointer.style.opacity = '1';
+            await sleep(400);
+            valuePointer.style.opacity = '1';
+            await sleep(600); // ให้ผู้เรียนกวาดสายตาดูป้ายก่อนเริ่มเด้งเลข
 
-                <!-- แถวที่ 2: Label ด้านซ้ายกลุ่ม และ กล่อง Bar -->
-                <div class="left-label-mid">${numGroups} ${groupName} &rarr;</div>
-                <div class="bar-container">
-                    ${boxesHtml}
-                </div>
+            let currentTotal = 0;
+            let sumText = "";
 
-                <!-- แถวที่ 3: ว่างฝั่งซ้าย และ ลูกศรชี้กล่องแรก -->
-                <div></div>
-                <div class="bottom-label-container" style="padding-left: calc(${firstBoxCenterPercent}% - 6px);">
-                    <div class="arrow-up">&uarr;</div>
-                    <div class="bottom-text">${each} ${itemName} in each ${groupName.replace(/s$/, '')}</div> <!-- พยายามตัด s ออกจากคำนามเอกพจน์ -->
+            // เริ่มอนิเมชันเด้งเลข
+            for (let i = 0; i < numGroups; i++) {
+                const box = document.getElementById(`box-${i}`);
+                const numberEl = box.querySelector('.number');
+
+                box.classList.add('active');
+                numberEl.classList.add('show');
+                
+                currentTotal += eachValue;
+                
+                if (i === 0) {
+                    sumText = `<span style="color:var(--value-color)">${eachValue}</span>`;
+                } else {
+                    sumText += ` + <span style="color:var(--value-color)">${eachValue}</span>`;
+                }
+                
+                sumDisplay.innerHTML = `${sumText} = ?`;
+
+                await sleep(800);
+                box.classList.remove('active');
+            }
+
+            // สรุปผลรวม
+            sumDisplay.innerHTML = `${sumText} = <span style="color: var(--highlight); font-size: 1.8rem;">${currentTotal}</span>`;
+            
+            await sleep(1000);
+            
+            // แสดงสรุปการคูณ โดยใช้สีเชื่อมโยงความเข้าใจ
+            mulDisplay.innerHTML = `
+                <div class="fade-in-text">
+                    มี <strong style="color:var(--group-color); font-size:1.4rem">${numGroups}</strong> กลุ่ม 
+                    กลุ่มละ <strong style="color:var(--value-color); font-size:1.4rem">${eachValue}</strong> <br>
+                    <div style="margin-top:10px; font-size: 2.2rem; font-weight: bold; background: #eee; padding: 10px; border-radius: 8px; display: inline-block;">
+                        <span style="color:var(--group-color)">${numGroups}</span> &times; 
+                        <span style="color:var(--value-color)">${eachValue}</span> = 
+                        <span style="color:var(--highlight)">${currentTotal}</span>
+                    </div>
                 </div>
             `;
+            
+            btn.disabled = false;
         }
 
-        // กด Enter ในช่อง Input เพื่อรัน
-        document.querySelectorAll('input').forEach(input => {
-            input.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') generateModel();
-            });
-        });
-
-        // รันครั้งแรกเมื่อโหลดหน้า
-        window.onload = generateModel;
+        window.onload = () => {
+            document.getElementById('startBtn').click();
+        };
     </script>
 
 </body>
