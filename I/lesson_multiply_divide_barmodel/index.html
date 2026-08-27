@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bar Model Generator</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --box-bg: #b0b4b8; /* สีเทาแบบในหนังสือ */
+            --border: #333333;
+            --bg: #f4f7f6;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--primary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 800px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 0;
+            color: #4CAF50;
+        }
+
+        /* ส่วนฟอร์มกรอกข้อมูล */
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .input-group label {
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        input[type="text"], input[type="number"] {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        button {
+            grid-column: 1 / -1;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* --- ส่วนจำลอง Bar Model --- */
+        .model-area {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #222;
+        }
+
+        .layout-grid {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            grid-template-rows: auto auto auto;
+            row-gap: 5px;
+            column-gap: 15px;
+            align-items: center;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        /* ข้อความฝั่งซ้าย */
+        .left-label-top, .left-label-mid {
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        /* ปีกกาด้านบน (Bracket) */
+        .top-bracket-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .total-text {
+            margin-bottom: 2px;
+        }
+
+        .bracket {
+            width: 100%;
+            height: 8px;
+            border-top: 2px solid var(--border);
+            border-left: 2px solid var(--border);
+            border-right: 2px solid var(--border);
+            margin-bottom: 2px;
+        }
+
+        /* กล่อง Bar Model */
+        .bar-container {
+            display: flex;
+            width: 100%;
+            border: 2px solid var(--border);
+            background-color: var(--box-bg);
+            height: 45px;
+        }
+
+        .box {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-right: 2px solid var(--border);
+        }
+
+        .box:last-child {
+            border-right: none;
+        }
+
+        /* ลูกศรและข้อความด้านล่าง */
+        .bottom-label-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-top: 5px;
+            /* ขยับให้อยู่ตรงกลางกล่องแรกพอดี (สมมติ 5 กล่อง = 20%) */
+        }
+
+        .arrow-up {
+            font-size: 1.2rem;
+            line-height: 1;
+            margin-left: 0; 
+        }
+
+        .bottom-text {
+            margin-top: 2px;
+            font-size: 1rem;
+            color: #333;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>สร้างสื่อการสอน Bar Model</h2>
+        
+        <div class="controls">
+            <div class="input-group">
+                <label>ทั้งหมด (เช่น 15 หรือ ?)</label>
+                <input type="text" id="totalInput" value="15">
+            </div>
+            <div class="input-group">
+                <label>จำนวนกลุ่ม (ต้องเป็นตัวเลข)</label>
+                <input type="number" id="groupCount" value="5" min="1" max="20">
+            </div>
+            <div class="input-group">
+                <label>ใน 1 กลุ่มมี (เช่น 3 หรือ ?)</label>
+                <input type="text" id="eachInput" value="3">
+            </div>
+            <div class="input-group">
+                <label>ชื่อสิ่งของ (เช่น T-shirts)</label>
+                <input type="text" id="itemName" value="T-shirts">
+            </div>
+            <div class="input-group">
+                <label>ชื่อกลุ่ม (เช่น bins)</label>
+                <input type="text" id="groupName" value="bins">
+            </div>
+            <button onclick="generateModel()">อัปเดต Bar Model</button>
+        </div>
+
+        <div class="model-area">
+            <div class="layout-grid" id="modelDisplay">
+                <!-- โครงสร้าง Bar Model จะถูกสร้างที่นี่ด้วย JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generateModel() {
+            const total = document.getElementById('totalInput').value || '?';
+            const numGroups = parseInt(document.getElementById('groupCount').value) || 5;
+            const each = document.getElementById('eachInput').value || '?';
+            const itemName = document.getElementById('itemName').value || 'items';
+            const groupName = document.getElementById('groupName').value || 'groups';
+            const display = document.getElementById('modelDisplay');
+
+            // คำนวณความกว้างของกล่องแรกเป็นเปอร์เซ็นต์ เพื่อวางลูกศรให้ตรงจุด
+            const firstBoxCenterPercent = (100 / numGroups) / 2;
+
+            // สร้างกล่องตามจำนวนกลุ่ม
+            let boxesHtml = '';
+            for (let i = 0; i < numGroups; i++) {
+                boxesHtml += `<div class="box">${each}</div>`;
+            }
+
+            // HTML สำหรับจัด Layout เลียนแบบรูปภาพ
+            display.innerHTML = `
+                <!-- แถวที่ 1: Label ด้านซ้ายบน และ ปีกกา Total -->
+                <div class="left-label-top">${total} ${itemName} &rarr;</div>
+                <div class="top-bracket-container">
+                    <div class="total-text">${total}</div>
+                    <div class="bracket"></div>
+                </div>
+
+                <!-- แถวที่ 2: Label ด้านซ้ายกลุ่ม และ กล่อง Bar -->
+                <div class="left-label-mid">${numGroups} ${groupName} &rarr;</div>
+                <div class="bar-container">
+                    ${boxesHtml}
+                </div>
+
+                <!-- แถวที่ 3: ว่างฝั่งซ้าย และ ลูกศรชี้กล่องแรก -->
+                <div></div>
+                <div class="bottom-label-container" style="padding-left: calc(${firstBoxCenterPercent}% - 6px);">
+                    <div class="arrow-up">&uarr;</div>
+                    <div class="bottom-text">${each} ${itemName} in each ${groupName.replace(/s$/, '')}</div> <!-- พยายามตัด s ออกจากคำนามเอกพจน์ -->
+                </div>
+            `;
+        }
+
+        // กด Enter ในช่อง Input เพื่อรัน
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') generateModel();
+            });
+        });
+
+        // รันครั้งแรกเมื่อโหลดหน้า
+        window.onload = generateModel;
+    </script>
+
+</body>
+</html>

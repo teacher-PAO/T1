@@ -1,618 +1,151 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Ai : Ainada's Multiplication Adventure</title>
-<style>
-:root{
-  --bg:#f7f4ec;
-  --card:#ffffff;
-  --ink:#25324a;
-  --muted:#6f7a8d;
-  --blue:#377fe8;
-  --blue-dark:#2865c3;
-  --yellow:#f7c948;
-  --coral:#f36f67;
-  --green:#51b889;
-  --purple:#7b68c7;
-  --line:#e5e8ef;
-  --shadow:0 10px 26px rgba(44,57,80,.10);
-}
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Inter,ui-rounded,"Trebuchet MS",Arial,sans-serif;
-  color:var(--ink);
-  background:var(--bg);
-}
-button,select{font:inherit}
-button{touch-action:manipulation}
-button:focus-visible,select:focus-visible{
-  outline:4px solid rgba(55,127,232,.25);
-  outline-offset:3px;
-}
-.app{max-width:1280px;margin:0 auto;min-height:100vh}
-.topbar{
-  display:flex;align-items:center;justify-content:space-between;gap:18px;
-  padding:20px 24px;
-}
-.brand{display:flex;align-items:center;gap:12px}
-.logo{
-  width:52px;height:52px;border-radius:16px;background:var(--yellow);
-  display:grid;place-items:center;font-size:28px;
-  box-shadow:0 5px 0 #d9aa2f;
-}
-.brand h1{font-size:clamp(22px,3vw,32px);margin:0}
-.brand small{display:block;color:var(--muted);font-weight:700;margin-top:3px}
-.student-chip{
-  background:var(--card);border:1px solid var(--line);border-radius:18px;
-  padding:10px 14px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow);
-  font-weight:800;
-}
-.avatar{width:42px;height:42px;border-radius:50%;background:#ffe7e2;display:grid;place-items:center;font-size:24px}
-.shell{
-  display:grid;grid-template-columns:190px 1fr;gap:18px;padding:0 24px 26px;
-}
-.sidebar{
-  background:var(--card);border:1px solid var(--line);border-radius:24px;
-  box-shadow:var(--shadow);padding:12px;height:max-content;position:sticky;top:16px;
-}
-.nav-btn{
-  width:100%;border:0;background:transparent;color:#4f5b70;
-  padding:13px 14px;border-radius:14px;display:flex;align-items:center;gap:11px;
-  font-weight:850;cursor:pointer;text-align:left;margin:2px 0;
-  transition:transform .12s,background .15s,color .15s;
-}
-.nav-btn:hover{background:#f1f5fb}
-.nav-btn.active{background:#eaf2ff;color:var(--blue-dark)}
-.nav-btn:active{transform:scale(.97)}
-.nav-icon{font-size:21px;width:26px;text-align:center}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiplication Table Generator</title>
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --hover-color: #45a049;
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+        }
 
-.content{min-width:0}
-.view{display:none}
-.view.active{display:block}
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
 
-.hero{
-  background:var(--card);border:1px solid var(--line);border-radius:26px;
-  box-shadow:var(--shadow);padding:24px;
-}
-.hero-head{
-  display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
-  margin-bottom:18px;
-}
-.hero h2{margin:0;font-size:26px}
-.kicker{color:var(--muted);font-weight:800;margin-top:4px}
-.table-row{display:flex;flex-wrap:wrap;gap:9px}
-.table-btn,.choice-btn,.primary,.secondary,.step-btn,.game-btn{
-  border:0;cursor:pointer;font-weight:900;
-  transition:transform .10s,box-shadow .10s,filter .15s;
-}
-.table-btn{
-  width:46px;height:46px;border-radius:13px;background:#eef2f7;color:#536075;
-  box-shadow:0 4px 0 #d9dee7;
-}
-.table-btn:hover{filter:brightness(.98);transform:translateY(-1px)}
-.table-btn.active{background:var(--blue);color:#fff;box-shadow:0 5px 0 var(--blue-dark)}
-.table-btn:active,.choice-btn:active,.primary:active,.secondary:active,.step-btn:active,.game-btn:active{
-  transform:translateY(4px)!important;
-  box-shadow:0 1px 0 rgba(0,0,0,.22)!important;
-}
-.learn-grid{display:grid;grid-template-columns:1fr 280px;gap:18px}
-.visual-card{
-  background:#fbfcff;border:1px solid var(--line);border-radius:22px;padding:22px;
-}
-.equation{
-  text-align:center;font-size:clamp(48px,7vw,76px);font-weight:1000;
-  letter-spacing:1px;margin:4px 0 20px;
-}
-.equation .a{color:var(--blue)} .equation .b{color:var(--coral)} .equation .ans{color:var(--purple)}
-.group-wrap{display:grid;gap:10px}
-.star-group{
-  background:#fff;border:2px solid #dfe7f3;border-radius:16px;padding:12px 14px;
-  display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:center;
-}
-.group-badge{
-  width:32px;height:32px;border-radius:50%;display:grid;place-items:center;
-  background:#eaf2ff;color:var(--blue-dark);font-weight:1000;
-}
-.stars{display:flex;gap:7px;flex-wrap:wrap}
-.star{
-  width:30px;height:30px;display:grid;place-items:center;font-size:25px;
-  animation:pop .18s ease both;
-}
-@keyframes pop{from{transform:scale(.75);opacity:.2}to{transform:scale(1);opacity:1}}
-.explain{
-  margin-top:16px;text-align:center;background:#fff8df;border:1px solid #f2dc91;
-  border-radius:15px;padding:12px;font-size:18px;font-weight:900;
-}
-.side-control{
-  background:#f5f7fb;border:1px solid var(--line);border-radius:20px;padding:18px;
-}
-.side-control h3{margin:0 0 12px}
-.control-block{margin:15px 0}
-.control-block label{display:block;font-size:13px;color:var(--muted);font-weight:900;margin-bottom:7px}
-.number-control{display:grid;grid-template-columns:44px 1fr 44px;gap:8px;align-items:center}
-.step-btn{
-  height:44px;border-radius:12px;background:#fff;color:var(--blue-dark);
-  box-shadow:0 4px 0 #d7deea;border:1px solid #e1e6ee;font-size:22px;
-}
-.number-value{
-  height:44px;border-radius:12px;background:#fff;border:1px solid var(--line);
-  display:grid;place-items:center;font-size:20px;font-weight:1000;
-}
-.primary{
-  background:var(--blue);color:#fff;border-radius:14px;padding:12px 16px;
-  box-shadow:0 5px 0 var(--blue-dark);
-}
-.secondary{
-  background:#fff;color:#506078;border:1px solid #dfe4ec;border-radius:14px;
-  padding:12px 16px;box-shadow:0 4px 0 #d9dee7;
-}
-.full{width:100%}
+        .container {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
 
-.panel{
-  background:var(--card);border:1px solid var(--line);border-radius:24px;
-  box-shadow:var(--shadow);padding:24px;
-}
-.panel h2{margin-top:0}
-.quiz-card{max-width:760px;margin:0 auto}
-.quiz-meta{display:flex;justify-content:space-between;color:var(--muted);font-weight:850;gap:10px}
-.quiz-question{text-align:center;font-size:clamp(46px,8vw,74px);font-weight:1000;margin:26px 0}
-.choices{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.choice-btn{
-  min-height:76px;border-radius:18px;background:#edf3fb;color:#26364f;font-size:30px;
-  box-shadow:0 5px 0 #cfdae9;
-}
-.choice-btn:hover{background:#e5eefb;transform:translateY(-1px)}
-.choice-btn.correct{background:#dff5e9;color:#21734f;box-shadow:0 5px 0 #a9d9bf}
-.choice-btn.wrong{background:#ffe5e2;color:#a7443c;box-shadow:0 5px 0 #e7bab5}
-.feedback{
-  min-height:48px;margin-top:16px;padding:11px 14px;border-radius:14px;
-  background:#f6f7fa;color:#58647a;font-weight:900;text-align:center;
-}
-.practice-actions{display:flex;justify-content:center;gap:10px;margin-top:14px}
+        h2 {
+            margin-top: 0;
+            color: var(--primary-color);
+        }
 
-.table-sheet{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.fact{
-  padding:14px;border-radius:14px;background:#f7f9fc;border:1px solid var(--line);
-  font-weight:900;text-align:center;font-size:18px;
-}
-.simple-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
-.mini-card{padding:18px;border-radius:18px;background:#f8f9fc;border:1px solid var(--line)}
-.mini-card h3{margin:0 0 8px}
-.reward{font-size:42px;margin-bottom:8px}
-.progress-bar{height:18px;border-radius:999px;background:#e9edf3;overflow:hidden;margin:10px 0}
-.progress-fill{height:100%;width:0;background:var(--green);transition:width .3s}
-.game-box{text-align:center}
-.game-target{font-size:44px;font-weight:1000;margin:20px 0}
-.game-btn{
-  min-width:120px;padding:15px 18px;border-radius:16px;background:#fff4c7;color:#765f12;
-  box-shadow:0 5px 0 #e0c76b;margin:6px;font-size:22px;
-}
-.help-list{line-height:1.8}
-.footer-note{text-align:center;color:#8a93a3;font-size:13px;margin-top:16px}
+        .input-group {
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 10px;
+        }
 
-@media(max-width:900px){
-  .shell{grid-template-columns:1fr}
-  .sidebar{position:static;display:flex;overflow-x:auto;gap:4px}
-  .nav-btn{min-width:max-content;width:auto}
-  .nav-btn .label{display:none}
-  .learn-grid{grid-template-columns:1fr}
-}
-@media(max-width:600px){
-  .topbar{padding:14px}
-  .student-chip{display:none}
-  .shell{padding:0 14px 18px}
-  .hero,.panel{padding:16px}
-  .choices,.simple-grid,.table-sheet{grid-template-columns:1fr}
-  .equation{font-size:52px}
-  .star{width:26px;height:26px;font-size:22px}
-}
-</style>
+        input[type="number"] {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input[type="number"]:focus {
+            border-color: var(--primary-color);
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: var(--hover-color);
+        }
+
+        .result-box {
+            background-color: #fafafa;
+            border: 1px solid #eeeeee;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: left;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            max-height: 350px;
+            overflow-y: auto;
+        }
+
+        .error {
+            color: red;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-<div class="app">
-  <header class="topbar">
-    <div class="brand">
-      <div class="logo">✖️</div>
-      <div>
-        <h1>Ai's Multiplication Adventure</h1>
-        <small>Learn with pictures, practice, and play.</small>
-      </div>
+
+    <div class="container">
+        <h2>ตารางสูตรคูณ</h2>
+        
+        <div class="input-group">
+            <input type="number" id="numberInput" placeholder="ระบุแม่สูตรคูณ..." value="2" onkeypress="handleKeyPress(event)">
+            <button onclick="generateTable()">สร้าง</button>
+        </div>
+
+        <div id="resultBox" class="result-box">
+            <!-- ผลลัพธ์จะแสดงที่นี่ -->
+        </div>
     </div>
-    <div class="student-chip">
-      <div class="avatar">👧🏻</div>
-      <div>Ai<br><small id="headerScore">⭐ 0 stars</small></div>
-    </div>
-  </header>
 
-  <div class="shell">
-    <nav class="sidebar" aria-label="Main navigation">
-      <button class="nav-btn active" data-view="learn"><span class="nav-icon">🏠</span><span class="label">Learn</span></button>
-      <button class="nav-btn" data-view="practice"><span class="nav-icon">✏️</span><span class="label">Practice</span></button>
-      <button class="nav-btn" data-view="tables"><span class="nav-icon">🔢</span><span class="label">Tables</span></button>
-      <button class="nav-btn" data-view="games"><span class="nav-icon">🎮</span><span class="label">Game</span></button>
-      <button class="nav-btn" data-view="rewards"><span class="nav-icon">🏆</span><span class="label">Rewards</span></button>
-      <button class="nav-btn" data-view="progress"><span class="nav-icon">📊</span><span class="label">Progress</span></button>
-      <button class="nav-btn" data-view="profile"><span class="nav-icon">👤</span><span class="label">Profile</span></button>
-      <button class="nav-btn" data-view="help"><span class="nav-icon">❓</span><span class="label">Help</span></button>
-    </nav>
+    <script>
+        // ฟังก์ชันหลักสำหรับสร้างสูตรคูณ
+        function generateTable() {
+            const numInput = document.getElementById('numberInput').value;
+            const resultBox = document.getElementById('resultBox');
+            
+            // Validate input
+            if (numInput === '' || isNaN(numInput)) {
+                resultBox.innerHTML = '<div class="error">กรุณาระบุตัวเลขที่ถูกต้อง</div>';
+                return;
+            }
 
-    <main class="content">
+            const num = parseInt(numInput, 10);
+            let htmlContent = `<strong>สูตรคูณแม่ ${num}</strong><br><hr style="border: 0; border-top: 1px solid #eee; margin: 10px 0;">`;
 
-      <section class="view active" id="learn">
-        <div class="hero">
-          <div class="hero-head">
-            <div>
-              <h2>See multiplication</h2>
-              <div class="kicker">Each row is one equal group.</div>
-            </div>
-            <div class="table-row" id="tablePicker"></div>
-          </div>
+            // วนลูปสร้างสูตรคูณ 1 ถึง 12
+            for (let i = 1; i <= 12; i++) {
+                const product = num * i;
+                htmlContent += `${num} &times; ${i} = <strong>${product}</strong><br>`;
+            }
 
-          <div class="learn-grid">
-            <div class="visual-card">
-              <div class="equation">
-                <span class="a" id="eqA">2</span> ×
-                <span class="b" id="eqB">5</span> =
-                <span class="ans" id="eqAns">10</span>
-              </div>
-              <div class="group-wrap" id="groups"></div>
-              <div class="explain" id="explain">2 groups of 5 = 10 · Count 10 stars!</div>
-            </div>
-
-            <aside class="side-control">
-              <h3>Try your own</h3>
-              <div class="control-block">
-                <label>Number of groups</label>
-                <div class="number-control">
-                  <button class="step-btn" id="groupMinus" aria-label="Fewer groups">−</button>
-                  <div class="number-value" id="groupValue">2</div>
-                  <button class="step-btn" id="groupPlus" aria-label="More groups">+</button>
-                </div>
-              </div>
-              <div class="control-block">
-                <label>Stars in each group</label>
-                <div class="number-control">
-                  <button class="step-btn" id="eachMinus" aria-label="Fewer stars">−</button>
-                  <div class="number-value" id="eachValue">5</div>
-                  <button class="step-btn" id="eachPlus" aria-label="More stars">+</button>
-                </div>
-              </div>
-              <button class="primary full" id="randomExample">🎲 New example</button>
-            </aside>
-          </div>
-        </div>
-      </section>
-
-      <section class="view" id="practice">
-        <div class="panel quiz-card">
-          <h2>Practice</h2>
-          <div class="quiz-meta"><span id="practiceRound">Question 1</span><span id="practiceScore">Score: 0</span></div>
-          <div class="quiz-question" id="quizQuestion">2 × 5 = ?</div>
-          <div class="choices" id="choices"></div>
-          <div class="feedback" id="feedback">Choose the answer.</div>
-          <div class="practice-actions">
-            <button class="secondary" id="newQuiz">New question</button>
-            <button class="primary" id="nextQuiz">Next</button>
-          </div>
-        </div>
-      </section>
-
-      <section class="view" id="tables">
-        <div class="panel">
-          <h2>Multiplication Tables</h2>
-          <div class="kicker" style="margin-bottom:14px">Choose a table to see all 12 facts.</div>
-          <div class="table-row" id="tablePicker2"></div>
-          <div class="table-sheet" id="tableSheet" style="margin-top:18px"></div>
-        </div>
-      </section>
-
-      <section class="view" id="games">
-        <div class="panel game-box">
-          <h2>⭐ Star Tap Game</h2>
-          <div class="kicker">Tap the number that matches the multiplication.</div>
-          <div class="game-target" id="gameQuestion">3 × 4 = ?</div>
-          <div id="gameButtons"></div>
-          <div class="feedback" id="gameFeedback">Find the correct answer!</div>
-          <button class="primary" id="newGameRound" style="margin-top:14px">New round</button>
-        </div>
-      </section>
-
-      <section class="view" id="rewards">
-        <div class="panel">
-          <h2>Rewards</h2>
-          <div class="simple-grid">
-            <div class="mini-card"><div class="reward">🌟</div><h3>First Star</h3><p>Answer 1 practice question correctly.</p></div>
-            <div class="mini-card"><div class="reward">🔥</div><h3>Hot Streak</h3><p>Get 3 answers correct in a row.</p></div>
-            <div class="mini-card"><div class="reward">🏅</div><h3>Math Explorer</h3><p>Answer 10 questions correctly.</p></div>
-            <div class="mini-card"><div class="reward">👑</div><h3>Multiplication Hero</h3><p>Answer 25 questions correctly.</p></div>
-          </div>
-        </div>
-      </section>
-
-      <section class="view" id="progress">
-        <div class="panel">
-          <h2>AI's Progress</h2>
-          <div class="simple-grid">
-            <div class="mini-card"><h3>Correct answers</h3><div style="font-size:34px;font-weight:1000" id="correctStat">0</div></div>
-            <div class="mini-card"><h3>Best streak</h3><div style="font-size:34px;font-weight:1000" id="streakStat">0</div></div>
-          </div>
-          <div class="mini-card" style="margin-top:14px">
-            <h3>Next goal: 25 correct answers</h3>
-            <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-            <div id="progressText">0 / 25</div>
-          </div>
-        </div>
-      </section>
-
-      <section class="view" id="profile">
-        <div class="panel">
-          <h2>Profile</h2>
-          <div class="simple-grid">
-            <div class="mini-card"><h3>Student</h3><p style="font-size:24px;font-weight:1000">👧🏻 Aylada</p></div>
-            <div class="mini-card"><h3>Learning goal</h3><p>Understand multiplication by seeing equal groups and practicing facts from 2 to 12.</p></div>
-          </div>
-        </div>
-      </section>
-
-      <section class="view" id="help">
-        <div class="panel">
-          <h2>Help</h2>
-          <div class="help-list">
-            <p><b>Learn:</b> Change the two numbers and count the stars.</p>
-            <p><b>Practice:</b> Pick one of four answers. Correct answers earn stars.</p>
-            <p><b>Tables:</b> Review every fact from ×1 to ×12.</p>
-            <p><b>Game:</b> Tap the matching answer as quickly as you can.</p>
-          </div>
-        </div>
-      </section>
-
-      <div class="footer-note">Designed for clear, low-distraction learning with large touch-friendly buttons.</div>
-    </main>
-  </div>
-</div>
-
-<script>
-(() => {
-  const state = {
-    a: 2,
-    b: 5,
-    table: 2,
-    quizA: 2,
-    quizB: 5,
-    quizAnswer: 10,
-    quizLocked: false,
-    round: 1,
-    score: 0,
-    correct: Number(localStorage.getItem("aylada_correct") || 0),
-    streak: Number(localStorage.getItem("aylada_streak") || 0),
-    bestStreak: Number(localStorage.getItem("aylada_best_streak") || 0)
-  };
-
-  const $ = id => document.getElementById(id);
-  const clamp = (n,min,max) => Math.max(min,Math.min(max,n));
-
-  function saveStats(){
-    localStorage.setItem("aylada_correct", state.correct);
-    localStorage.setItem("aylada_streak", state.streak);
-    localStorage.setItem("aylada_best_streak", state.bestStreak);
-    updateStats();
-  }
-
-  function updateStats(){
-    $("headerScore").textContent = `⭐ ${state.correct} stars`;
-    $("correctStat").textContent = state.correct;
-    $("streakStat").textContent = state.bestStreak;
-    const pct = Math.min(100, (state.correct / 25) * 100);
-    $("progressFill").style.width = pct + "%";
-    $("progressText").textContent = `${Math.min(state.correct,25)} / 25`;
-  }
-
-  // Navigation
-  document.querySelectorAll(".nav-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
-      document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
-      btn.classList.add("active");
-      $(btn.dataset.view).classList.add("active");
-      if(btn.dataset.view === "progress") updateStats();
-    });
-  });
-
-  // Table picker
-  function buildTablePicker(containerId, onPick){
-    const box = $(containerId);
-    for(let n=2;n<=12;n++){
-      const btn = document.createElement("button");
-      btn.className = "table-btn" + (n===2 ? " active" : "");
-      btn.textContent = n;
-      btn.dataset.table = n;
-      btn.addEventListener("click", () => {
-        box.querySelectorAll(".table-btn").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        onPick(n);
-      });
-      box.appendChild(btn);
-    }
-  }
-
-  buildTablePicker("tablePicker", n => {
-    state.a = n;
-    renderLearn();
-  });
-
-  buildTablePicker("tablePicker2", n => {
-    state.table = n;
-    renderTableSheet();
-  });
-
-  function renderLearn(){
-    const ans = state.a * state.b;
-    $("eqA").textContent = state.a;
-    $("eqB").textContent = state.b;
-    $("eqAns").textContent = ans;
-    $("groupValue").textContent = state.a;
-    $("eachValue").textContent = state.b;
-    $("explain").textContent = `${state.a} groups of ${state.b} = ${ans} · Count ${ans} stars!`;
-
-    const groups = $("groups");
-    groups.innerHTML = "";
-
-    for(let g=1; g<=state.a; g++){
-      const row = document.createElement("div");
-      row.className = "star-group";
-
-      const badge = document.createElement("div");
-      badge.className = "group-badge";
-      badge.textContent = g;
-
-      const stars = document.createElement("div");
-      stars.className = "stars";
-
-      for(let s=0; s<state.b; s++){
-        const star = document.createElement("span");
-        star.className = "star";
-        star.textContent = "⭐";
-        star.style.animationDelay = `${Math.min(.25, s*.025)}s`;
-        stars.appendChild(star);
-      }
-
-      row.append(badge, stars);
-      groups.appendChild(row);
-    }
-
-    document.querySelectorAll("#tablePicker .table-btn").forEach(btn => {
-      btn.classList.toggle("active", Number(btn.dataset.table) === state.a);
-    });
-  }
-
-  $("groupMinus").onclick = () => { state.a = clamp(state.a-1,1,12); renderLearn(); };
-  $("groupPlus").onclick  = () => { state.a = clamp(state.a+1,1,12); renderLearn(); };
-  $("eachMinus").onclick  = () => { state.b = clamp(state.b-1,1,12); renderLearn(); };
-  $("eachPlus").onclick   = () => { state.b = clamp(state.b+1,1,12); renderLearn(); };
-  $("randomExample").onclick = () => {
-    state.a = Math.floor(Math.random()*6)+2;
-    state.b = Math.floor(Math.random()*8)+2;
-    renderLearn();
-  };
-
-  // Practice
-  function shuffle(arr){ return [...arr].sort(() => Math.random() - .5); }
-
-  function makeQuiz(){
-    state.quizA = Math.floor(Math.random()*11)+2;
-    state.quizB = Math.floor(Math.random()*11)+2;
-    state.quizAnswer = state.quizA * state.quizB;
-    state.quizLocked = false;
-    $("quizQuestion").textContent = `${state.quizA} × ${state.quizB} = ?`;
-    $("practiceRound").textContent = `Question ${state.round}`;
-    $("practiceScore").textContent = `Score: ${state.score}`;
-    $("feedback").textContent = "Choose the answer.";
-
-    const opts = new Set([state.quizAnswer]);
-    const nearby = [-2,-1,1,2,3,-3];
-    let i=0;
-    while(opts.size < 4){
-      let guess = state.quizAnswer + nearby[i % nearby.length] * state.quizA;
-      if(guess <= 0 || opts.has(guess)) guess = state.quizAnswer + (i+1);
-      opts.add(guess);
-      i++;
-    }
-
-    const choices = $("choices");
-    choices.innerHTML = "";
-    shuffle([...opts]).forEach(value => {
-      const btn = document.createElement("button");
-      btn.className = "choice-btn";
-      btn.textContent = value;
-      btn.onclick = () => answerQuiz(btn, value);
-      choices.appendChild(btn);
-    });
-  }
-
-  function answerQuiz(btn,value){
-    if(state.quizLocked) return;
-    state.quizLocked = true;
-    const buttons = [...document.querySelectorAll("#choices .choice-btn")];
-
-    if(value === state.quizAnswer){
-      btn.classList.add("correct");
-      state.score += 10;
-      state.correct++;
-      state.streak++;
-      state.bestStreak = Math.max(state.bestStreak,state.streak);
-      $("feedback").textContent = "Correct! Great job, Aylada! ⭐";
-    }else{
-      btn.classList.add("wrong");
-      state.streak = 0;
-      const correctBtn = buttons.find(b => Number(b.textContent) === state.quizAnswer);
-      if(correctBtn) correctBtn.classList.add("correct");
-      $("feedback").textContent = `Almost! The answer is ${state.quizAnswer}.`;
-    }
-    $("practiceScore").textContent = `Score: ${state.score}`;
-    saveStats();
-  }
-
-  $("nextQuiz").onclick = () => { state.round++; makeQuiz(); };
-  $("newQuiz").onclick = () => { makeQuiz(); };
-
-  // Tables
-  function renderTableSheet(){
-    const sheet = $("tableSheet");
-    sheet.innerHTML = "";
-    for(let n=1;n<=12;n++){
-      const fact = document.createElement("div");
-      fact.className = "fact";
-      fact.textContent = `${state.table} × ${n} = ${state.table*n}`;
-      sheet.appendChild(fact);
-    }
-  }
-
-  // Game
-  function makeGameRound(){
-    const a = Math.floor(Math.random()*8)+2;
-    const b = Math.floor(Math.random()*8)+2;
-    const ans = a*b;
-    $("gameQuestion").textContent = `${a} × ${b} = ?`;
-    $("gameFeedback").textContent = "Find the correct answer!";
-    const values = new Set([ans]);
-    let delta=1;
-    while(values.size<4){
-      values.add(ans + delta*a);
-      delta++;
-    }
-    const box = $("gameButtons");
-    box.innerHTML = "";
-    shuffle([...values]).forEach(v => {
-      const btn = document.createElement("button");
-      btn.className = "game-btn";
-      btn.textContent = v;
-      btn.onclick = () => {
-        if(v===ans){
-          $("gameFeedback").textContent = "Yes! ⭐";
-          btn.style.background="#dff5e9";
-          state.correct++;
-          state.streak++;
-          state.bestStreak=Math.max(state.bestStreak,state.streak);
-          saveStats();
-        }else{
-          $("gameFeedback").textContent = "Try another number.";
-          btn.style.background="#ffe5e2";
+            // นำผลลัพธ์ไปแสดงใน DOM
+            resultBox.innerHTML = htmlContent;
         }
-      };
-      box.appendChild(btn);
-    });
-  }
-  $("newGameRound").onclick = makeGameRound;
 
-  renderLearn();
-  makeQuiz();
-  renderTableSheet();
-  makeGameRound();
-  updateStats();
-})();
-</script>
+        // ฟังก์ชันรองรับการกด Enter
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                generateTable();
+            }
+        }
+
+        // โหลดข้อมูลเริ่มต้นเมื่อเปิดหน้าเว็บ
+        window.onload = () => {
+            generateTable();
+            document.getElementById('numberInput').focus();
+        };
+    </script>
+
 </body>
 </html>
