@@ -3,273 +3,241 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amath Freestyle Challenge 🧠</title>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;900&family=Mali:wght@600;700&display=swap" rel="stylesheet">
+    <title>Real Amath Simulator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Nunito', 'Mali', sans-serif;
-            background: linear-gradient(135deg, #1e88e5 0%, #1565c0 100%);
-            margin: 0;
-            padding: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            user-select: none;
+        :root {
+            --board-bg: #0b5345;
+            --cell-bg: #e5e8e8;
+            --tw: #e74c3c;
+            --dw: #f39c12;
+            --tl: #2980b9;
+            --dl: #8e44ad;
+            --star: #f1c40f;
+            --tile-bg: #fdf2e9;
+            --tile-locked: #fae5d3;
+            --tile-text: #212f3d;
         }
 
-        .game-wrapper {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 15px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
-            border: 4px solid #90caf9;
-            width: 100%;
-            max-width: 650px;
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #17202a;
+            color: white;
+            margin: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            position: relative;
+            min-height: 100vh;
+            user-select: none;
+            padding: 10px;
+            box-sizing: border-box;
         }
 
-        .header-panel {
+        .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             width: 100%;
+            max-width: 600px;
             margin-bottom: 10px;
+            background: #273746;
+            padding: 10px 20px;
+            border-radius: 10px;
+            box-sizing: border-box;
         }
 
-        .title {
-            font-size: 1.8rem;
-            color: #ff3d00;
+        .header h1 {
             margin: 0;
-            text-shadow: 2px 2px 0px #ffeb3b;
+            font-size: 1.5rem;
+            color: #f1c40f;
         }
 
-        .stats-panel { display: flex; gap: 10px; }
-        .stat-box {
-            background: #fff; border-radius: 10px; padding: 5px 12px;
-            border: 3px solid #e0e0e0; text-align: center; min-width: 70px;
-        }
-        .stat-label { color: #2196f3; font-size: 0.8rem; font-weight: 900; }
-        .stat-value { font-size: 1.4rem; color: #ff3d00; font-weight: 900; }
-
-        /* 15x15 Grid Board */
-        .board-container {
-            width: 100%; max-width: 450px; aspect-ratio: 1 / 1;
-            background-color: #fff; border-radius: 8px; border: 5px solid #2e7d32;
-            padding: 3px; box-shadow: 0 6px 0 #1b5e20; margin-bottom: 15px;
-            position: relative;
+        .stats {
+            display: flex;
+            gap: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
         }
 
-        .grid-board {
-            display: grid; grid-template-columns: repeat(15, 1fr); grid-template-rows: repeat(15, 1fr);
-            gap: 1px; width: 100%; height: 100%; background: #bdbdbd;
+        .board-wrapper {
+            background: var(--board-bg);
+            padding: 5px;
+            border-radius: 8px;
+            border: 4px solid #145a32;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            margin-bottom: 15px;
+        }
+
+        .board {
+            display: grid;
+            grid-template-columns: repeat(15, 1fr);
+            grid-template-rows: repeat(15, 1fr);
+            gap: 2px;
+            background: #117864;
+            width: 95vw;
+            max-width: 500px;
+            aspect-ratio: 1 / 1;
         }
 
         .cell {
-            background: #8bc34a; position: relative; display: flex;
-            justify-content: center; align-items: center;
+            background: var(--cell-bg);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.6rem;
+            font-weight: bold;
+            color: rgba(0,0,0,0.5);
+            cursor: pointer;
+            border-radius: 2px;
         }
 
-        /* Special Cells */
-        .cell.tw { background: #f44336; } 
-        .cell.dw { background: #ff9800; } 
-        .cell.tl { background: #03a9f4; } 
-        .cell.dl { background: #9c27b0; } 
-        .cell.star { background: #ffeb3b; }
+        .cell.tw { background: var(--tw); color: white; }
+        .cell.dw { background: var(--dw); color: white; }
+        .cell.tl { background: var(--tl); color: white; }
+        .cell.dl { background: var(--dl); color: white; }
+        .cell.star { background: var(--star); color: #333; font-size: 1.2rem; }
 
-        .cell-label {
-            font-size: 0.5rem; font-weight: 900; color: rgba(255,255,255,0.9); pointer-events: none;
-        }
-        .cell.star .cell-label { color: #f57f17; font-size: 0.8rem; }
-
-        /* Tiles */
         .tile {
-            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background: #fff9c4; border-radius: 2px; display: flex;
-            justify-content: center; align-items: center;
-            font-size: 1rem; font-weight: 900; color: #d84315;
-            box-shadow: 1px 1px 0 #fbc02d; border: 1px solid #fbc02d; z-index: 2;
-            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: var(--tile-bg);
+            color: var(--tile-text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 3px;
+            box-shadow: 1px 2px 3px rgba(0,0,0,0.3);
+            border: 1px solid #d5cba8;
+            z-index: 10;
+            transition: transform 0.1s;
+        }
+
+        .tile.locked {
+            background: var(--tile-locked);
+            cursor: default;
+        }
+
+        .tile.selected {
+            border: 2px solid #e74c3c;
+            transform: scale(1.1);
+            z-index: 20;
         }
 
         .tile::after {
-            content: attr(data-score); position: absolute; bottom: 1px; right: 2px;
-            font-size: 0.4rem; color: #8d6e63;
+            content: attr(data-score);
+            position: absolute;
+            bottom: 2px;
+            right: 3px;
+            font-size: 0.5rem;
+            color: #7f8c8d;
+            font-weight: normal;
         }
 
-        @keyframes popIn {
-            0% { transform: scale(0); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
+        .rack-container {
+            background: #873600;
+            padding: 10px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            box-shadow: inset 0 5px 10px rgba(0,0,0,0.4);
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            height: 65px;
         }
 
-        /* Input Zone */
-        .input-zone-container {
-            width: 100%; max-width: 500px; background: #e3f2fd;
-            border: 3px dashed #64b5f6; border-radius: 12px;
-            min-height: 60px; display: flex; align-items: center;
-            justify-content: center; gap: 5px; padding: 10px;
-            margin-bottom: 15px; box-sizing: border-box; flex-wrap: wrap;
-        }
-
-        .input-tile {
-            width: 40px; height: 45px; background: #fff9c4;
-            border-radius: 6px; display: flex; justify-content: center;
-            align-items: center; font-size: 1.5rem; font-weight: 900;
-            color: #0277bd; box-shadow: 0 4px 0 #fbc02d; border: 2px solid #f9a825;
+        .rack-slot {
+            width: 45px;
+            height: 45px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 5px;
             position: relative;
         }
-        .input-tile::after {
-            content: attr(data-score); position: absolute; bottom: 2px; right: 4px;
-            font-size: 0.6rem; color: #8d6e63;
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            max-width: 500px;
         }
 
-        /* Rack */
-        .rack {
-            background: #ffb300; padding: 10px; border-radius: 15px;
-            border: 4px solid #ff8f00; box-shadow: 0 6px 0 #e65100;
-            display: flex; flex-direction: column; gap: 8px; width: 100%;
-            max-width: 500px; margin-bottom: 15px; box-sizing: border-box;
-        }
-        .rack-row { display: flex; justify-content: center; gap: 5px; flex-wrap: wrap; }
-
-        .rack-tile {
-            width: 38px; height: 42px; background: #fff; border-radius: 6px;
-            display: flex; justify-content: center; align-items: center;
-            font-size: 1.4rem; font-weight: 900; color: #333;
-            box-shadow: 0 4px 0 #bdbdbd; border: 2px solid #e0e0e0; cursor: pointer;
-            position: relative; transition: transform 0.1s;
-        }
-        .rack-tile:active { transform: translateY(4px); box-shadow: 0 0 0 #bdbdbd; }
-        .rack-tile.op { background: #4fc3f7; color: #01579b; box-shadow: 0 4px 0 #0288d1; border-color: #03a9f4; }
-        .rack-tile.op:active { box-shadow: 0 0 0 #0288d1; }
-        
-        .rack-tile::after {
-            content: attr(data-score); position: absolute; bottom: 2px; right: 4px;
-            font-size: 0.6rem; color: #888;
-        }
-
-        /* Buttons */
-        .action-buttons { display: flex; gap: 10px; width: 100%; max-width: 500px; }
         .btn {
-            flex: 1; padding: 12px 10px; font-size: 1.1rem; font-weight: 900;
-            border: none; border-radius: 10px; cursor: pointer; color: white;
-            box-shadow: 0 5px 0px rgba(0,0,0,0.2);
-        }
-        .btn:active { transform: translateY(5px); box-shadow: 0 0px 0px rgba(0,0,0,0.2); }
-        .btn-red { background: #ef5350; box-shadow: 0 5px 0 #c62828; }
-        .btn-green { background: #4caf50; box-shadow: 0 5px 0 #2e7d32; }
-
-        .error-msg {
-            color: #d32f2f; font-family: 'Mali'; font-weight: bold;
-            height: 20px; margin-bottom: 10px; text-align: center;
+            flex: 1;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            color: white;
+            font-family: inherit;
         }
 
-        /* Screens */
-        .overlay-screen {
-            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(255,255,255,0.95); border-radius: 20px;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            z-index: 30;
+        .btn-recall { background: #f39c12; }
+        .btn-shuffle { background: #3498db; }
+        .btn-play { background: #2ecc71; }
+        .btn:active { transform: translateY(2px); }
+
+        #message {
+            margin-top: 10px;
+            height: 24px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #e74c3c;
+            text-align: center;
         }
-        .overlay-screen h2 { font-size: 3rem; color: #1565c0; margin-bottom: 10px; text-align:center;}
-        .btn-start {
-            background: #ffca28; color: #d84315; font-size: 1.8rem;
-            padding: 15px 40px; border-radius: 50px; box-shadow: 0 8px 0 #ff8f00; border: 4px solid #fff;
-        }
-        .btn-start:active { transform: translateY(8px); box-shadow: 0 0 0 #ff8f00; }
-        .hidden { display: none !important; }
 
         @media (max-width: 480px) {
-            .input-tile { width: 30px; height: 35px; font-size: 1.2rem; }
-            .rack-tile { width: 32px; height: 38px; font-size: 1.2rem; }
+            .tile { font-size: 1rem; }
+            .tile::after { font-size: 0.4rem; }
+            .rack-slot { width: 40px; height: 40px; }
+            .controls { flex-wrap: wrap; }
+            .btn { flex-basis: 40%; }
         }
     </style>
 </head>
 <body>
 
-    <div class="game-wrapper">
-        <div class="header-panel">
-            <h1 class="title">AMATH FREESTYLE</h1>
-            <div class="stats-panel">
-                <div class="stat-box">
-                    <div class="stat-label">Score</div>
-                    <div class="stat-value" id="score">0</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-label">Time</div>
-                    <div class="stat-value" id="time">90</div>
-                </div>
-            </div>
-        </div>
-
-        <div id="start-screen" class="overlay-screen">
-            <h2>คิดเอง สร้างเอง!<br>💡</h2>
-            <p style="text-align:center; font-family:'Mali'; font-size:1.1rem; padding: 0 20px;">
-                ไม่มีโจทย์กำหนดให้ คุณต้องสร้างสมการที่ถูกต้องด้วยตัวเอง (เช่น 5+5=10)<br>
-                สมการที่ถูกจะถูกวางลงบนกระดานเพื่อคิดคะแนนคูณพิเศษ!
-            </p>
-            <button class="btn btn-start" onclick="startGame()">เริ่มเกม</button>
-        </div>
-
-        <div id="end-screen" class="overlay-screen hidden">
-            <h2>หมดเวลา! ⏰</h2>
-            <p style="font-size:1.5rem;">คะแนนรวมของคุณ: <br><span id="final-score" style="font-size: 4rem; color: #4caf50; font-weight: 900;">0</span></p>
-            <button class="btn btn-start" onclick="startGame()">เล่นอีกครั้ง</button>
-        </div>
-
-        <div class="board-container">
-            <div class="grid-board" id="grid-board"></div>
-        </div>
-
-        <div class="error-msg" id="error-msg"></div>
-
-        <div class="input-zone-container" id="input-zone">
-            <!-- User input tiles will appear here -->
-            <span style="color:#aaa; font-family:'Mali';">พิมพ์หรือกดเครื่องหมายเพื่อสร้างสมการ...</span>
-        </div>
-
-        <div class="rack">
-            <div class="rack-row">
-                <div class="rack-tile" data-score="1" onclick="inputChar('1')">1</div>
-                <div class="rack-tile" data-score="1" onclick="inputChar('2')">2</div>
-                <div class="rack-tile" data-score="1" onclick="inputChar('3')">3</div>
-                <div class="rack-tile" data-score="2" onclick="inputChar('4')">4</div>
-                <div class="rack-tile" data-score="2" onclick="inputChar('5')">5</div>
-                <div class="rack-tile" data-score="2" onclick="inputChar('6')">6</div>
-                <div class="rack-tile" data-score="2" onclick="inputChar('7')">7</div>
-                <div class="rack-tile" data-score="2" onclick="inputChar('8')">8</div>
-                <div class="rack-tile" data-score="2" onclick="inputChar('9')">9</div>
-                <div class="rack-tile" data-score="1" onclick="inputChar('0')">0</div>
-            </div>
-            <div class="rack-row">
-                <div class="rack-tile op" data-score="2" onclick="inputChar('+')">+</div>
-                <div class="rack-tile op" data-score="2" onclick="inputChar('-')">-</div>
-                <div class="rack-tile op" data-score="2" onclick="inputChar('×')">×</div>
-                <div class="rack-tile op" data-score="2" onclick="inputChar('÷')">÷</div>
-                <div class="rack-tile op" data-score="1" onclick="inputChar('=')">=</div>
-            </div>
-        </div>
-
-        <div class="action-buttons">
-            <button class="btn btn-red" onclick="deleteChar()">ลบ (DEL)</button>
-            <button class="btn btn-green" onclick="submitEquation()">ส่งคำตอบ (ENTER)</button>
+    <div class="header">
+        <h1>Amath Master for Alin</h1>
+        <div class="stats">
+            <div>Score: <span id="score">0</span></div>
+            <div>Tiles: <span id="tiles-left">0</span></div>
         </div>
     </div>
 
-    <script>
-        let score = 0;
-        let timeLeft = 90;
-        let timerInterval;
-        let currentInput = "";
-        let boardState = Array(15).fill(null).map(() => Array(15).fill(false));
+    <div class="board-wrapper">
+        <div class="board" id="board"></div>
+    </div>
 
-        const tileScores = {
-            '0': 1, '1': 1, '2': 1, '3': 1, '4': 2,
-            '5': 2, '6': 2, '7': 2, '8': 2, '9': 2,
-            '+': 2, '-': 2, '×': 2, '÷': 2, '=': 1
+    <div class="rack-container" id="rack">
+        <!-- Rack slots generated by JS -->
+    </div>
+
+    <div class="controls">
+        <button class="btn btn-recall" onclick="recallTiles()">ดึงกลับ (Recall)</button>
+        <button class="btn btn-shuffle" onclick="shuffleRack()">สลับเบี้ย (Shuffle)</button>
+        <button class="btn btn-play" onclick="playTurn()">ลงเบี้ย (Play)</button>
+    </div>
+
+    <div id="message"></div>
+
+    <script>
+        // Game Constants & Configuration
+        const TILE_DISTRIBUTION = {
+            '0': { count: 5, score: 1 }, '1': { count: 6, score: 1 },
+            '2': { count: 6, score: 1 }, '3': { count: 5, score: 1 },
+            '4': { count: 5, score: 2 }, '5': { count: 4, score: 2 },
+            '6': { count: 4, score: 2 }, '7': { count: 4, score: 2 },
+            '8': { count: 4, score: 2 }, '9': { count: 4, score: 2 },
+            '+': { count: 4, score: 2 }, '-': { count: 4, score: 2 },
+            '×': { count: 4, score: 2 }, '÷': { count: 4, score: 2 },
+            '=': { count: 11, score: 1 }
         };
 
         const TW = ['0,0','0,7','0,14','7,0','7,14','14,0','14,7','14,14'];
@@ -277,214 +245,405 @@
         const TL = ['1,5','1,9','5,1','5,5','5,9','5,13','9,1','9,5','9,9','9,13','13,5','13,9'];
         const DL = ['0,3','0,11','2,6','2,8','3,0','3,7','3,14','6,2','6,6','6,8','6,12','7,3','7,11','8,2','8,6','8,8','8,12','11,0','11,7','11,14','12,6','12,8','14,3','14,11'];
 
-        function initBoard() {
-            const board = document.getElementById('grid-board');
-            board.innerHTML = '';
-            boardState = Array(15).fill(null).map(() => Array(15).fill(false));
-            
-            for(let r=0; r<15; r++){
-                for(let c=0; c<15; c++){
-                    let cell = document.createElement('div');
-                    let coord = `${r},${c}`;
-                    let cls = 'cell';
-                    let label = '';
-                    
-                    if(r===7 && c===7){ cls += ' star'; label = '★'; }
-                    else if(TW.includes(coord)){ cls += ' tw'; label = '3W'; }
-                    else if(DW.includes(coord)){ cls += ' dw'; label = '2W'; }
-                    else if(TL.includes(coord)){ cls += ' tl'; label = '3L'; }
-                    else if(DL.includes(coord)){ cls += ' dl'; label = '2L'; }
+        // Game State
+        let bag = [];
+        let rack = []; // holds { id, char, score }
+        let boardState = Array(15).fill(null).map(() => Array(15).fill(null)); // holds { char, score, locked, id }
+        
+        let score = 0;
+        let isFirstTurn = true;
+        let selectedTileId = null;
+        let tileIdCounter = 0;
 
-                    cell.className = cls;
+        // Initialize Game
+        function initGame() {
+            // Build bag
+            for (const [char, data] of Object.entries(TILE_DISTRIBUTION)) {
+                for (let i = 0; i < data.count; i++) {
+                    bag.push({ char: char, score: data.score });
+                }
+            }
+            shuffleArray(bag);
+            
+            initBoardUI();
+            initRackUI();
+            drawTiles();
+            updateStatsUI();
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        // UI Initialization
+        function initBoardUI() {
+            const board = document.getElementById('board');
+            board.innerHTML = '';
+            for (let r = 0; r < 15; r++) {
+                for (let c = 0; c < 15; c++) {
+                    const cell = document.createElement('div');
+                    const coord = `${r},${c}`;
+                    cell.className = 'cell';
                     cell.id = `cell-${r}-${c}`;
-                    if(label) cell.innerHTML = `<span class="cell-label">${label}</span>`;
+                    
+                    if (r === 7 && c === 7) { cell.classList.add('star'); cell.innerText = '★'; }
+                    else if (TW.includes(coord)) { cell.classList.add('tw'); cell.innerText = '3W'; }
+                    else if (DW.includes(coord)) { cell.classList.add('dw'); cell.innerText = '2W'; }
+                    else if (TL.includes(coord)) { cell.classList.add('tl'); cell.innerText = '3L'; }
+                    else if (DL.includes(coord)) { cell.classList.add('dl'); cell.innerText = '2L'; }
+
+                    cell.onclick = () => handleBoardClick(r, c);
                     board.appendChild(cell);
                 }
             }
         }
 
-        function startGame() {
-            score = 0; timeLeft = 90; currentInput = "";
-            updateStats();
-            document.getElementById('error-msg').innerText = '';
-            document.getElementById('start-screen').classList.add('hidden');
-            document.getElementById('end-screen').classList.add('hidden');
-            
-            initBoard();
-            renderInputZone();
-            
-            clearInterval(timerInterval);
-            timerInterval = setInterval(() => {
-                timeLeft--; updateStats();
-                if (timeLeft <= 0) endGame();
-            }, 1000);
-        }
-
-        function updateStats() {
-            document.getElementById('score').textContent = score;
-            document.getElementById('time').textContent = timeLeft;
-        }
-
-        function endGame() {
-            clearInterval(timerInterval);
-            document.getElementById('end-screen').classList.remove('hidden');
-            document.getElementById('final-score').textContent = score;
-        }
-
-        function inputChar(char) {
-            if (currentInput.length < 15) {
-                currentInput += char;
-                renderInputZone();
-                document.getElementById('error-msg').innerText = '';
+        function initRackUI() {
+            const rackEl = document.getElementById('rack');
+            rackEl.innerHTML = '';
+            for (let i = 0; i < 8; i++) {
+                const slot = document.createElement('div');
+                slot.className = 'rack-slot';
+                slot.id = `rack-slot-${i}`;
+                slot.onclick = () => handleRackClick(i);
+                rackEl.appendChild(slot);
             }
         }
 
-        function deleteChar() {
-            if (currentInput.length > 0) {
-                currentInput = currentInput.slice(0, -1);
-                renderInputZone();
-                document.getElementById('error-msg').innerText = '';
+        function drawTiles() {
+            while (rack.length < 8 && bag.length > 0) {
+                let t = bag.pop();
+                t.id = `tile-${tileIdCounter++}`;
+                rack.push(t);
+            }
+            renderRack();
+            updateStatsUI();
+        }
+
+        function updateStatsUI() {
+            document.getElementById('score').innerText = score;
+            document.getElementById('tiles-left').innerText = bag.length;
+        }
+
+        function renderRack() {
+            for (let i = 0; i < 8; i++) {
+                const slot = document.getElementById(`rack-slot-${i}`);
+                slot.innerHTML = '';
+                if (rack[i]) {
+                    slot.appendChild(createTileElement(rack[i], false));
+                }
             }
         }
 
-        function renderInputZone() {
-            const zone = document.getElementById('input-zone');
-            if(currentInput.length === 0) {
-                zone.innerHTML = `<span style="color:#aaa; font-family:'Mali';">พิมพ์หรือกดเครื่องหมายเพื่อสร้างสมการ...</span>`;
+        function renderBoard() {
+            for (let r = 0; r < 15; r++) {
+                for (let c = 0; c < 15; c++) {
+                    const cell = document.getElementById(`cell-${r}-${c}`);
+                    // Remove existing tiles
+                    const existingTile = cell.querySelector('.tile');
+                    if (existingTile) cell.removeChild(existingTile);
+                    
+                    if (boardState[r][c]) {
+                        cell.appendChild(createTileElement(boardState[r][c], true));
+                    }
+                }
+            }
+        }
+
+        function createTileElement(tileData, onBoard) {
+            const t = document.createElement('div');
+            t.className = 'tile';
+            if (onBoard && tileData.locked) t.classList.add('locked');
+            if (tileData.id === selectedTileId) t.classList.add('selected');
+            
+            t.innerText = tileData.char;
+            t.setAttribute('data-score', tileData.score);
+            return t;
+        }
+
+        function showMessage(msg, isError = true) {
+            const m = document.getElementById('message');
+            m.innerText = msg;
+            m.style.color = isError ? '#e74c3c' : '#2ecc71';
+            setTimeout(() => { m.innerText = ''; }, 3000);
+        }
+
+        // Interaction Handlers
+        function handleRackClick(index) {
+            if (!rack[index]) return;
+            if (selectedTileId === rack[index].id) {
+                selectedTileId = null; // deselect
+            } else {
+                selectedTileId = rack[index].id;
+            }
+            renderRack();
+            renderBoard();
+        }
+
+        function handleBoardClick(r, c) {
+            // If cell has an unlocked tile, pick it up back to rack
+            if (boardState[r][c] && !boardState[r][c].locked) {
+                if(selectedTileId) return; // Don't pick up if holding something
+                const tile = boardState[r][c];
+                boardState[r][c] = null;
+                rack.push(tile);
+                selectedTileId = tile.id;
+                renderBoard();
+                renderRack();
                 return;
             }
-            zone.innerHTML = '';
-            for(let char of currentInput) {
-                let s = tileScores[char] || 0;
-                zone.innerHTML += `<div class="input-tile" data-score="${s}">${char}</div>`;
+
+            // If holding a tile and cell is empty, place it
+            if (selectedTileId && !boardState[r][c]) {
+                const rackIndex = rack.findIndex(t => t.id === selectedTileId);
+                if (rackIndex > -1) {
+                    const tile = rack.splice(rackIndex, 1)[0];
+                    boardState[r][c] = { ...tile, locked: false };
+                    selectedTileId = null;
+                    renderRack();
+                    renderBoard();
+                } else {
+                    // Check if moving from another board spot
+                    let found = false;
+                    for(let i=0; i<15; i++) {
+                        for(let j=0; j<15; j++) {
+                            if(boardState[i][j] && boardState[i][j].id === selectedTileId && !boardState[i][j].locked) {
+                                boardState[r][c] = boardState[i][j];
+                                boardState[i][j] = null;
+                                selectedTileId = null;
+                                renderBoard();
+                                found = true;
+                                break;
+                            }
+                        }
+                        if(found) break;
+                    }
+                }
             }
         }
 
-        function showError(msg) {
-            document.getElementById('error-msg').innerText = msg;
-            const zone = document.getElementById('input-zone');
-            zone.style.transform = "translateX(-5px)";
-            setTimeout(() => zone.style.transform = "translateX(5px)", 50);
-            setTimeout(() => zone.style.transform = "translateX(0)", 100);
+        function recallTiles() {
+            for (let r = 0; r < 15; r++) {
+                for (let c = 0; c < 15; c++) {
+                    if (boardState[r][c] && !boardState[r][c].locked) {
+                        rack.push(boardState[r][c]);
+                        boardState[r][c] = null;
+                    }
+                }
+            }
+            selectedTileId = null;
+            renderBoard();
+            renderRack();
         }
 
-        function submitEquation() {
-            if(currentInput.length < 5) return showError("สมการต้องมีอย่างน้อย 5 ตัวอักษร");
+        function shuffleRack() {
+            recallTiles();
+            shuffleArray(rack);
+            renderRack();
+        }
+
+        // Logic & Validation (Simplified Amath Rules)
+        function playTurn() {
+            let placedCells = [];
+            for (let r = 0; r < 15; r++) {
+                for (let c = 0; c < 15; c++) {
+                    if (boardState[r][c] && !boardState[r][c].locked) {
+                        placedCells.push({r, c, tile: boardState[r][c]});
+                    }
+                }
+            }
+
+            if (placedCells.length === 0) return showMessage("คุณยังไม่ได้ลงเบี้ยเลย!");
+
+            // 1. Check Alignment
+            let isRow = placedCells.every(p => p.r === placedCells[0].r);
+            let isCol = placedCells.every(p => p.c === placedCells[0].c);
+            if (!isRow && !isCol && placedCells.length > 1) {
+                return showMessage("เบี้ยต้องวางเรียงในแถวหรือคอลัมน์เดียวกัน!");
+            }
+
+            // Determine primary direction
+            let orientation = isRow ? 'horizontal' : 'vertical';
+            if (placedCells.length === 1) {
+                // Determine orientation based on neighbors if only 1 tile played
+                let pr = placedCells[0].r, pc = placedCells[0].c;
+                if ((pr>0 && boardState[pr-1][pc]) || (pr<14 && boardState[pr+1][pc])) orientation = 'vertical';
+                else orientation = 'horizontal';
+            }
+
+            // 2. Check Continuity and Center Star (First Turn)
+            if (isFirstTurn) {
+                let onCenter = placedCells.some(p => p.r === 7 && p.c === 7);
+                if (!onCenter) return showMessage("ตาแรกต้องวางทับดาวตรงกลาง (7,7)!");
+                if (!checkContiguous(placedCells, orientation)) return showMessage("เบี้ยต้องวางต่อกัน!");
+            } else {
+                // Must connect to at least one locked tile, and be contiguous
+                if (!checkContiguous(placedCells, orientation)) return showMessage("เบี้ยต้องวางต่อกันเป็นสมการเดียว!");
+                if (!isConnectedToLocked(placedCells)) return showMessage("ต้องวางต่อกับสมการเดิมที่มีอยู่แล้ว!");
+            }
+
+            // 3. Extract Equations and Validate
+            let equations = extractAllEquations(placedCells, orientation);
+            if (equations.length === 0) return showMessage("ไม่พบสมการ!");
+
+            let turnScore = 0;
+            for (let eq of equations) {
+                if (eq.str.length < 5) return showMessage(`สมการสั้นเกินไป: ${eq.str}`);
+                if (!eq.str.includes('=')) return showMessage(`สมการต้องมีเครื่องหมาย = (${eq.str})`);
+                
+                if (!validateMath(eq.str)) {
+                    return showMessage(`สมการผิดพลาด: ${eq.str}`);
+                }
+                turnScore += calculateEquationScore(eq.cells);
+            }
+
+            // Bingo Bonus (Used all 8 tiles)
+            if (placedCells.length === 8) {
+                turnScore += 40; 
+                showMessage(`BINGO! ได้โบนัส 40 คะแนน รวม ${turnScore} แต้ม!`, false);
+            } else {
+                showMessage(`ผ่าน! ได้ ${turnScore} คะแนน`, false);
+            }
+
+            // Commit
+            score += turnScore;
+            placedCells.forEach(p => { boardState[p.r][p.c].locked = true; });
+            isFirstTurn = false;
+            selectedTileId = null;
+            drawTiles();
+            renderBoard();
+        }
+
+        function checkContiguous(placed, orientation) {
+            placed.sort((a,b) => orientation==='horizontal' ? a.c - b.c : a.r - b.r);
+            let first = placed[0];
+            let last = placed[placed.length-1];
             
-            let parts = currentInput.split('=');
-            if(parts.length !== 2) return showError("ต้องมีเครื่องหมาย = แค่ 1 ตัวตรงกลางสมการ");
-            if(parts[0] === "" || parts[1] === "") return showError("สมการไม่สมบูรณ์");
+            if (orientation === 'horizontal') {
+                for (let c = first.c; c <= last.c; c++) {
+                    if (!boardState[first.r][c]) return false;
+                }
+            } else {
+                for (let r = first.r; r <= last.r; r++) {
+                    if (!boardState[r][first.c]) return false;
+                }
+            }
+            return true;
+        }
+
+        function isConnectedToLocked(placed) {
+            for (let p of placed) {
+                let neighbors = [
+                    {r: p.r-1, c: p.c}, {r: p.r+1, c: p.c},
+                    {r: p.r, c: p.c-1}, {r: p.r, c: p.c+1}
+                ];
+                for (let n of neighbors) {
+                    if (n.r>=0 && n.r<=14 && n.c>=0 && n.c<=14) {
+                        if (boardState[n.r][n.c] && boardState[n.r][n.c].locked) return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        function extractAllEquations(placed, primaryOrientation) {
+            let eqs = [];
+            
+            // Extract primary equation
+            let first = placed[0];
+            let primaryEq = getFullLine(first.r, first.c, primaryOrientation);
+            if (primaryEq.cells.length > 1) eqs.push(primaryEq);
+
+            // Extract secondary (cross) equations
+            let crossOrientation = primaryOrientation === 'horizontal' ? 'vertical' : 'horizontal';
+            for (let p of placed) {
+                let crossEq = getFullLine(p.r, p.c, crossOrientation);
+                if (crossEq.cells.length > 1) eqs.push(crossEq);
+            }
+
+            return eqs;
+        }
+
+        function getFullLine(r, c, orientation) {
+            let cells = [];
+            let startR = r, startC = c;
+            
+            if (orientation === 'horizontal') {
+                while (startC > 0 && boardState[startR][startC-1]) startC--;
+                let currC = startC;
+                while (currC <= 14 && boardState[startR][currC]) {
+                    cells.push({r: startR, c: currC, tile: boardState[startR][currC]});
+                    currC++;
+                }
+            } else {
+                while (startR > 0 && boardState[startR-1][startC]) startR--;
+                let currR = startR;
+                while (currR <= 14 && boardState[currR][startC]) {
+                    cells.push({r: currR, c: startC, tile: boardState[currR][startC]});
+                    currR++;
+                }
+            }
+            
+            let str = cells.map(x => x.tile.char).join('');
+            return { str, cells };
+        }
+
+        function validateMath(eqStr) {
+            let parts = eqStr.split('=');
+            if(parts.length !== 2) return false;
+            if(parts[0] === "" || parts[1] === "") return false;
 
             try {
-                // Parse calculation securely
-                let lStr = parts[0].replace(/×/g, '*').replace(/÷/g, '/');
-                let rStr = parts[1].replace(/×/g, '*').replace(/÷/g, '/');
+                // Prevent leading zeros issues in eval
+                let lStr = parts[0].replace(/×/g, '*').replace(/÷/g, '/').replace(/ 0+(\d)/g, '$1');
+                let rStr = parts[1].replace(/×/g, '*').replace(/÷/g, '/').replace(/ 0+(\d)/g, '$1');
                 
-                // Prevent leading zeros issues in eval by parsing properly (Regex removes leading zeros for numbers)
-                lStr = lStr.replace(/ 0+(\d)/g, '$1'); 
-                rStr = rStr.replace(/ 0+(\d)/g, '$1');
+                // Disallow operators at start/end or consecutive operators
+                if (/^[\+\-\*\/]/.test(lStr) || /[\+\-\*\/]$/.test(lStr)) return false;
+                if (/^[\+\-\*\/]/.test(rStr) || /[\+\-\*\/]$/.test(rStr)) return false;
+                if (/[\+\-\*\/]{2,}/.test(lStr) || /[\+\-\*\/]{2,}/.test(rStr)) return false;
 
                 let leftVal = eval(lStr);
                 let rightVal = eval(rStr);
 
-                if (leftVal === rightVal && leftVal !== undefined && !isNaN(leftVal) && leftVal !== Infinity) {
-                    placeEquationOnBoard(currentInput);
-                    currentInput = "";
-                    renderInputZone();
-                } else {
-                    showError("สมการไม่เป็นจริง (สองฝั่งไม่เท่ากัน)!");
-                }
+                return (leftVal === rightVal && !isNaN(leftVal) && leftVal !== Infinity);
             } catch (e) {
-                showError("รูปแบบสมการผิดพลาด (เช่น ใส่เครื่องหมายติดกัน)");
+                return false;
             }
         }
 
-        function placeEquationOnBoard(eqStr) {
-            let len = eqStr.length;
-            let placed = false;
-            let r, c, isHorizontal;
+        function calculateEquationScore(cells) {
+            let eqScore = 0;
+            let wordMultipliers = 1;
 
-            // Try to find an empty random spot (max 100 attempts to avoid infinite loop)
-            for(let attempt=0; attempt<100; attempt++) {
-                isHorizontal = Math.random() > 0.5;
-                if(isHorizontal) {
-                    r = Math.floor(Math.random() * 15);
-                    c = Math.floor(Math.random() * (16 - len));
-                } else {
-                    r = Math.floor(Math.random() * (16 - len));
-                    c = Math.floor(Math.random() * 15);
+            for (let cellData of cells) {
+                let r = cellData.r;
+                let c = cellData.c;
+                let tile = cellData.tile;
+                let coord = `${r},${c}`;
+                
+                let tileScore = parseInt(tile.score);
+
+                // Apply multipliers ONLY for newly placed tiles (!locked)
+                if (!tile.locked) {
+                    if (TL.includes(coord)) tileScore *= 3;
+                    else if (DL.includes(coord)) tileScore *= 2;
+                    
+                    if (TW.includes(coord)) wordMultipliers *= 3;
+                    else if (DW.includes(coord) || (r===7 && c===7)) wordMultipliers *= 2;
                 }
                 
-                // Check if completely empty
-                let free = true;
-                for(let i=0; i<len; i++) {
-                    let tr = isHorizontal ? r : r+i;
-                    let tc = isHorizontal ? c+i : c;
-                    if(boardState[tr][tc]) { free = false; break; }
-                }
-                if(free) { placed = true; break; }
+                eqScore += tileScore;
             }
-
-            // If board is very full (rare in 90s), just clear it
-            if(!placed) { initBoard(); r=7; c=0; isHorizontal=true; }
-
-            let totalPoints = 0;
-            let wordMultiplier = 1;
-
-            for(let i=0; i<len; i++) {
-                let tr = isHorizontal ? r : r+i;
-                let tc = isHorizontal ? c+i : c;
-                let char = eqStr[i];
-                let coord = `${tr},${tc}`;
-                
-                boardState[tr][tc] = true;
-                
-                let tileScore = tileScores[char] || 0;
-                let cell = document.getElementById(`cell-${tr}-${tc}`);
-
-                // Calculate Multipliers
-                if(TW.includes(coord)) wordMultiplier *= 3;
-                else if(DW.includes(coord) || (tr===7 && tc===7)) wordMultiplier *= 2;
-                
-                if(TL.includes(coord)) tileScore *= 3;
-                else if(DL.includes(coord)) tileScore *= 2;
-
-                totalPoints += tileScore;
-
-                cell.innerHTML += `<div class="tile" data-score="${tileScores[char]}">${char}</div>`;
-            }
-
-            let finalScore = totalPoints * wordMultiplier;
-            score += finalScore;
-            updateStats();
             
-            document.getElementById('error-msg').style.color = '#388e3c';
-            showError(`ยอดเยี่ยม! ได้รับ ${finalScore} คะแนน`);
-            setTimeout(()=> { document.getElementById('error-msg').style.color = '#d32f2f'; }, 2000);
+            return eqScore * wordMultipliers;
         }
 
-        // Keyboard support
-        window.addEventListener('keydown', function(e) {
-            if(!document.getElementById('start-screen').classList.contains('hidden') || 
-               !document.getElementById('end-screen').classList.contains('hidden')) return;
-               
-            if (e.key >= '0' && e.key <= '9') inputChar(e.key);
-            else if (e.key === '+') inputChar('+');
-            else if (e.key === '-') inputChar('-');
-            else if (e.key === '*' || e.key === 'x' || e.key === 'X') inputChar('×');
-            else if (e.key === '/') inputChar('÷');
-            else if (e.key === '=' || e.key === 'Enter') {
-                if(e.key === '=') {
-                    if(!currentInput.includes('=')) inputChar('=');
-                    else submitEquation(); // If = is pressed again, try to submit
-                } else {
-                    submitEquation();
-                }
-            }
-            else if (e.key === 'Backspace') deleteChar();
-        });
-
-        initBoard(); // background preview
+        // Start the game on load
+        window.onload = initGame;
 
     </script>
 </body>
