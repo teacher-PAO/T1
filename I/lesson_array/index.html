@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>เรียนรู้การคูณด้วย Array และการแบ่ง Parts</title>
+  <style>
+    :root {
+      --part1-color: #2563eb;
+      --part1-bg: #eff6ff;
+      --part2-color: #d97706;
+      --part2-bg: #fffbeb;
+      --total-color: #16a34a;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Sarabun', 'Prompt', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body {
+      background-color: #f8fafc;
+      color: #334155;
+      margin: 0;
+      padding: 24px;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .header-card {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      border-left: 6px solid var(--part1-color);
+    }
+
+    h1 {
+      margin: 0 0 8px 0;
+      font-size: 26px;
+      color: #0f172a;
+    }
+
+    .control-panel {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+
+    .control-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    .slider-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    input[type=range] {
+      width: 180px;
+      accent-color: #2563eb;
+    }
+
+    .badge {
+      display: inline-block;
+      min-width: 32px;
+      text-align: center;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    .badge-gray { background: #e2e8f0; color: #1e293b; }
+    .badge-blue { background: var(--part1-bg); color: var(--part1-color); }
+    .badge-amber { background: var(--part2-bg); color: var(--part2-color); }
+
+    /* สูตรการคำนวณที่อ่านง่าย */
+    .formula-card {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      text-align: center;
+    }
+
+    .big-math {
+      font-size: 24px;
+      font-weight: bold;
+      margin: 12px 0;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .tag {
+      padding: 4px 12px;
+      border-radius: 8px;
+    }
+    .tag-blue { background: var(--part1-bg); color: var(--part1-color); }
+    .tag-amber { background: var(--part2-bg); color: var(--part2-color); }
+    .tag-green { background: #dcfce7; color: var(--total-color); }
+
+    /* หน้าต่างแสดง Array */
+    .visual-area {
+      background: white;
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .array-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 12px;
+      border-radius: 12px;
+      transition: all 0.2s ease;
+    }
+
+    .section-blue {
+      background-color: var(--part1-bg);
+      border: 2px dashed #93c5fd;
+    }
+
+    .section-amber {
+      background-color: var(--part2-bg);
+      border: 2px dashed #fcd34d;
+    }
+
+    .split-divider {
+      width: 100%;
+      border-bottom: 3px dashed #ef4444;
+      margin: 8px 0;
+      position: relative;
+    }
+
+    .split-divider::after {
+      content: '✂ เส้นแบ่งสองส่วน';
+      position: absolute;
+      right: 0;
+      top: -12px;
+      background: #fee2e2;
+      color: #dc2626;
+      font-size: 12px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-weight: bold;
+    }
+
+    .array-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .dot {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 14px;
+      font-weight: bold;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .dot-blue { background-color: var(--part1-color); }
+    .dot-amber { background-color: var(--part2-color); }
+
+    .quick-buttons {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    .btn {
+      border: none;
+      background: #f1f5f9;
+      color: #334155;
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 500;
+      transition: 0.15s;
+    }
+
+    .btn:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+
+    .explanation-box {
+      margin-top: 20px;
+      padding: 16px;
+      background: #f8fafc;
+      border-radius: 12px;
+      border-left: 4px solid #64748b;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- หัวข้อและสรุปแนวคิด -->
+  <div class="header-card">
+    <h1>💡 เทคนิคการแบ่งส่วน Array (Breaking Apart Arrays)</h1>
+    <p style="margin: 0; color: #64748b;">
+      ถ้าสูตรคูณแม่ใหญ่จำยาก เราสามารถ <b>"ผ่าแบ่งแถว"</b> ออกเป็น 2 ส่วนที่คิดง่ายขึ้น (เช่น แม่ 2 หรือ แม่ 5) แล้วนำผลลัพธ์มารวมกัน
+    </p>
+    
+    <div class="quick-buttons">
+      <span style="align-self: center; font-size: 14px; color: #64748b;">ตัวอย่างโจทย์ในการบ้าน:</span>
+      <button class="btn" onclick="setPreset(3, 4, 2)">3 × 4 (แบ่ง 2 + 1)</button>
+      <button class="btn" onclick="setPreset(6, 4, 3)">6 × 4 (แบ่ง 3 + 3)</button>
+      <button class="btn" onclick="setPreset(7, 5, 5)">7 × 5 (แบ่ง 5 + 2)</button>
+      <button class="btn" onclick="setPreset(6, 9, 5)">6 × 9 (แบ่ง 5 + 1)</button>
+    </div>
+  </div>
+
+  <!-- แผงควบคุมตัวเลข -->
+  <div class="control-panel">
+    <div class="control-row">
+      <span>1. จำนวนแถวทั้งหมด (แถวแนวนอน)</span>
+      <div class="slider-container">
+        <input type="range" id="rowsSlider" min="2" max="10" value="6" oninput="updateRows(this.value)">
+        <span id="rowsVal" class="badge badge-gray">6</span>
+      </div>
+    </div>
+
+    <div class="control-row">
+      <span>2. จำนวนหลัก (คอลัมน์ในแต่ละแถว)</span>
+      <div class="slider-container">
+        <input type="range" id="colsSlider" min="1" max="10" value="4" oninput="updateCols(this.value)">
+        <span id="colsVal" class="badge badge-gray">4</span>
+      </div>
+    </div>
+
+    <div class="control-row" style="margin-bottom: 0;">
+      <span>3. ตัดแบ่งเป็นกี่แถว (Part 1 / Part 2)</span>
+      <div class="slider-container">
+        <input type="range" id="splitSlider" min="1" max="5" value="3" oninput="updateSplit(this.value)">
+        <span id="splitVal" class="badge badge-blue">3 แถว</span>
+        <span style="color: #94a3b8;">/</span>
+        <span id="splitVal2" class="badge badge-amber">3 แถว</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- การแสดงผลสูตรคูณ -->
+  <div class="formula-card">
+    <div style="font-size: 16px; color: #64748b; margin-bottom: 6px;">โจทย์หลักที่ต้องการหา:</div>
+    <div style="font-size: 28px; font-weight: bold; color: #0f172a;">
+      <span id="calcTotalRows">6</span> × <span id="calcTotalCols">4</span> = <span style="color: var(--total-color);" id="calcFinalAns">24</span>
+    </div>
+
+    <div class="big-math">
+      <span>=</span>
+      <span class="tag tag-blue">(<span id="fR1">3</span> × <span id="fC1">4</span>)</span>
+      <span>+</span>
+      <span class="tag tag-amber">(<span id="fR2">3</span> × <span id="fC2">4</span>)</span>
+    </div>
+
+    <div class="big-math" style="font-size: 20px; color: #475569;">
+      <span>=</span>
+      <span style="color: var(--part1-color);"><span id="ans1">12</span></span>
+      <span>+</span>
+      <span style="color: var(--part2-color);"><span id="ans2">12</span></span>
+      <span>=</span>
+      <span class="tag tag-green"><span id="ansTotal">24</span></span>
+    </div>
+
+    <div class="explanation-box" id="explainText">
+      แบ่ง 6 แถว ออกเป็น <b>แถวสีฟ้า 3 แถว</b> และ <b>แถวสีส้ม 3 แถว</b>
+    </div>
+  </div>
+
+  <!-- ภาพจุด Array จำลอง -->
+  <div class="visual-area">
+    <div style="margin-bottom: 12px; font-size: 14px; font-weight: bold; color: var(--part1-color);">
+      ส่วนที่ 1: <span id="lblPart1">3 แถว × 4 หลัก</span>
+    </div>
+    
+    <div id="part1Grid" class="array-section section-blue"></div>
+
+    <div class="split-divider"></div>
+
+    <div style="margin: 12px 0; font-size: 14px; font-weight: bold; color: var(--part2-color);">
+      ส่วนที่ 2: <span id="lblPart2">3 แถว × 4 หลัก</span>
+    </div>
+
+    <div id="part2Grid" class="array-section section-amber"></div>
+  </div>
+</div>
+
+<script>
+  let totalRows = 6;
+  let totalCols = 4;
+  let splitRow = 3;
+
+  function updateRows(val) {
+    totalRows = parseInt(val);
+    document.getElementById('rowsVal').innerText = totalRows;
+    
+    // ปรับ slider ของการแบ่งไม่ให้เกิน totalRows - 1
+    const splitInput = document.getElementById('splitSlider');
+    splitInput.max = totalRows - 1;
+    if (splitRow >= totalRows) {
+      splitRow = Math.max(1, totalRows - 1);
+      splitInput.value = splitRow;
+    }
+    render();
+  }
+
+  function updateCols(val) {
+    totalCols = parseInt(val);
+    document.getElementById('colsVal').innerText = totalCols;
+    render();
+  }
+
+  function updateSplit(val) {
+    splitRow = parseInt(val);
+    render();
+  }
+
+  function setPreset(r, c, s) {
+    document.getElementById('rowsSlider').value = r;
+    document.getElementById('colsSlider').value = c;
+    updateRows(r);
+    updateCols(c);
+    document.getElementById('splitSlider').value = s;
+    updateSplit(s);
+  }
+
+  function render() {
+    const part1Rows = splitRow;
+    const part2Rows = totalRows - splitRow;
+
+    // อัปเดต badge ตัวเลข
+    document.getElementById('splitVal').innerText = part1Rows + ' แถว';
+    document.getElementById('splitVal2').innerText = part2Rows + ' แถว';
+
+    // คำนวณผลคูณ
+    const prod1 = part1Rows * totalCols;
+    const prod2 = part2Rows * totalCols;
+    const prodTotal = totalRows * totalCols;
+
+    // อัปเดตสมการ
+    document.getElementById('calcTotalRows').innerText = totalRows;
+    document.getElementById('calcTotalCols').innerText = totalCols;
+    document.getElementById('calcFinalAns').innerText = prodTotal;
+
+    document.getElementById('fR1').innerText = part1Rows;
+    document.getElementById('fC1').innerText = totalCols;
+    document.getElementById('fR2').innerText = part2Rows;
+    document.getElementById('fC2').innerText = totalCols;
+
+    document.getElementById('ans1').innerText = prod1;
+    document.getElementById('ans2').innerText = prod2;
+    document.getElementById('ansTotal').innerText = prodTotal;
+
+    document.getElementById('lblPart1').innerText = `${part1Rows} แถว × ${totalCols} หลัก = ${prod1}`;
+    document.getElementById('lblPart2').innerText = `${part2Rows} แถว × ${totalCols} หลัก = ${prod2}`;
+
+    document.getElementById('explainText').innerHTML = 
+      `โจทย์ <b>${totalRows} × ${totalCols}</b> ถูกแบ่งเป็น ` +
+      `<span style="color:var(--part1-color)"><b>(${part1Rows} × ${totalCols} = ${prod1})</b></span> รวมกับ ` +
+      `<span style="color:var(--part2-color)"><b>(${part2Rows} × ${totalCols} = ${prod2})</b></span> ` +
+      `จะได้ ${prod1} + ${prod2} = <b>${prodTotal}</b>`;
+
+    // เรนเดอร์จุดกลม Part 1
+    const p1 = document.getElementById('part1Grid');
+    p1.innerHTML = '';
+    for (let r = 0; r < part1Rows; r++) {
+      const rowDiv = document.createElement('div');
+      rowDiv.className = 'array-row';
+      for (let c = 0; c < totalCols; c++) {
+        const dot = document.createElement('div');
+        dot.className = 'dot dot-blue';
+        dot.innerText = (r * totalCols) + c + 1;
+        rowDiv.appendChild(dot);
+      }
+      p1.appendChild(rowDiv);
+    }
+
+    // เรนเดอร์จุดกลม Part 2
+    const p2 = document.getElementById('part2Grid');
+    p2.innerHTML = '';
+    for (let r = 0; r < part2Rows; r++) {
+      const rowDiv = document.createElement('div');
+      rowDiv.className = 'array-row';
+      for (let c = 0; c < totalCols; c++) {
+        const dot = document.createElement('div');
+        dot.className = 'dot dot-amber';
+        dot.innerText = (r * totalCols) + c + 1;
+        rowDiv.appendChild(dot);
+      }
+      p2.appendChild(rowDiv);
+    }
+  }
+
+  // เรียกครั้งแรกตอนโหลดหน้า
+  render();
+</script>
+</body>
+</html>
