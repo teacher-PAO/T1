@@ -14,7 +14,6 @@
       --amber-border: #fcd34d;
       --green-main: #15803d;
       --green-bg: #dcfce7;
-      --red-plus: #dc2626;
     }
     * { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; }
     body { background-color: #f8fafc; color: #1e293b; margin: 0; padding: 24px; line-height: 1.5; }
@@ -114,40 +113,25 @@
     .dot-blue { background: #2563eb; }
     .dot-amber { background: #d97706; }
 
-    /* เครื่องหมายบวกสีแดงตัวใหญ่ตรงจุดตัด */
-    .split-divider-box {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      margin: 24px 0;
-    }
     .split-line {
-      position: absolute;
       width: 100%;
       border-bottom: 3px dashed #ef4444;
-      z-index: 1;
-    }
-    .big-red-plus-badge {
+      margin: 20px 0;
       position: relative;
-      z-index: 2;
+    }
+    .split-line::after {
+      content: '✂ CUT HERE';
+      position: absolute;
+      right: 20px;
+      top: -12px;
       background: #fee2e2;
-      border: 3px solid #dc2626;
       color: #dc2626;
-      font-size: 36px;
-      font-weight: 900;
-      line-height: 1;
-      width: 54px;
-      height: 54px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 8px rgba(220, 38, 38, 0.2);
+      font-size: 12px;
+      font-weight: 800;
+      padding: 2px 10px;
+      border-radius: 20px;
     }
 
-    /* กล่องสรุปผล */
     .summary-card {
       background: white;
       border-radius: 18px;
@@ -158,18 +142,13 @@
     }
     .split-origin-box {
       background: #f8fafc;
-      border-radius: 14px;
-      padding: 16px 20px;
-      font-size: 22px;
-      font-weight: 800;
+      border-radius: 12px;
+      padding: 14px 20px;
+      font-size: 20px;
+      font-weight: 700;
       margin-bottom: 16px;
       color: #334155;
       text-align: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
     }
     .total-calc-box {
       font-size: 26px;
@@ -178,21 +157,10 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
+      gap: 10px;
       flex-wrap: wrap;
     }
-    .pill { padding: 6px 16px; border-radius: 12px; }
-
-    /* ป้ายเครื่องหมายบวกสีแดงตัวโต */
-    .huge-red-plus {
-      color: #dc2626;
-      font-size: 42px;
-      font-weight: 900;
-      line-height: 1;
-      text-shadow: 0 2px 4px rgba(220, 38, 38, 0.25);
-      display: inline-block;
-      margin: 0 4px;
-    }
+    .pill { padding: 4px 14px; border-radius: 10px; }
   </style>
 </head>
 <body>
@@ -240,12 +208,7 @@
     </div>
 
     <div id="grid1" class="array-section section-blue"></div>
-    
-    <!-- เส้นตัดพร้อมบวกแดงใหญ่ตรงกลาง -->
-    <div class="split-divider-box">
-      <div class="split-line"></div>
-      <div class="big-red-plus-badge">+</div>
-    </div>
+    <div class="split-line"></div>
 
     <!-- Part 2 Banner -->
     <div class="part-banner banner-amber">
@@ -259,21 +222,15 @@
     <div id="grid2" class="array-section section-amber"></div>
   </div>
 
-  <!-- กล่องสรุปผล เน้นเครื่องหมายบวกสีแดงตัวใหญ่ -->
+  <!-- English Summary Card -->
   <div class="summary-card">
     <div class="split-origin-box">
-      <span>Formed by</span>
-      <span style="color:var(--blue-main);" id="textPart1">4 rows × 6 columns</span>
-      <span class="huge-red-plus">+</span>
-      <span style="color:var(--amber-main);" id="textPart2">2 rows × 6 columns</span>
-      <span>=</span>
-      <span style="color:var(--green-main);" id="originTotalAns">36</span>
+      Formed by <span style="color:var(--blue-main);" id="textPart1">4 rows × 6 columns</span> + <span style="color:var(--amber-main);" id="textPart2">2 rows × 6 columns</span>
     </div>
-
     <div class="total-calc-box">
       <span>Total: <span id="totRows">6</span> × <span id="totCols">6</span> = </span>
       <span class="pill" style="background:var(--blue-bg); color:var(--blue-main);" id="fAns1">24</span>
-      <span class="huge-red-plus">+</span>
+      <span>+</span>
       <span class="pill" style="background:var(--amber-bg); color:var(--amber-main);" id="fAns2">12</span>
       <span>=</span>
       <span class="pill" style="background:var(--green-bg); color:var(--green-main);" id="fTotAns">36</span>
@@ -318,10 +275,8 @@
     document.getElementById('p2Label').innerText = `${p2R} rows × ${c} columns`;
     document.getElementById('p2Ans').innerText = a2;
 
-    // ส่วนสรุป
     document.getElementById('textPart1').innerText = `${p1R} rows × ${c} columns`;
     document.getElementById('textPart2').innerText = `${p2R} rows × ${c} columns`;
-    document.getElementById('originTotalAns').innerText = tot;
 
     document.getElementById('totRows').innerText = r;
     document.getElementById('totCols').innerText = c;
